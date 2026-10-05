@@ -1,0 +1,105 @@
+{
+  "name": "Sen Việt",
+  "description": "Di sản Việt thanh nhã: hoa sen và lá sen vẽ nét, sóng nước, hoa văn trống đồng Đông Sơn ẩn hiện; sắc hồng sen, xanh lá sen, lụa ngà điểm vàng kim.",
+  "version": "1.0.0",
+  "author": "Wedding Studio",
+  "tags": [
+    "truyền thống",
+    "hoa sen",
+    "di sản Việt"
+  ],
+  "published": true,
+  "order": 7,
+  "preview": "preview.webp",
+  "entry": "index.njk",
+  "styles": [
+    "style.css"
+  ],
+  "scripts": [],
+  "defaults": {
+    "tone": "traditional",
+    "theme": {
+      "colors": {
+        "primary": "#b04d6b",
+        "secondary": "#d3e2d6",
+        "background": "#faf5ec",
+        "surface": "#fffcf6",
+        "text": "#21443a",
+        "accent": "#b58b47"
+      },
+      "fonts": {
+        "heading": "Bona Nova",
+        "body": "Be Vietnam Pro",
+        "script": "Charmonman"
+      },
+      "effect": "petals",
+      "effect2": "golddust",
+      "effectIntensity": "low",
+      "burst": "petals",
+      "tap": "ripple",
+      "nameAnimation": "shimmer",
+      "intro": "scroll"
+    },
+    "sections": [
+      "hero",
+      "invitation",
+      "quote",
+      "couple",
+      "calendar",
+      "countdown",
+      "events",
+      "story",
+      "gallery",
+      "rsvp",
+      "wishes",
+      "gift",
+      "thanks"
+    ]
+  },
+  "palettes": [
+    {
+      "name": "Hồng sen & lá biếc",
+      "colors": {
+        "primary": "#b04d6b",
+        "secondary": "#d3e2d6",
+        "background": "#faf5ec",
+        "surface": "#fffcf6",
+        "text": "#21443a",
+        "accent": "#b58b47"
+      }
+    },
+    {
+      "name": "Sen ngọc bích",
+      "colors": {
+        "primary": "#2f6b5c",
+        "secondary": "#d6e5dc",
+        "background": "#f7f6f0",
+        "surface": "#fffffb",
+        "text": "#1f3a33",
+        "accent": "#b08a4a"
+      }
+    },
+    {
+      "name": "Sen tím hoàng hôn",
+      "colors": {
+        "primary": "#83507e",
+        "secondary": "#dfe3d3",
+        "background": "#faf6f3",
+        "surface": "#fffdfa",
+        "text": "#33303f",
+        "accent": "#b28a4e"
+      }
+    },
+    {
+      "name": "Sen đỏ son",
+      "colors": {
+        "primary": "#a8323a",
+        "secondary": "#e3e2c9",
+        "background": "#fbf5ea",
+        "surface": "#fffcf4",
+        "text": "#3b2a22",
+        "accent": "#bf9443"
+      }
+    }
+  ]
+}

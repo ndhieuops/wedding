@@ -1,0 +1,48 @@
+{# Beach hero: sunset sky, palm fronds, gulls, the sun on the horizon and a layered animated sea.
+   The front wave takes the colour of the next section (obNextTone, set in index.njk). #}
+{% from "macros.njk" import photo %}
+{% set obNameLen = (first.shortName | length) + (second.shortName | length) %}
+<section class="section hero ob-hero ob-hero--to-{{ obNextTone or 'sand' }}{% if obNameLen > 18 %} ob-hero--long{% endif %}{% if cover.image %} hero--photo{% endif %}" id="hero">
+  {% if cover.image %}
+  <div class="hero__media">{{ photo(cover.image, 'Ảnh cưới của ' + names, 'hero__img hero__img--' + cover.position, '100vw', true) }}</div>
+  {% endif %}
+
+  <div class="ob-hero__sky" aria-hidden="true">
+    <div class="ob-sun-wrap" data-parallax="0.1"><span class="ob-sun"></span></div>
+    <div class="ob-gulls-wrap">
+      <svg class="ob-gulls" viewBox="0 0 140 48" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+        <path class="ob-gull" d="M8 24q7-8 14 0q7-8 14 0"/>
+        <path class="ob-gull ob-gull--2" d="M64 10q5-6 10 0q5-6 10 0"/>
+        <path class="ob-gull ob-gull--3" d="M104 30q4-5 8 0q4-5 8 0"/>
+      </svg>
+    </div>
+  </div>
+  <div class="ob-palm ob-palm--left" data-parallax="-0.06" aria-hidden="true"><span></span></div>
+  <div class="ob-palm ob-palm--right" data-parallax="-0.06" aria-hidden="true"><span></span></div>
+
+  <div class="hero__inner ob-hero__inner">
+    {% if guest.name %}<p class="hero__guest" data-reveal="fade">Trân trọng kính mời <strong>{{ guest.name }}</strong></p>{% endif %}
+    <p class="hero__eyebrow" data-reveal="fade"><span>{{ content.headline or 'Save the Date' }}</span></p>
+    <h1 class="hero__names" data-names data-reveal="zoom">
+      <span class="hero__name">{{ first.shortName }}</span>
+      <span class="hero__amp" aria-label="và">&amp;</span>
+      <span class="hero__name">{{ second.shortName }}</span>
+    </h1>
+    {% if wedding.display %}
+    <div class="hero__date ob-hero__date" data-reveal="up">
+      <span class="hero__weekday">{{ wedding.weekday }}{% if wedding.time %} <i aria-hidden="true">·</i> {{ wedding.time }}{% endif %}</span>
+      <span class="hero__date-main ob-hero__dmy"><span>{{ wedding.day }}</span><i aria-hidden="true"></i><span>{{ wedding.month }}</span><i aria-hidden="true"></i><span>{{ wedding.year }}</span></span>
+      {% if wedding.lunar %}<span class="hero__lunar">Nhằm {{ wedding.lunar.text }}</span>{% endif %}
+    </div>
+    {% endif %}
+  </div>
+
+  <div class="ob-sea" aria-hidden="true">
+    <span class="ob-sea__layer ob-sea__layer--far"></span>
+    <span class="ob-sea__glint"><i></i><i></i><i></i><i></i></span>
+    <span class="ob-sea__layer ob-sea__layer--back"></span>
+    <span class="ob-sea__layer ob-sea__layer--mid"></span>
+    <span class="ob-sea__crest"><span class="ob-sea__layer ob-sea__layer--front"></span></span>
+  </div>
+  <a class="hero__scroll" href="#{{ sections[1] or 'thanks' }}" aria-label="Cuộn xuống"><span></span></a>
+</section>

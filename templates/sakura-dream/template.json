@@ -1,0 +1,105 @@
+{
+  "name": "Anh Đào",
+  "description": "Mùa xuân Nhật Bản thơ mộng: hoa anh đào hồng phấn trên nền giấy washi, cành hoa nét mực tàu, vòng Ensō ôm lấy tên đôi uyên ương và triện son khắc chữ lồng.",
+  "version": "1.0.0",
+  "author": "Wedding Studio",
+  "tags": [
+    "hoa anh đào",
+    "phong cách Nhật",
+    "thơ mộng"
+  ],
+  "published": true,
+  "order": 8,
+  "preview": "preview.webp",
+  "entry": "index.njk",
+  "styles": [
+    "style.css"
+  ],
+  "scripts": [],
+  "defaults": {
+    "tone": "romantic",
+    "theme": {
+      "colors": {
+        "primary": "#c46a82",
+        "secondary": "#f7dfe5",
+        "background": "#fbf8f3",
+        "surface": "#fffdf9",
+        "text": "#2b2527",
+        "accent": "#a32d28"
+      },
+      "fonts": {
+        "heading": "Cormorant Infant",
+        "body": "Quicksand",
+        "script": "Moon Dance"
+      },
+      "effect": "sakura",
+      "effect2": "bokeh",
+      "effectIntensity": "low",
+      "burst": "petals",
+      "tap": "hearts",
+      "nameAnimation": "letters",
+      "intro": "card"
+    },
+    "sections": [
+      "hero",
+      "quote",
+      "invitation",
+      "couple",
+      "story",
+      "calendar",
+      "countdown",
+      "events",
+      "gallery",
+      "rsvp",
+      "wishes",
+      "gift",
+      "thanks"
+    ]
+  },
+  "palettes": [
+    {
+      "name": "Anh đào & triện son",
+      "colors": {
+        "primary": "#c46a82",
+        "secondary": "#f7dfe5",
+        "background": "#fbf8f3",
+        "surface": "#fffdf9",
+        "text": "#2b2527",
+        "accent": "#a32d28"
+      }
+    },
+    {
+      "name": "Hoa mận tím",
+      "colors": {
+        "primary": "#93608f",
+        "secondary": "#eee0ee",
+        "background": "#faf8f8",
+        "surface": "#ffffff",
+        "text": "#2a2330",
+        "accent": "#a3283c"
+      }
+    },
+    {
+      "name": "Trà xanh Uji",
+      "colors": {
+        "primary": "#6e875a",
+        "secondary": "#e4ead8",
+        "background": "#f8f7f0",
+        "surface": "#fffefa",
+        "text": "#262a22",
+        "accent": "#9c2f27"
+      }
+    },
+    {
+      "name": "Dạ anh đào (đêm)",
+      "colors": {
+        "primary": "#e9a2b6",
+        "secondary": "#3a3150",
+        "background": "#1c2030",
+        "surface": "#252a3d",
+        "text": "#f2ebe6",
+        "accent": "#a02c2a"
+      }
+    }
+  ]
+}

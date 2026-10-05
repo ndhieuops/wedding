@@ -1,0 +1,7 @@
+{# Decoration inside the opening card (included by _shared/partials/intro.njk): ink branch + hanko seal. #}
+{% from "macros.njk" import hanko, branch %}
+<span class="sk-intro-decor" aria-hidden="true">
+  {{ branch('sk-intro__branch') }}
+  {{ branch('sk-intro__branch sk-intro__branch--low', 'sk-branch-low', '0 0 320 220') }}
+</span>
+{{ hanko(first.initial, second.initial, 'sk-intro__seal') }}

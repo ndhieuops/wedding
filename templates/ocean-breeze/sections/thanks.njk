@@ -1,0 +1,16 @@
+{# Closing scene: the sun setting into the sea (same markup/classes as _shared/sections/thanks.njk + decor). #}
+{% from "macros.njk" import heart %}
+<section class="section thanks ob-thanks" id="thanks">
+  <div class="container" data-reveal="fade">
+    <p class="thanks__script">Thank you</p>
+    {% if content.thankYou %}<p class="thanks__text">{{ content.thankYou | nl2br }}</p>{% endif %}
+    <p class="thanks__names">{{ first.shortName }} <span class="thanks__heart">{{ heart(18) }}</span> {{ second.shortName }}</p>
+    {% if content.hashtag %}<p class="thanks__hashtag">{{ content.hashtag }}</p>{% endif %}
+  </div>
+  <div class="ob-thanks__scene" aria-hidden="true">
+    <div class="ob-thanks__sun-wrap" data-parallax="0.12"><span class="ob-sun"></span></div>
+    <span class="ob-sea__layer ob-sea__layer--back"></span>
+    <span class="ob-sea__layer ob-sea__layer--mid"></span>
+    <span class="ob-sea__crest"><span class="ob-sea__layer ob-sea__layer--deep"></span></span>
+  </div>
+</section>

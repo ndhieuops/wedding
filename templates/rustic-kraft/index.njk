@@ -1,0 +1,22 @@
+{#
+  Mộc Mạc — rustic handmade: kraft paper, twine, hand-written tags, stamps, dried flowers
+  and taped polaroids. Overrides: sections/hero, sections/couple, sections/gallery,
+  macros.njk (section titles). Colours always come from the theme variables.
+#}
+{% extends "layout.njk" %}
+
+{% block background %}
+<div class="rk-paper" aria-hidden="true"></div>
+{% endblock %}
+
+{# Kraft "bands" (countdown, thanks) carry torn paper edges, so no twine separator next to them. #}
+{% block sections %}
+  {% set bands = ['hero', 'countdown', 'thanks'] %}
+  {% for section in sections %}
+    {% include "sections/" + section + ".njk" %}
+    {% set next = sections[loop.index0 + 1] %}
+    {% if next and section not in bands and next not in bands %}
+    <div class="rk-sep" aria-hidden="true"><span class="rk-sep__twine"></span><span class="rk-sep__bow"></span><span class="rk-sep__twine"></span></div>
+    {% endif %}
+  {% endfor %}
+{% endblock %}

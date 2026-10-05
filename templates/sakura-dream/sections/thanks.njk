@@ -1,0 +1,15 @@
+{# Thank-you note closed with an ink branch and the couple's hanko seal, like a signed letter. #}
+{% from "macros.njk" import heart, hanko, branch %}
+<section class="section thanks sk-thanks" id="thanks">
+  <div class="sk-thanks__decor" aria-hidden="true">
+    {{ branch('sk-thanks__branch sk-thanks__branch--top') }}
+    {{ branch('sk-thanks__branch sk-thanks__branch--low', 'sk-branch-low', '0 0 320 220') }}
+  </div>
+  <div class="container" data-reveal="fade">
+    <p class="thanks__script">Thank you</p>
+    {% if content.thankYou %}<p class="thanks__text">{{ content.thankYou | nl2br }}</p>{% endif %}
+    <p class="thanks__names">{{ first.shortName }} <span class="thanks__heart">{{ heart(18) }}</span> {{ second.shortName }}</p>
+    {% if content.hashtag %}<p class="thanks__hashtag">{{ content.hashtag }}</p>{% endif %}
+    <span class="sk-thanks__seal" data-reveal="stamp" aria-hidden="true">{{ hanko(first.initial, second.initial) }}</span>
+  </div>
+</section>

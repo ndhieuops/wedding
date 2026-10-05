@@ -1,0 +1,24 @@
+{#
+  Anh Đào — Japanese spring: washi paper, ink cherry branches, a brushed ensō and a vermilion hanko seal.
+  The ink & blossom symbols live in partials/sprite.njk (rendered once, reused with <use>).
+#}
+{% extends "layout.njk" %}
+{% from "macros.njk" import branch %}
+
+{% block background %}
+{% include "partials/sprite.njk" %}
+<div class="sk-washi" aria-hidden="true"></div>
+{% endblock %}
+
+{% block sections %}
+  {% set side = cycler('right', 'left') %}
+  {% for section in sections %}
+    {% include "sections/" + section + ".njk" %}
+    {% if section != 'hero' and loop.revindex > 2 and loop.index % 3 == 0 %}
+      {% set s = side.next() %}
+      <div class="sk-bough sk-bough--{{ s }}" aria-hidden="true">
+        {% if s == 'right' %}{{ branch('sk-bough__branch') }}{% else %}{{ branch('sk-bough__branch', 'sk-branch-low', '0 0 320 220') }}{% endif %}
+      </div>
+    {% endif %}
+  {% endfor %}
+{% endblock %}

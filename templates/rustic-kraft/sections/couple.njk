@@ -1,0 +1,26 @@
+{# Mộc Mạc couple: taped polaroids with a hand-written caption (overrides _shared/sections/couple.njk). #}
+{% from "macros.njk" import title, photo %}
+{% macro card(p, role, side) %}
+<article class="person rk-person rk-person--{{ side }}" data-reveal="up">
+  <figure class="rk-polaroid">
+    <span class="rk-polaroid__frame">
+      {% if p.photo %}{{ photo(p.photo, role + ' ' + p.fullName, 'person__img', '(max-width: 600px) 72vw, 300px') }}
+      {% else %}<span class="person__monogram" aria-hidden="true">{{ p.initial }}</span>{% endif %}
+    </span>
+    <figcaption class="rk-polaroid__caption" aria-hidden="true">{{ p.shortName }}</figcaption>
+  </figure>
+  <p class="person__role"><span>{{ role }}</span></p>
+  <h3 class="person__name">{{ p.fullName }}</h3>
+  {% if p.bio %}<p class="person__bio">{{ p.bio | nl2br }}</p>{% endif %}
+</article>
+{% endmacro %}
+<section class="section couple" id="couple">
+  <div class="container">
+    {{ title('Cô Dâu & Chú Rể', content.coupleIntro, 'Bride & Groom') }}
+    <div class="couple__grid">
+      {{ card(first, 'Chú rể' if first == groom else 'Cô dâu', 'a') }}
+      <span class="couple__heart rk-amp" aria-hidden="true">&amp;</span>
+      {{ card(second, 'Cô dâu' if first == groom else 'Chú rể', 'b') }}
+    </div>
+  </div>
+</section>

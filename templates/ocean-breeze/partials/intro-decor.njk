@@ -1,0 +1,15 @@
+{# Decoration inside the intro card (included by _shared/partials/intro.njk):
+   a small sunset-over-the-sea "porthole" scene behind the monogram. #}
+<span class="ob-porthole" aria-hidden="true">
+  <span class="ob-porthole__sun"></span>
+  <span class="ob-porthole__wave ob-porthole__wave--1"></span>
+  <span class="ob-porthole__wave ob-porthole__wave--2"></span>
+</span>
+{% if theme.intro == 'circle' %}
+{# The circle intro never transforms its card, so this strip can sit fixed along the bottom of the overlay. #}
+<span class="ob-intro-sea" aria-hidden="true">
+  <span class="ob-intro-sea__layer ob-intro-sea__layer--1"></span>
+  <span class="ob-intro-sea__layer ob-intro-sea__layer--2"></span>
+  <span class="ob-intro-sea__layer ob-intro-sea__layer--3"></span>
+</span>
+{% endif %}

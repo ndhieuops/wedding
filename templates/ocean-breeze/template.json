@@ -1,0 +1,105 @@
+{
+  "name": "Biển Xanh",
+  "description": "Đám cưới bên bờ biển: sóng xanh ngọc lăn tăn, nắng hoàng hôn, lá dừa và vỏ sò vẽ tay — tươi mát, rạng rỡ mà vẫn thanh lịch.",
+  "version": "1.0.0",
+  "author": "Wedding Studio",
+  "tags": [
+    "biển",
+    "tươi mát",
+    "hiện đại"
+  ],
+  "published": true,
+  "order": 10,
+  "preview": "preview.webp",
+  "entry": "index.njk",
+  "styles": [
+    "style.css"
+  ],
+  "scripts": [],
+  "defaults": {
+    "tone": "modern",
+    "theme": {
+      "colors": {
+        "primary": "#167a80",
+        "secondary": "#bfe6e1",
+        "background": "#fcf7ef",
+        "surface": "#ffffff",
+        "text": "#16363f",
+        "accent": "#ec7a5c"
+      },
+      "fonts": {
+        "heading": "Spectral",
+        "body": "Mulish",
+        "script": "Ephesis"
+      },
+      "effect": "bubbles",
+      "effect2": "sparkles",
+      "effectIntensity": "low",
+      "burst": "confetti",
+      "tap": "ripple",
+      "nameAnimation": "float",
+      "intro": "circle"
+    },
+    "sections": [
+      "hero",
+      "quote",
+      "invitation",
+      "couple",
+      "calendar",
+      "countdown",
+      "events",
+      "story",
+      "gallery",
+      "rsvp",
+      "wishes",
+      "gift",
+      "thanks"
+    ]
+  },
+  "palettes": [
+    {
+      "name": "Biển ngọc",
+      "colors": {
+        "primary": "#167a80",
+        "secondary": "#bfe6e1",
+        "background": "#fcf7ef",
+        "surface": "#ffffff",
+        "text": "#16363f",
+        "accent": "#ec7a5c"
+      }
+    },
+    {
+      "name": "Hoàng hôn",
+      "colors": {
+        "primary": "#2c6e85",
+        "secondary": "#f5d6c4",
+        "background": "#fff7f0",
+        "surface": "#ffffff",
+        "text": "#22323d",
+        "accent": "#e5704c"
+      }
+    },
+    {
+      "name": "Đại dương đêm",
+      "colors": {
+        "primary": "#1f4f7d",
+        "secondary": "#cfe0ef",
+        "background": "#f6f8fb",
+        "surface": "#ffffff",
+        "text": "#14263b",
+        "accent": "#e2a54f"
+      }
+    },
+    {
+      "name": "Rừng dừa",
+      "colors": {
+        "primary": "#2f6f55",
+        "secondary": "#d3e8d6",
+        "background": "#fbf8ef",
+        "surface": "#ffffff",
+        "text": "#1f3329",
+        "accent": "#e58a5b"
+      }
+    }
+  ]
+}

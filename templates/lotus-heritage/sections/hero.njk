@@ -1,0 +1,49 @@
+{#
+  Sen Việt hero (overrides _shared/sections/hero.njk):
+  a faint Đông Sơn bronze-drum medallion behind the names, and a lotus pond rising from the water.
+  With a cover photo, the photo sits in a round "moon window" at the heart of the drum.
+#}
+{% from "macros.njk" import photo %}
+{% from "partials/lotus.njk" import bloom, leaf, bud, pad %}
+{% set namesH1 %}
+    <h1 class="hero__names lh-hero__names" data-names data-reveal="zoom">
+      <span class="hero__name">{{ first.shortName }}</span>
+      <span class="hero__amp" aria-label="và">&amp;</span>
+      <span class="hero__name">{{ second.shortName }}</span>
+    </h1>
+{% endset %}
+<section class="section hero lh-hero{% if cover.image %} lh-hero--photo{% endif %}{% if (first.shortName | length) > 9 or (second.shortName | length) > 9 %} lh-hero--long{% endif %}" id="hero">
+  <div class="lh-hero__inner">
+    {% if guest.name %}<p class="hero__guest lh-hero__guest" data-reveal="fade">Trân trọng kính mời <strong>{{ guest.name }}</strong></p>{% endif %}
+    <p class="hero__eyebrow lh-hero__eyebrow" data-reveal="fade">{{ content.headline or 'Lễ Thành Hôn' }}</p>
+    <div class="lh-hero__medallion">
+      <span class="lh-hero__drum" aria-hidden="true"></span>
+      {% if cover.image %}
+      <figure class="lh-hero__photo" data-reveal="zoom">{{ photo(cover.image, 'Ảnh cưới của ' + names, 'lh-hero__img hero__img--' + cover.position, '(max-width: 600px) 70vw, 360px', true) }}</figure>
+      {% else %}
+      {{ namesH1 | safe }}
+      {% endif %}
+    </div>
+    {% if cover.image %}{{ namesH1 | safe }}{% endif %}
+    {% if wedding.display %}
+    <div class="lh-hero__date" data-reveal="up">
+      <p class="lh-hero__weekday">{{ wedding.weekday }}{% if wedding.time %}<i aria-hidden="true"></i>{{ wedding.time }}{% endif %}</p>
+      <p class="lh-hero__day">{{ wedding.day }}<i aria-hidden="true">·</i>{{ wedding.month }}<i aria-hidden="true">·</i>{{ wedding.year }}</p>
+      {% if wedding.lunar %}<p class="lh-hero__lunar">Nhằm {{ wedding.lunar.text }}</p>{% endif %}
+    </div>
+    {% endif %}
+  </div>
+  <div class="lh-pond" aria-hidden="true">
+    <span class="lh-pond__glow"></span>
+    {{ leaf('lh-pond__leaf lh-pond__leaf--l') }}
+    {{ bud('lh-pond__bud lh-pond__bud--l') }}
+    {{ leaf('lh-pond__leaf lh-pond__leaf--r') }}
+    {{ bud('lh-pond__bud lh-pond__bud--r') }}
+    <span class="lh-pond__water"></span>
+    {{ pad('lh-pond__pad lh-pond__pad--l') }}
+    {{ pad('lh-pond__pad lh-pond__pad--r') }}
+    <span class="lh-pond__ring"></span>
+    {{ bloom('lh-pond__bloom') }}
+  </div>
+  <a class="hero__scroll lh-hero__scroll" href="#{{ sections[1] or 'thanks' }}" aria-label="Cuộn xuống"><span></span></a>
+</section>

@@ -1,0 +1,105 @@
+{
+  "name": "Mộc Mạc",
+  "description": "Mộc mạc, ấm áp kiểu handmade: giấy kraft, dây gai, nhãn viết tay, tem thư, hoa khô và ảnh polaroid dán băng keo.",
+  "version": "1.0.0",
+  "author": "Wedding Studio",
+  "tags": [
+    "mộc mạc",
+    "handmade",
+    "giấy kraft"
+  ],
+  "published": true,
+  "order": 9,
+  "preview": "preview.webp",
+  "entry": "index.njk",
+  "styles": [
+    "style.css"
+  ],
+  "scripts": [],
+  "defaults": {
+    "tone": "modern",
+    "theme": {
+      "colors": {
+        "primary": "#a9533a",
+        "secondary": "#dcc3a1",
+        "background": "#f3eadc",
+        "surface": "#fcf8f1",
+        "text": "#3b2a1f",
+        "accent": "#8b6a47"
+      },
+      "fonts": {
+        "heading": "Fraunces",
+        "body": "Nunito",
+        "script": "Bad Script"
+      },
+      "effect": "leaves",
+      "effect2": "bokeh",
+      "effectIntensity": "low",
+      "burst": "petals",
+      "tap": "hearts",
+      "nameAnimation": "handwrite",
+      "intro": "envelope"
+    },
+    "sections": [
+      "hero",
+      "quote",
+      "invitation",
+      "couple",
+      "calendar",
+      "countdown",
+      "events",
+      "story",
+      "gallery",
+      "rsvp",
+      "wishes",
+      "gift",
+      "thanks"
+    ]
+  },
+  "palettes": [
+    {
+      "name": "Đất nung & giấy kraft",
+      "colors": {
+        "primary": "#a9533a",
+        "secondary": "#dcc3a1",
+        "background": "#f3eadc",
+        "surface": "#fcf8f1",
+        "text": "#3b2a1f",
+        "accent": "#8b6a47"
+      }
+    },
+    {
+      "name": "Lá khô xô thơm",
+      "colors": {
+        "primary": "#5f6f4c",
+        "secondary": "#d8d0b4",
+        "background": "#f1eee2",
+        "surface": "#fbf9f2",
+        "text": "#2e3226",
+        "accent": "#94724c"
+      }
+    },
+    {
+      "name": "Hoa khô tím sim",
+      "colors": {
+        "primary": "#86506a",
+        "secondary": "#dccabf",
+        "background": "#f4ece6",
+        "surface": "#fcf8f5",
+        "text": "#3a2830",
+        "accent": "#94735a"
+      }
+    },
+    {
+      "name": "Cà phê sữa",
+      "colors": {
+        "primary": "#7a4a30",
+        "secondary": "#d7bd98",
+        "background": "#efe4d3",
+        "surface": "#faf4ea",
+        "text": "#2d1f17",
+        "accent": "#b07a45"
+      }
+    }
+  ]
+}

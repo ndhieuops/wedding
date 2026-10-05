@@ -1,0 +1,30 @@
+{#
+  Sen Việt — Vietnamese heritage with the lotus.
+  Ornaments: partials/lotus.njk (inline, theme-coloured) + drum.svg / ripple.svg / lotus-*.svg (CSS masks).
+#}
+{% extends "layout.njk" %}
+{% from "partials/lotus.njk" import defs, bloom, leaf, bud, pad %}
+
+{% block background %}
+{{ defs() }}
+<div class="lh-silk" aria-hidden="true"><span class="lh-silk__drum"></span></div>
+{% endblock %}
+
+{% block sections %}
+  {% for section in sections %}
+    {% include "sections/" + section + ".njk" %}
+  {% endfor %}
+{% endblock %}
+
+{# A quiet lotus pond closes the page, just above the footer. #}
+{% block footer %}
+<div class="lh-closing" aria-hidden="true">
+  {{ leaf('lh-closing__leaf lh-closing__leaf--l') }}
+  {{ bud('lh-closing__bud') }}
+  <span class="lh-closing__water"></span>
+  {{ pad('lh-closing__pad') }}
+  {{ bloom('lh-closing__bloom') }}
+  {{ leaf('lh-closing__leaf lh-closing__leaf--r') }}
+</div>
+{% include "partials/footer.njk" %}
+{% endblock %}

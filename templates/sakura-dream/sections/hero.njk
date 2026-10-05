@@ -1,0 +1,48 @@
+{#
+  Anh Đào hero: ink cherry branches reaching in from the corners, a brushed ensō that draws itself
+  around the couple's names (or around the cover photo), and a vermilion hanko seal "stamped" beside it.
+  Overrides _shared/sections/hero.njk — keeps [data-names] + child spans for the name animations.
+#}
+{% from "macros.njk" import photo, hanko, branch %}
+{% set longest = [first.shortName | length, second.shortName | length] | sort | last %}
+{% set namesBlock %}
+    <h1 class="hero__names sk-hero__names{% if longest > 9 %} sk-names--xl{% elif longest > 5 %} sk-names--long{% endif %}" data-names data-reveal="zoom">
+      <span class="hero__name">{{ first.shortName }}</span>
+      <span class="hero__amp" aria-label="và">&amp;</span>
+      <span class="hero__name">{{ second.shortName }}</span>
+    </h1>
+{% endset %}
+<section class="section hero sk-hero{% if cover.image %} sk-hero--photo{% endif %}" id="hero">
+  <div class="sk-hero__decor" aria-hidden="true">
+    <span class="sk-hero__sway sk-hero__sway--top" data-parallax="0.12">{{ branch('sk-hero__branch') }}</span>
+    <span class="sk-hero__sway sk-hero__sway--low" data-parallax="0.06">{{ branch('sk-hero__branch', 'sk-branch-low', '0 0 320 220') }}</span>
+    <span class="sk-hero__vertical sk-hero__vertical--left">Trăm năm hạnh phúc</span>
+    {% if wedding.display %}<span class="sk-hero__vertical sk-hero__vertical--right">{{ wedding.display }}</span>{% endif %}
+  </div>
+
+  <div class="hero__inner sk-hero__inner">
+    {% if guest.name %}<p class="hero__guest" data-reveal="fade">Trân trọng kính mời <strong>{{ guest.name }}</strong></p>{% endif %}
+    <p class="hero__eyebrow sk-hero__eyebrow" data-reveal="fade">{{ content.headline or 'Lễ Thành Hôn' }}</p>
+
+    <div class="sk-hero__stage">
+      <span class="sk-enso sk-hero__enso" data-reveal="fade" aria-hidden="true"></span>
+      {% if cover.image %}
+      <figure class="sk-hero__photo" data-reveal="zoom">{{ photo(cover.image, 'Ảnh cưới của ' + names, 'sk-hero__img hero__img--' + cover.position, '(max-width: 600px) 80vw, 420px', true) }}</figure>
+      {% else %}
+      {{ namesBlock | safe }}
+      {% endif %}
+      <span class="sk-hero__seal" data-reveal="stamp" aria-hidden="true">{{ hanko(first.initial, second.initial) }}</span>
+    </div>
+
+    {% if cover.image %}{{ namesBlock | safe }}{% endif %}
+
+    {% if wedding.display %}
+    <p class="hero__date sk-hero__date" data-reveal="up">
+      <span class="hero__weekday">{{ wedding.weekday }}</span>
+      <span class="hero__date-main">{{ wedding.day | pad2 }}<i>.</i>{{ wedding.month | pad2 }}<i>.</i>{{ wedding.year }}</span>
+    </p>
+    {% if wedding.lunar %}<p class="hero__lunar" data-reveal="up">Nhằm {{ wedding.lunar.text }}</p>{% endif %}
+    {% endif %}
+  </div>
+  <a class="hero__scroll sk-hero__scroll" href="#{{ sections[1] or 'thanks' }}" aria-label="Cuộn xuống"><span></span></a>
+</section>
