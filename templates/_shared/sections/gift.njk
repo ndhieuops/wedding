@@ -1,0 +1,20 @@
+{% from "macros.njk" import title, icon %}
+<section class="section gift" id="gift">
+  <div class="container">
+    {{ title('Hộp Mừng Cưới', content.giftNote, 'Wedding Gift') }}
+    <div class="gift__grid">
+      {% for acc in gift.accounts %}
+      <article class="bank card" data-reveal="up">
+        <h3 class="bank__owner">{{ icon('gift', 18) }} {{ acc.ownerLabel }}</h3>
+        {% if acc.qrSvg %}<div class="bank__qr" role="img" aria-label="Mã QR chuyển khoản {{ acc.bankName }}">{{ acc.qrSvg | safe }}</div>{% endif %}
+        {% if acc.bankName %}<p class="bank__name">{{ acc.bankName }}</p>{% endif %}
+        <p class="bank__number">
+          <span>{{ acc.accountNumber }}</span>
+          <button type="button" class="bank__copy" data-copy="{{ acc.accountNumber }}" aria-label="Sao chép số tài khoản">{{ icon('copy', 16) }}</button>
+        </p>
+        {% if acc.accountName %}<p class="bank__holder">{{ acc.accountName }}</p>{% endif %}
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>

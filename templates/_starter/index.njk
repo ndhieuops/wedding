@@ -1,0 +1,34 @@
+{#
+  ===========================================================================
+  TEMPLATE MẪU (STARTER) — đọc README.md trong thư mục này trước khi sửa.
+  ===========================================================================
+
+  File này "kế thừa" layout dùng chung (templates/_shared/layout.njk).
+  Layout đã lo sẵn: <head>, SEO/OG, font, biến màu CSS, intro mở thiệp,
+  hiệu ứng, nhạc nền, form RSVP... Bạn chỉ cần ghi đè các block bên dưới.
+
+  Muốn đổi HTML của một section (VD: hero)? Tạo file cùng tên trong thư mục
+  template của bạn: sections/hero.njk — engine sẽ ưu tiên file của bạn.
+#}
+{% extends "layout.njk" %}
+
+{# (1) Thêm thẻ vào <head> — ví dụ font phụ hoặc preload ảnh trang trí #}
+{% block head %}{% endblock %}
+
+{# (2) Lớp trang trí cố định phía sau nội dung (hoạ tiết, khung viền...) #}
+{% block background %}
+<div class="starter-bg" aria-hidden="true"></div>
+{% endblock %}
+
+{#
+  (3) Thân trang. Mặc định lặp qua các section người dùng bật, theo thứ tự họ chọn.
+  Bạn có thể chèn phần trang trí giữa các section như ví dụ dưới.
+#}
+{% block sections %}
+  {% for section in sections %}
+    {% include "sections/" + section + ".njk" %}
+    {% if not loop.last and section != 'hero' %}
+    <div class="starter-separator" aria-hidden="true">✦</div>
+    {% endif %}
+  {% endfor %}
+{% endblock %}

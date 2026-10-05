@@ -1,0 +1,45 @@
+{
+  "name": "Khởi Đầu (mẫu gốc)",
+  "description": "Template mẫu có chú thích đầy đủ — dùng làm khung để tạo template mới bằng lệnh `npm run template:new`.",
+  "version": "1.0.0",
+  "author": "Wedding Studio",
+  "tags": ["mẫu gốc", "tối giản"],
+  "published": false,
+  "order": 999,
+  "preview": "preview.webp",
+  "entry": "index.njk",
+  "styles": ["style.css"],
+  "scripts": [],
+  "defaults": {
+    "tone": "classic",
+    "theme": {
+      "colors": {
+        "primary": "#b4838c",
+        "secondary": "#efd9dc",
+        "background": "#fffaf8",
+        "surface": "#ffffff",
+        "text": "#3d3335",
+        "accent": "#c9a36a"
+      },
+      "fonts": {
+        "heading": "Cormorant Garamond",
+        "body": "Be Vietnam Pro",
+        "script": "Great Vibes"
+      },
+      "effect": "petals",
+      "effectIntensity": "medium",
+      "intro": "envelope"
+    },
+    "sections": ["hero", "quote", "invitation", "couple", "calendar", "countdown", "events", "story", "gallery", "rsvp", "wishes", "gift", "thanks"]
+  },
+  "palettes": [
+    {
+      "name": "Hồng phấn",
+      "colors": { "primary": "#b4838c", "secondary": "#efd9dc", "background": "#fffaf8", "surface": "#ffffff", "text": "#3d3335", "accent": "#c9a36a" }
+    },
+    {
+      "name": "Xanh xô thơm",
+      "colors": { "primary": "#7d8f74", "secondary": "#dfe7d8", "background": "#fbfcf8", "surface": "#ffffff", "text": "#2f3a2c", "accent": "#b89b6a" }
+    }
+  ]
+}

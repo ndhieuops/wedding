@@ -1,0 +1,23 @@
+{# Editorial hero: optional portrait photo, oversized italic names and a split date. #}
+{% from "macros.njk" import photo %}
+<section class="section hero mm-hero" id="hero">
+  <div class="mm-hero__inner">
+    <p class="mm-hero__label" data-reveal="fade">{{ content.headline or 'The Wedding of' }}</p>
+    {% if guest.name %}<p class="hero__guest" data-reveal="fade">Trân trọng kính mời <strong>{{ guest.name }}</strong></p>{% endif %}
+    {% if cover.image %}
+    <figure class="mm-hero__photo" data-reveal="zoom">{{ photo(cover.image, 'Ảnh cưới của ' + names, 'mm-hero__img hero__img--' + cover.position, '(max-width: 700px) 92vw, 640px', true) }}</figure>
+    {% endif %}
+    <h1 class="mm-hero__names" data-reveal="up">
+      <span>{{ first.shortName }}</span>
+      <span class="mm-hero__amp">&amp;</span>
+      <span>{{ second.shortName }}</span>
+    </h1>
+    {% if wedding.display %}
+    <div class="mm-hero__date" data-reveal="up">
+      <span>{{ wedding.day }}</span><span>{{ wedding.month }}</span><span>{{ wedding.year }}</span>
+    </div>
+    <p class="mm-hero__meta" data-reveal="fade">{{ wedding.weekday }}{% if wedding.lunar %} · Âm lịch {{ wedding.lunar.day }}/{{ wedding.lunar.month }} {{ wedding.lunar.canChi }}{% endif %}</p>
+    {% endif %}
+  </div>
+  <a class="hero__scroll" href="#{{ sections[1] or 'thanks' }}" aria-label="Cuộn xuống"><span></span></a>
+</section>

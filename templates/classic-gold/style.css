@@ -1,0 +1,73 @@
+/* ==========================================================================
+   Hoàng Kim — classic, gilded, symmetrical
+   ========================================================================== */
+.tpl { --gold-grad: linear-gradient(135deg, color-mix(in srgb, var(--c-primary) 70%, #fff) 0%, var(--c-primary) 45%, color-mix(in srgb, var(--c-primary) 75%, #000) 100%); }
+
+.gold-paper {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background:
+    radial-gradient(70% 50% at 50% 0%, color-mix(in srgb, var(--c-secondary) 70%, transparent), transparent 70%),
+    radial-gradient(60% 40% at 50% 100%, color-mix(in srgb, var(--c-secondary) 55%, transparent), transparent 70%);
+}
+
+.gold-flourish {
+  position: relative; z-index: 1; height: 22px; width: min(240px, 60vw); margin: 0 auto;
+  background: var(--c-primary);
+  -webkit-mask: url(flourish.svg) center / contain no-repeat; mask: url(flourish.svg) center / contain no-repeat;
+  opacity: .75;
+}
+
+.section-title__main { font-weight: 600; letter-spacing: .12em; }
+.section-title__script { background: var(--gold-grad); -webkit-background-clip: text; background-clip: text; color: transparent; padding: 0 .1em; }
+
+/* ---------- Hero: framed gilded card ---------- */
+.hero:not(.hero--photo) .hero__inner {
+  position: relative; width: min(560px, calc(100vw - 32px)); padding: 64px 28px 56px;
+  border: 1px solid color-mix(in srgb, var(--c-primary) 55%, transparent);
+  outline: 1px solid color-mix(in srgb, var(--c-primary) 35%, transparent); outline-offset: 7px;
+  background: color-mix(in srgb, var(--c-surface) 82%, transparent);
+  box-shadow: 0 30px 60px -40px color-mix(in srgb, var(--c-text) 60%, transparent);
+}
+.hero:not(.hero--photo) .hero__inner::before,
+.hero:not(.hero--photo) .hero__inner::after,
+.hero:not(.hero--photo)::before,
+.hero:not(.hero--photo)::after {
+  content: ""; position: absolute; width: 92px; height: 92px; background: var(--c-primary);
+  -webkit-mask: url(corner.svg) center / contain no-repeat; mask: url(corner.svg) center / contain no-repeat;
+}
+.hero:not(.hero--photo) .hero__inner::before { top: -14px; left: -14px; }
+.hero:not(.hero--photo) .hero__inner::after { bottom: -14px; right: -14px; transform: rotate(180deg); }
+.hero:not(.hero--photo)::before, .hero:not(.hero--photo)::after { display: none; }
+.hero__inner > .hero__eyebrow { color: var(--c-primary); font-weight: 600; }
+.hero__names { color: var(--c-text); }
+.hero:not(.hero--photo) .hero__names .hero__name { background: var(--gold-grad); -webkit-background-clip: text; background-clip: text; color: transparent; padding: 0 .15em; }
+.hero__amp { font-family: var(--f-heading); font-style: italic; font-size: .38em; letter-spacing: .1em; }
+.hero__date-main { font-weight: 600; }
+.hero:not(.hero--photo) .hero__date { padding: 10px 26px; border-block: 1px solid var(--c-line); }
+.hero--photo .hero__inner { padding: 40px 24px; border: 1px solid rgb(255 255 255 / .55); outline: 1px solid rgb(255 255 255 / .35); outline-offset: 7px; background: rgb(0 0 0 / .18); backdrop-filter: blur(3px); }
+
+/* ---------- Cards get a thin double gold frame ---------- */
+.event, .countdown__item, .timeline__card, .card, .bank {
+  border-color: color-mix(in srgb, var(--c-primary) 40%, transparent);
+  box-shadow: inset 0 0 0 4px var(--c-surface), inset 0 0 0 5px color-mix(in srgb, var(--c-primary) 22%, transparent), var(--shadow-sm);
+}
+.event { border-radius: 4px; }
+.countdown__item { border-radius: 4px; }
+.countdown__value { font-weight: 600; }
+.event__title { font-weight: 600; }
+
+.person__photo { border-radius: 999px 999px 6px 6px; outline: 1px solid var(--c-line); outline-offset: 6px; }
+.invitation__name { background: var(--gold-grad); -webkit-background-clip: text; background-clip: text; color: transparent; padding: 0 .1em; }
+.quote__text { font-size: clamp(20px, 4.6vw, 26px); }
+.calendar__table { border-top: 1px solid var(--c-line); border-bottom: 1px solid var(--c-line); }
+.calendar__table th { padding-top: 14px; }
+
+.btn--primary, .intro__open, .music-toggle { background: var(--gold-grad); }
+.thanks { background: linear-gradient(180deg, transparent, color-mix(in srgb, var(--c-secondary) 55%, transparent)); }
+.thanks__script { background: var(--gold-grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+/* intro envelope tuned to ivory & gold */
+.intro { background: radial-gradient(110% 80% at 50% 25%, var(--c-surface), var(--c-secondary)); }
+.envelope { --env: color-mix(in srgb, var(--c-secondary) 75%, var(--c-surface)); --env-dark: color-mix(in srgb, var(--c-secondary) 80%, var(--c-primary)); }
+.envelope__front, .envelope__flap { box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--c-primary) 30%, transparent); }
+.envelope__seal { background: radial-gradient(circle at 35% 30%, color-mix(in srgb, var(--c-accent) 55%, #fff), var(--c-accent) 55%, color-mix(in srgb, var(--c-accent) 65%, #000)); }

@@ -1,0 +1,11 @@
+{% extends "layout.njk" %}
+{% from "partials/flowers.njk" import sprig %}
+
+{% block background %}<div class="blush-bg" aria-hidden="true"></div>{% endblock %}
+
+{% block sections %}
+  {% for section in sections %}
+    {% include "sections/" + section + ".njk" %}
+    {% if section != 'hero' and not loop.last %}<div class="blush-divider">{{ sprig() }}</div>{% endif %}
+  {% endfor %}
+{% endblock %}

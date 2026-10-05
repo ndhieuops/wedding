@@ -1,0 +1,16 @@
+{% extends "_layout.njk" %}
+{% block title %}{{ title }} — {{ brand.name }}{% endblock %}
+{% block head %}<meta name="robots" content="noindex">{% endblock %}
+{% block main %}
+<section class="message wrap">
+  <div class="message__card">
+    {% if status %}<p class="message__code">{{ status }}</p>{% endif %}
+    <h1>{{ title }}</h1>
+    <p>{{ message }}</p>
+    <div class="message__actions">
+      {% if back %}<a class="btn" href="{{ back }}">Quay lại</a>{% endif %}
+      <a class="btn btn--ghost" href="/">Về trang chủ</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

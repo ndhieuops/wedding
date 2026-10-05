@@ -1,0 +1,9 @@
+{% from "macros.njk" import heart %}
+<section class="section thanks" id="thanks">
+  <div class="container" data-reveal="fade">
+    <p class="thanks__script">Thank you</p>
+    {% if content.thankYou %}<p class="thanks__text">{{ content.thankYou | nl2br }}</p>{% endif %}
+    <p class="thanks__names">{{ first.shortName }} <span class="thanks__heart">{{ heart(18) }}</span> {{ second.shortName }}</p>
+    {% if content.hashtag %}<p class="thanks__hashtag">{{ content.hashtag }}</p>{% endif %}
+  </div>
+</section>

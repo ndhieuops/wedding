@@ -1,0 +1,99 @@
+/* ==========================================================================
+   Song Hỷ — Vietnamese traditional red & gold
+   ========================================================================== */
+.tpl {
+  --gold: var(--c-accent);
+  --gold-light: color-mix(in srgb, var(--c-accent) 55%, #fff);
+  --gold-grad: linear-gradient(135deg, var(--gold-light), var(--gold) 50%, color-mix(in srgb, var(--c-accent) 70%, #000));
+  --red-deep: color-mix(in srgb, var(--c-primary) 80%, #000);
+  --hy: "Noto Serif SC", "Songti SC", "SimSun", serif;
+}
+.sh-paper {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background:
+    radial-gradient(circle at 20% 30%, color-mix(in srgb, var(--c-secondary) 50%, transparent) 0 2px, transparent 3px) 0 0 / 34px 34px,
+    radial-gradient(80% 60% at 50% 50%, transparent, color-mix(in srgb, var(--c-secondary) 55%, transparent));
+}
+
+/* ---------- red lacquer hero ---------- */
+.sh-hero {
+  color: var(--c-secondary); text-align: center; padding: 70px 0 90px;
+  background:
+    radial-gradient(circle at 50% 50%, rgb(255 255 255 / .05) 0 1px, transparent 1.5px) 0 0 / 18px 18px,
+    radial-gradient(120% 90% at 50% 20%, color-mix(in srgb, var(--c-primary) 92%, #fff), var(--c-primary) 45%, var(--red-deep));
+}
+.sh-hero__frame {
+  position: relative; width: min(500px, calc(100vw - 36px)); padding: 60px 24px 96px; display: grid; justify-items: center; gap: 14px;
+  border: 1.5px solid var(--gold); outline: 1px solid color-mix(in srgb, var(--gold) 60%, transparent); outline-offset: 6px;
+}
+.sh-cloud { position: absolute; width: 110px; height: 70px; background: var(--gold-grad); -webkit-mask: url(cloud.svg) center / contain no-repeat; mask: url(cloud.svg) center / contain no-repeat; opacity: .9; }
+.sh-cloud--tl { top: 10px; left: 10px; }
+.sh-cloud--br { bottom: 10px; right: 10px; transform: rotate(180deg); }
+.sh-hero__seal {
+  width: 112px; height: 112px; border-radius: 50%; display: grid; place-items: center;
+  font-family: var(--hy); font-weight: 700; font-size: 64px; line-height: 1; color: var(--c-primary);
+  background: var(--gold-grad); box-shadow: 0 0 0 5px color-mix(in srgb, var(--gold) 35%, transparent), 0 14px 30px -10px rgb(0 0 0 / .5);
+}
+.sh-hero__title { font-family: var(--f-heading); text-transform: uppercase; letter-spacing: .3em; font-size: clamp(18px, 5vw, 24px); color: var(--gold-light); padding-left: .3em; }
+.sh-hero__photo { width: min(240px, 60vw); aspect-ratio: 3 / 4; overflow: hidden; border-radius: 999px 999px 8px 8px; border: 3px solid var(--gold); margin: 6px 0; }
+.sh-hero__photo img { width: 100%; height: 100%; object-fit: cover; }
+.sh-hero__names { font-family: var(--f-script); font-weight: 400; font-size: clamp(54px, 15vw, 92px); line-height: 1.1; display: grid; background: var(--gold-grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.sh-hero__amp { font-size: .45em; }
+.sh-hero__date { display: grid; gap: 4px; }
+.sh-hero__weekday { text-transform: uppercase; letter-spacing: .3em; font-size: 13px; color: var(--gold-light); }
+.sh-hero__day { font-family: var(--f-heading); font-size: clamp(26px, 7vw, 34px); letter-spacing: .14em; color: #fff; }
+.sh-hero__lunar { font-style: italic; color: var(--gold-light); font-size: 15px; }
+.sh-hero .hero__guest { color: #fff; }
+.sh-hero .hero__scroll { color: var(--gold-light); }
+
+/* lanterns */
+.lantern { position: absolute; top: 0; width: 46px; height: 150px; transform-origin: 50% 0; animation: lantern 3.4s ease-in-out infinite; z-index: 2; }
+.lantern--left { left: 6%; }
+.lantern--right { right: 6%; animation-delay: -1.7s; height: 120px; }
+.lantern::before { content: ""; position: absolute; left: 50%; top: 0; bottom: 64px; width: 1.5px; background: var(--gold); }
+.lantern i { position: absolute; bottom: 14px; left: 0; width: 46px; height: 52px; border-radius: 45%; background: radial-gradient(circle at 50% 40%, #ff6b5a, var(--c-primary) 60%, var(--red-deep)); box-shadow: 0 0 24px rgb(255 120 80 / .55); }
+.lantern i::before, .lantern i::after { content: ""; position: absolute; left: 10px; right: 10px; height: 6px; background: var(--gold); border-radius: 2px; }
+.lantern i::before { top: -3px; }
+.lantern i::after { bottom: -3px; }
+.lantern::after { content: ""; position: absolute; left: 50%; bottom: 0; width: 6px; height: 16px; margin-left: -3px; background: repeating-linear-gradient(90deg, var(--gold) 0 1px, transparent 1px 2px); }
+@keyframes lantern { 0%, 100% { transform: rotate(-4deg); } 50% { transform: rotate(4deg); } }
+
+/* ---------- body sections ---------- */
+.section-title__script { color: var(--c-primary); font-size: clamp(32px, 8vw, 44px); margin-bottom: 6px; }
+.section-title__main { color: var(--c-primary); letter-spacing: .1em; }
+.section-title__divider { color: var(--gold); }
+.families { grid-template-columns: 1fr 1fr !important; gap: 14px; padding: 18px 12px; border: 1px solid color-mix(in srgb, var(--gold) 60%, transparent); background: var(--c-surface); position: relative; }
+.families::before { content: "囍"; position: absolute; left: 50%; top: 50%; translate: -50% -50%; font-family: var(--hy); font-size: 90px; color: var(--c-primary); opacity: .06; pointer-events: none; }
+.family { font-size: 14px; }
+.family__title { color: var(--c-primary); font-size: 16px; }
+.invitation__name { color: var(--c-primary); }
+.invitation__day { color: var(--c-primary); }
+.invitation__lunar { font-size: 16px; color: var(--c-primary); font-style: normal; font-weight: 600; }
+.event, .countdown__item, .timeline__card, .card, .bank, .wish { border-radius: 6px; border-color: color-mix(in srgb, var(--gold) 55%, transparent); box-shadow: inset 0 0 0 3px var(--c-surface), inset 0 0 0 4px color-mix(in srgb, var(--gold) 30%, transparent); }
+.event__title, .countdown__value { color: var(--c-primary); }
+.event__lunar { color: var(--c-primary); font-weight: 600; }
+.btn { border-color: var(--c-primary); color: var(--c-primary); }
+.btn--primary, .intro__open { background: linear-gradient(180deg, color-mix(in srgb, var(--c-primary) 85%, #fff), var(--c-primary)); color: #fff; }
+.person__photo { border-radius: 8px; border: 3px solid var(--gold); }
+.calendar__heart { color: var(--c-primary); }
+.quote { background: var(--c-primary); color: var(--c-secondary); }
+.quote__mark { color: var(--gold); opacity: 1; }
+.quote__author { color: var(--gold-light); }
+.timeline__dot { border-color: var(--c-primary); }
+.wish__avatar { background: var(--c-primary); }
+.music-toggle { background: var(--gold-grad); color: var(--c-primary); }
+
+.thanks { color: var(--c-secondary); background: radial-gradient(120% 90% at 50% 100%, color-mix(in srgb, var(--c-primary) 92%, #fff), var(--c-primary) 45%, var(--red-deep)); }
+.thanks__script, .thanks__names { background: var(--gold-grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.thanks__heart, .thanks__hashtag { color: var(--gold-light); }
+
+/* red envelope with a gold 囍 seal */
+.intro { background: radial-gradient(120% 90% at 50% 25%, color-mix(in srgb, var(--c-primary) 90%, #fff), var(--red-deep)); }
+.intro .intro__to, .intro .intro__guest { color: var(--c-secondary); }
+.intro .intro__open { background: var(--gold-grad); color: var(--c-primary); }
+.envelope { --env: var(--c-primary); --env-dark: var(--red-deep); }
+.envelope__front, .envelope__flap { box-shadow: inset 0 0 0 2px var(--gold); }
+.envelope__flap { background: linear-gradient(180deg, color-mix(in srgb, var(--c-primary) 85%, #fff), var(--c-primary)); }
+.envelope__seal { font-size: 0; background: var(--gold-grad); }
+.envelope__seal::after { content: "囍"; font-family: var(--hy); font-weight: 700; font-size: 32px; color: var(--c-primary); }
+.envelope__names { color: var(--c-primary); }

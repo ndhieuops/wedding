@@ -1,0 +1,94 @@
+{% extends "_layout.njk" %}
+{% block title %}{{ brand.name }} — Thiệp cưới online đẹp, xong trong 1 phút{% endblock %}
+{% block main %}
+{% set hero = templates[0] %}
+<section class="hero">
+  <div class="wrap hero__grid">
+    <div class="hero__copy">
+      <p class="eyebrow">Thiệp cưới online · Miễn phí</p>
+      <h1>Chỉ cần <em>tên cô dâu &amp; chú rể</em> — thiệp cưới đẹp đã sẵn sàng để gửi.</h1>
+      <p class="lead">Chọn một mẫu, điền tên & ngày cưới — hệ thống tự viết lời mời, tính ngày âm lịch, tạo bản đồ, đếm ngược, xác nhận tham dự và hiệu ứng mở thiệp. Bạn chỉnh sửa thêm tuỳ thích rồi gửi link cho khách.</p>
+      <div class="hero__cta">
+        {% if config.allowPublicCreate %}<a class="btn btn--lg" href="/new">Tạo thiệp ngay</a>{% endif %}
+        <a class="btn btn--lg btn--ghost" href="#mau-thiep">Xem các mẫu</a>
+      </div>
+      <ul class="hero__facts">
+        <li><strong>1 phút</strong> để có thiệp hoàn chỉnh</li>
+        <li><strong>{{ templates | length }}</strong> mẫu thiết kế sẵn</li>
+        <li><strong>100%</strong> tuỳ biến màu, font, hiệu ứng</li>
+      </ul>
+    </div>
+    {% if hero %}
+    <div class="hero__visual">
+      <div class="phone">
+        <div class="phone__screen">
+          {% if hero.previewUrl %}<img src="{{ hero.previewUrl }}" alt="Mẫu thiệp {{ hero.name }}" width="600" height="1200">{% endif %}
+        </div>
+      </div>
+      <div class="hero__badge">Kính gửi: <strong>Anh Tuấn</strong><span>Mỗi khách một đường link riêng</span></div>
+    </div>
+    {% endif %}
+  </div>
+</section>
+
+<section class="steps wrap" aria-label="Cách hoạt động">
+  <div class="step"><span class="step__num">1</span><h3>Chọn mẫu</h3><p>Nhiều phong cách: sang trọng, lãng mạn, tối giản, truyền thống Song Hỷ.</p></div>
+  <div class="step"><span class="step__num">2</span><h3>Điền tên & ngày cưới</h3><p>Lời mời, câu chuyện tình yêu, lịch âm, lời cảm ơn… được viết sẵn cho bạn.</p></div>
+  <div class="step"><span class="step__num">3</span><h3>Gửi link cho khách</h3><p>Cá nhân hoá tên từng khách, nhận xác nhận tham dự & lời chúc theo thời gian thực.</p></div>
+</section>
+
+<section class="templates" id="mau-thiep">
+  <div class="wrap">
+    <header class="section-head">
+      <p class="eyebrow">Bộ sưu tập</p>
+      <h2>Mẫu thiệp cưới</h2>
+      <p>Mỗi mẫu đều có hiệu ứng mở thiệp, nhạc nền và đầy đủ các phần. Bấm “Xem thử” để trải nghiệm như khách mời.</p>
+    </header>
+    <div class="template-grid">
+      {% for t in templates %}
+      <article class="template-card">
+        <a class="template-card__preview" href="/templates/{{ t.id }}" target="_blank" rel="noopener" style="--tc: {{ t.colors.primary }}; --tb: {{ t.colors.background }}">
+          {% if t.previewUrl %}<img src="{{ t.previewUrl }}" alt="Xem trước mẫu {{ t.name }}" loading="lazy" width="600" height="1200">{% else %}<span class="template-card__placeholder">{{ t.name }}</span>{% endif %}
+        </a>
+        <div class="template-card__body">
+          <h3>{{ t.name }}</h3>
+          <p>{{ t.description }}</p>
+          {% if t.tags.length %}<ul class="tags">{% for tag in t.tags %}<li>{{ tag }}</li>{% endfor %}</ul>{% endif %}
+          <div class="template-card__actions">
+            <a class="btn btn--ghost btn--sm" href="/templates/{{ t.id }}" target="_blank" rel="noopener">Xem thử</a>
+            {% if config.allowPublicCreate %}<a class="btn btn--sm" href="/new?template={{ t.id }}">Dùng mẫu này</a>{% endif %}
+          </div>
+        </div>
+      </article>
+      {% else %}
+      <p>Chưa có mẫu nào được công bố.</p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="features wrap">
+  <header class="section-head">
+    <p class="eyebrow">Đầy đủ như thiệp in, tiện hơn thiệp in</p>
+    <h2>Mọi thứ một tấm thiệp cưới cần</h2>
+  </header>
+  <div class="feature-grid">
+    <div class="feature"><span>✍️</span><h3>Tự viết lời mời</h3><p>4 giọng văn: trang trọng, lãng mạn, hiện đại, truyền thống. Bấm “Gợi ý khác” để đổi.</p></div>
+    <div class="feature"><span>🌙</span><h3>Lịch âm tự động</h3><p>“Tức ngày … tháng … năm Bính Ngọ” được tính chính xác theo lịch Việt Nam.</p></div>
+    <div class="feature"><span>💌</span><h3>Mở phong bì, kéo rèm</h3><p>Hiệu ứng mở thiệp, cánh hoa rơi, tim bay, lấp lánh — mượt trên cả điện thoại đời cũ.</p></div>
+    <div class="feature"><span>📍</span><h3>Bản đồ & lịch</h3><p>Nút chỉ đường Google Maps, lưu sự kiện vào lịch điện thoại chỉ với một chạm.</p></div>
+    <div class="feature"><span>✅</span><h3>Xác nhận tham dự</h3><p>Khách xác nhận online, bạn theo dõi số lượng & xuất Excel để đặt bàn.</p></div>
+    <div class="feature"><span>🎁</span><h3>Hộp mừng cưới QR</h3><p>Mã VietQR tạo sẵn cho mọi ngân hàng, khách quét là chuyển khoản được ngay.</p></div>
+    <div class="feature"><span>🎵</span><h3>Nhạc nền</h3><p>Tải bài hát yêu thích, phát khi khách mở thiệp.</p></div>
+    <div class="feature"><span>🙋</span><h3>Tên từng khách mời</h3><p>Mỗi khách nhận link riêng với dòng “Kính gửi: …” và ảnh xem trước khi chia sẻ Zalo/Facebook.</p></div>
+  </div>
+</section>
+
+<section class="cta wrap">
+  <div class="cta__card">
+    <h2>Sẵn sàng cho ngày trọng đại?</h2>
+    <p>Không cần tài khoản. Bạn nhận một đường link bí mật để chỉnh sửa thiệp bất cứ lúc nào.</p>
+    {% if config.allowPublicCreate %}<a class="btn btn--lg" href="/new">Bắt đầu tạo thiệp</a>{% endif %}
+  </div>
+</section>
+{% endblock %}

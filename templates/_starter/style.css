@@ -1,0 +1,51 @@
+/* ==========================================================================
+   STARTER TEMPLATE — style.css
+   --------------------------------------------------------------------------
+   base.css (dùng chung) đã định nghĩa toàn bộ bố cục & component.
+   File này chỉ cần "thêm cá tính" cho template:
+
+   Biến có sẵn (đổi được trong editor, KHÔNG hard-code màu nếu muốn
+   người dùng tuỳ chỉnh được):
+     --c-primary  --c-secondary  --c-accent  --c-bg  --c-surface  --c-text
+     --f-heading  --f-body  --f-script
+   Biến phái sinh: --c-muted --c-line --c-soft --radius --shadow ...
+
+   Mẹo: dùng color-mix(in srgb, var(--c-primary) 20%, transparent) để tạo
+   sắc độ nhạt/đậm từ màu người dùng chọn.
+   ========================================================================== */
+
+/* Nền có hoạ tiết nhẹ, cố định phía sau trang */
+.starter-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(60% 40% at 0% 0%, color-mix(in srgb, var(--c-secondary) 70%, transparent), transparent 70%),
+    radial-gradient(50% 35% at 100% 100%, color-mix(in srgb, var(--c-secondary) 60%, transparent), transparent 70%);
+}
+
+/* Hero: khung viền mảnh bao quanh tên */
+.tpl .hero:not(.hero--photo) .hero__inner {
+  padding: 48px 28px;
+  border: 1px solid var(--c-line);
+  border-radius: 200px 200px 24px 24px;
+  background: color-mix(in srgb, var(--c-surface) 70%, transparent);
+  backdrop-filter: blur(2px);
+}
+
+/* Ký tự phân cách giữa các section */
+.starter-separator {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  color: var(--c-primary);
+  opacity: 0.6;
+  font-size: 14px;
+  letter-spacing: 1em;
+}
+
+/* Section xen kẽ màu nền để trang có nhịp điệu */
+.tpl .section:nth-of-type(even):not(.hero) {
+  background: color-mix(in srgb, var(--c-surface) 55%, transparent);
+}

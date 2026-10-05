@@ -1,0 +1,35 @@
+{
+  "name": "Hoa Hồng Pastel",
+  "description": "Lãng mạn, nhẹ nhàng với hoa vẽ tay đổi màu theo bảng màu, khung vòm và cánh hoa rơi.",
+  "version": "1.0.0",
+  "author": "Wedding Studio",
+  "tags": ["lãng mạn", "hoa", "pastel"],
+  "published": true,
+  "order": 2,
+  "preview": "preview.webp",
+  "styles": ["style.css"],
+  "defaults": {
+    "tone": "romantic",
+    "theme": {
+      "colors": {
+        "primary": "#c26f82",
+        "secondary": "#f7dfe4",
+        "background": "#fff8f6",
+        "surface": "#ffffff",
+        "text": "#4b3439",
+        "accent": "#8fa77f"
+      },
+      "fonts": { "heading": "Playfair Display", "body": "Quicksand", "script": "Allura" },
+      "effect": "petals",
+      "effectIntensity": "medium",
+      "intro": "curtain"
+    },
+    "sections": ["hero", "quote", "couple", "invitation", "story", "calendar", "countdown", "events", "gallery", "rsvp", "wishes", "gift", "thanks"]
+  },
+  "palettes": [
+    { "name": "Hồng phấn & lá xanh", "colors": { "primary": "#c26f82", "secondary": "#f7dfe4", "background": "#fff8f6", "surface": "#ffffff", "text": "#4b3439", "accent": "#8fa77f" } },
+    { "name": "Tím oải hương", "colors": { "primary": "#8b74b8", "secondary": "#e9e1f5", "background": "#fbf9fe", "surface": "#ffffff", "text": "#3c3450", "accent": "#90a986" } },
+    { "name": "Đào cam", "colors": { "primary": "#d9825b", "secondary": "#fbe3d5", "background": "#fffaf6", "surface": "#ffffff", "text": "#4d3428", "accent": "#7f9c76" } },
+    { "name": "Xanh bạc hà", "colors": { "primary": "#5e9c8f", "secondary": "#dcefea", "background": "#f7fcfa", "surface": "#ffffff", "text": "#2c403b", "accent": "#d79aa5" } }
+  ]
+}

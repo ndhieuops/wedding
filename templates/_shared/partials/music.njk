@@ -1,0 +1,6 @@
+{% from "macros.njk" import icon %}
+{% if music %}
+<button type="button" class="music-toggle" data-music hidden aria-pressed="false" aria-label="Bật/tắt nhạc nền{% if music.title %}: {{ music.title }}{% endif %}">
+  {{ icon('music', 20) }}
+</button>
+{% endif %}

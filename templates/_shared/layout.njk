@@ -1,0 +1,63 @@
+{#
+  Base layout shared by every template.
+  A template's index.njk does {% extends "layout.njk" %} and may override these blocks:
+    head        – extra <link>/<meta> (e.g. an extra Google Font)
+    background  – decorative fixed layers behind the page
+    intro       – the opening overlay (envelope / curtain / fade)
+    sections    – the whole page body (default: loop over the enabled sections)
+    footer      – anything after the sections
+#}
+<!doctype html>
+<html lang="vi" class="no-js" data-mode="{{ mode }}" data-template="{{ template.id }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>{{ meta.title }}</title>
+  <meta name="description" content="{{ meta.description }}">
+  {% if meta.noindex %}<meta name="robots" content="noindex, nofollow">{% endif %}
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="{{ meta.ogTitle }}">
+  <meta property="og:description" content="{{ meta.description }}">
+  {% if meta.url %}<meta property="og:url" content="{{ meta.url }}">{% endif %}
+  {% if meta.ogImage %}
+  <meta property="og:image" content="{{ meta.ogImage }}">
+  <meta name="twitter:card" content="summary_large_image">
+  {% endif %}
+  <meta name="theme-color" content="{{ theme.colors.background }}">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <script>{{ bootScript | safe }}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="{{ theme.fontsHref }}">
+  <link rel="stylesheet" href="{{ shared('base.css') }}">
+  {% for href in styles %}<link rel="stylesheet" href="{{ href }}">
+  {% endfor %}
+  <style>:root{ {{ theme.cssVars | safe }} }</style>
+  {% if cover.image %}<link rel="preload" as="image" href="{{ cover.image.url }}" fetchpriority="high">{% endif %}
+  {% block head %}{% endblock %}
+</head>
+<body class="tpl tpl--{{ template.id }}">
+  <a class="skip-link" href="#content">Bỏ qua phần mở đầu</a>
+  {% block background %}{% endblock %}
+  <canvas class="fx-canvas" aria-hidden="true"></canvas>
+
+  {% block intro %}{% include "partials/intro.njk" %}{% endblock %}
+
+  <main id="content" class="page">
+    {% block sections %}
+      {% for section in sections %}
+        {% include "sections/" + section + ".njk" %}
+      {% endfor %}
+    {% endblock %}
+  </main>
+
+  {% block footer %}{% include "partials/footer.njk" %}{% endblock %}
+  {% include "partials/music.njk" %}
+  <div class="toast" role="status" aria-live="polite"></div>
+
+  <script type="application/json" id="wedding-config">{{ configJson | safe }}</script>
+  <script src="{{ shared('runtime.js') }}" defer></script>
+  {% for src in scripts %}<script src="{{ src }}" defer></script>
+  {% endfor %}
+</body>
+</html>

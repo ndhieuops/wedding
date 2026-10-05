@@ -1,0 +1,6 @@
+{% extends "layout.njk" %}
+{# Loads only the 囍 glyph (≈2KB) so the Song Hỷ symbol renders the same on every device. #}
+{% block head %}
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@700&text=%E5%9B%8D&display=block">
+{% endblock %}
+{% block background %}<div class="sh-paper" aria-hidden="true"></div>{% endblock %}

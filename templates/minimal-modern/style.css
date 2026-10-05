@@ -1,0 +1,78 @@
+/* ==========================================================================
+   Tối Giản — editorial, generous whitespace, numbered sections
+   ========================================================================== */
+.tpl { --radius: 2px; --radius-sm: 2px; --shadow-sm: none; --shadow: 0 24px 48px -32px rgb(0 0 0 / .35); counter-reset: section; font-size: 15px; letter-spacing: .01em; }
+.mm-grain { position: fixed; inset: 0; z-index: 0; pointer-events: none; background: linear-gradient(90deg, transparent calc(50% - .5px), color-mix(in srgb, var(--c-text) 5%, transparent) calc(50% - .5px), color-mix(in srgb, var(--c-text) 5%, transparent) calc(50% + .5px), transparent calc(50% + .5px)); }
+
+/* ---------- hero ---------- */
+.mm-hero { padding: 72px 0 96px; }
+.mm-hero__inner { width: min(640px, calc(100vw - 40px)); display: grid; justify-items: center; gap: 18px; text-align: center; }
+.mm-hero__label { font-family: var(--f-heading); text-transform: uppercase; letter-spacing: .5em; font-size: 12px; padding: 8px 0 8px .5em; border-block: 1px solid var(--c-text); }
+.mm-hero__photo { width: 100%; aspect-ratio: 4 / 5; overflow: hidden; margin: 8px 0; }
+.mm-hero__img { width: 100%; height: 100%; object-fit: cover; }
+.mm-hero__names { font-family: var(--f-script); font-style: italic; font-weight: 400; font-size: clamp(64px, 19vw, 132px); line-height: .92; display: grid; letter-spacing: -.02em; }
+.mm-hero__amp { font-family: var(--f-heading); font-style: normal; font-size: .22em; letter-spacing: .4em; padding-left: .4em; color: var(--c-accent); margin: .35em 0; }
+.mm-hero__date { display: flex; align-items: center; font-family: var(--f-heading); font-size: clamp(22px, 6vw, 30px); letter-spacing: .18em; margin-top: 10px; }
+.mm-hero__date span { padding: 0 18px; }
+.mm-hero__date span + span { border-left: 1px solid var(--c-text); }
+.mm-hero__meta { font-size: 12px; letter-spacing: .3em; text-transform: uppercase; color: var(--c-muted); }
+
+/* ---------- numbered section titles ---------- */
+.section-title { text-align: center; }
+.section-title__script { font-family: var(--f-body); font-size: 11px; letter-spacing: .4em; text-transform: uppercase; color: var(--c-accent); font-weight: 600; margin-bottom: 14px; }
+.section-title__main { font-weight: 300; font-size: clamp(26px, 7vw, 40px); letter-spacing: .08em; }
+.section:not(.hero):not(.quote):not(.thanks) .section-title__main::before {
+  counter-increment: section; content: counter(section, decimal-leading-zero);
+  display: block; font-family: var(--f-script); font-style: italic; font-size: 1.5em; letter-spacing: 0; color: var(--c-accent); line-height: 1; margin-bottom: 6px;
+}
+.section-title__divider { display: none; }
+.section-title__sub { font-size: 14px; }
+
+.section + .section::after { content: ""; position: absolute; top: 0; left: 50%; width: 1px; height: 48px; background: var(--c-text); opacity: .25; translate: -50% -50%; }
+
+/* ---------- components flattened ---------- */
+.event, .countdown__item, .timeline__card, .card, .bank, .wish { border-radius: 2px; border: 1px solid color-mix(in srgb, var(--c-text) 14%, transparent); box-shadow: none; }
+.event__title { font-weight: 400; letter-spacing: .24em; font-size: 18px; color: var(--c-text); }
+.event__time { font-family: var(--f-script); font-style: italic; font-size: 40px; }
+.event__time .icon { display: none; }
+.btn { border-radius: 0; text-transform: uppercase; letter-spacing: .18em; font-size: 11.5px; border-color: var(--c-text); color: var(--c-text); }
+.btn:hover { background: var(--c-text); color: var(--c-bg); }
+.btn--primary { background: var(--c-text); color: var(--c-bg); }
+.countdown__value { font-family: var(--f-script); font-style: italic; font-weight: 400; color: var(--c-text); }
+.countdown__item { background: transparent; }
+.invitation__name { font-family: var(--f-script); font-style: italic; color: var(--c-text); }
+.invitation__day { font-family: var(--f-script); font-style: italic; color: var(--c-text); font-size: 80px; }
+.family__title { color: var(--c-accent); font-size: 14px; letter-spacing: .3em; }
+.person__photo { border-radius: 0; aspect-ratio: 4 / 5; box-shadow: none; filter: grayscale(.15); }
+.person__name { font-family: var(--f-script); font-style: italic; font-size: 28px; }
+.couple__heart { color: var(--c-accent); }
+.timeline::before { width: 1px; background: color-mix(in srgb, var(--c-text) 25%, transparent); }
+.timeline__dot { width: 9px; height: 9px; left: -24px; top: 24px; background: var(--c-text); border: 0; }
+.timeline__photo { border-radius: 0; }
+.timeline__date { color: var(--c-accent); }
+.timeline__title { font-family: var(--f-script); font-style: italic; font-size: 26px; }
+.gallery__item { border-radius: 0; }
+.quote { background: var(--c-text); color: var(--c-bg); }
+.quote__mark { color: var(--c-accent); opacity: 1; }
+.quote__text { font-family: var(--f-script); font-size: clamp(24px, 6vw, 34px); line-height: 1.35; }
+.quote__author { color: color-mix(in srgb, var(--c-bg) 70%, transparent); }
+.calendar__day--active { color: var(--c-bg); }
+.calendar__heart { color: var(--c-text); }
+.thanks__script { font-family: var(--f-script); font-style: italic; color: var(--c-text); }
+.thanks__names { font-weight: 300; letter-spacing: .3em; }
+.wish__avatar { background: var(--c-text); color: var(--c-bg); border-radius: 0; }
+.music-toggle { background: var(--c-text); color: var(--c-bg); border-radius: 0; }
+.choice { border-radius: 0; }
+.event__map-load { border-radius: 0; border-style: solid; color: var(--c-text); text-transform: uppercase; letter-spacing: .18em; font-size: 11.5px; }
+.form input[type="text"], .form input[type="tel"], .form select, .form textarea { border-radius: 0; background: transparent; border-width: 0 0 1px; padding-inline: 0; }
+.form input:focus, .form select:focus, .form textarea:focus { box-shadow: none; }
+
+/* intro: clean card */
+.intro { background: var(--c-bg); }
+.intro__card { border-radius: 0; box-shadow: none; border-color: var(--c-text); }
+.intro__monogram { font-family: var(--f-script); font-style: italic; color: var(--c-text); }
+.intro__open { border-radius: 0; background: var(--c-text); color: var(--c-bg); animation: none; }
+
+@media (min-width: 900px) {
+  .mm-hero__inner { width: min(760px, calc(100vw - 80px)); }
+}

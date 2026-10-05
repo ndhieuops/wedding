@@ -1,0 +1,12 @@
+{% extends "layout.njk" %}
+
+{% block background %}
+<div class="gold-paper" aria-hidden="true"></div>
+{% endblock %}
+
+{% block sections %}
+  {% for section in sections %}
+    {% include "sections/" + section + ".njk" %}
+    {% if section != 'hero' and not loop.last %}<div class="gold-flourish" aria-hidden="true"></div>{% endif %}
+  {% endfor %}
+{% endblock %}

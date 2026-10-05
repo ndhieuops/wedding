@@ -1,0 +1,29 @@
+{# Traditional hero: red lacquer block, Song Hỷ seal, lanterns and gold frame. #}
+{% from "macros.njk" import photo %}
+<section class="section hero sh-hero" id="hero">
+  <span class="lantern lantern--left" aria-hidden="true"><i></i></span>
+  <span class="lantern lantern--right" aria-hidden="true"><i></i></span>
+  <div class="sh-hero__frame">
+    <span class="sh-cloud sh-cloud--tl" aria-hidden="true"></span>
+    <span class="sh-cloud sh-cloud--br" aria-hidden="true"></span>
+    <div class="sh-hero__seal" data-reveal="zoom" aria-hidden="true">囍</div>
+    {% if guest.name %}<p class="hero__guest" data-reveal="fade">Trân trọng kính mời <strong>{{ guest.name }}</strong></p>{% endif %}
+    <p class="sh-hero__title" data-reveal="fade">{{ content.headline or 'Lễ Thành Hôn' }}</p>
+    {% if cover.image %}
+    <figure class="sh-hero__photo" data-reveal="zoom">{{ photo(cover.image, 'Ảnh cưới của ' + names, 'hero__img--' + cover.position, '(max-width: 600px) 70vw, 320px', true) }}</figure>
+    {% endif %}
+    <h1 class="sh-hero__names" data-reveal="up">
+      <span>{{ first.shortName }}</span>
+      <span class="sh-hero__amp">&amp;</span>
+      <span>{{ second.shortName }}</span>
+    </h1>
+    {% if wedding.display %}
+    <div class="sh-hero__date" data-reveal="up">
+      <span class="sh-hero__weekday">{{ wedding.weekday }}</span>
+      <span class="sh-hero__day">{{ wedding.day }}.{{ wedding.month }}.{{ wedding.year }}</span>
+      {% if wedding.lunar %}<span class="sh-hero__lunar">Nhằm {{ wedding.lunar.text }}</span>{% endif %}
+    </div>
+    {% endif %}
+  </div>
+  <a class="hero__scroll" href="#{{ sections[1] or 'thanks' }}" aria-label="Cuộn xuống"><span></span></a>
+</section>

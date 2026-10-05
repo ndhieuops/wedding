@@ -1,0 +1,49 @@
+{# Hand-drawn flower cluster. Colours come from the theme via CSS classes (see style.css → .flora). #}
+{% macro cluster(cls='') %}
+<svg class="flora {{ cls }}" viewBox="0 0 320 240" aria-hidden="true" focusable="false">
+  <g class="flora__leaves">
+    <path d="M150 120c-40-60-110-70-150-50 30 40 90 64 150 50Z"/>
+    <path d="M168 112c10-62 64-104 112-104-6 50-50 92-112 104Z"/>
+    <path d="M140 140c-60 10-104 52-112 96 44-6 92-40 112-96Z"/>
+    <path d="M190 140c56-8 100 18 122 56-48 6-96-14-122-56Z"/>
+    <path class="flora__vein" d="M150 120C110 86 60 72 0 70M168 112C190 70 230 30 280 8M140 140C100 168 60 200 28 236M190 140c40 4 80 24 122 56"/>
+  </g>
+  <g class="flora__sprigs">
+    <path d="M210 70c20-24 40-30 62-30M90 160c-24 14-40 30-48 52M230 160c20 6 34 20 42 38"/>
+    <circle cx="272" cy="40" r="5"/><circle cx="258" cy="46" r="4"/><circle cx="246" cy="56" r="3.5"/>
+    <circle cx="42" cy="212" r="5"/><circle cx="52" cy="198" r="4"/><circle cx="66" cy="184" r="3.5"/>
+    <circle cx="272" cy="198" r="4.5"/><circle cx="262" cy="184" r="3.5"/>
+  </g>
+  <g transform="translate(150 118)">
+    <circle class="flora__petal-b" r="52"/>
+    <circle class="flora__petal-a" r="40" cx="4" cy="-4"/>
+    <path class="flora__line" d="M-38-6c6-30 46-40 62-12 8 14 2 32-12 38M-30 16c8 18 38 22 50 4M-16-18c8-14 30-12 32 6 2 10-8 18-18 16-10-2-10-16 0-16"/>
+  </g>
+  <g transform="translate(222 96) scale(.62)">
+    <circle class="flora__petal-c" r="50"/>
+    <circle class="flora__petal-b" r="36" cx="3" cy="-3"/>
+    <path class="flora__line" d="M-36-4c6-28 44-36 58-10 8 12 2 30-12 34M-26 14c8 16 34 20 46 4M-14-16c8-12 28-10 30 6 2 10-8 16-16 14"/>
+  </g>
+  <g transform="translate(86 132) scale(.55)">
+    <circle class="flora__petal-c" r="50"/>
+    <circle class="flora__petal-a" r="34"/>
+    <path class="flora__line" d="M-34-4c6-26 42-34 56-10 8 12 2 28-12 32M-24 14c8 14 32 18 42 4M-12-16c8-12 26-10 28 6"/>
+  </g>
+  <g class="flora__buds">
+    <ellipse cx="196" cy="160" rx="13" ry="16" transform="rotate(-24 196 160)"/>
+    <ellipse cx="112" cy="84" rx="11" ry="14" transform="rotate(30 112 84)"/>
+  </g>
+</svg>
+{% endmacro %}
+
+{% macro sprig(cls='') %}
+<svg class="flora flora--sprig {{ cls }}" viewBox="0 0 200 40" aria-hidden="true" focusable="false">
+  <g class="flora__sprigs"><path d="M14 22c24-6 48-6 70-2M186 22c-24-6-48-6-70-2"/></g>
+  <g class="flora__leaves">
+    <ellipse cx="34" cy="15" rx="9" ry="4" transform="rotate(-28 34 15)"/><ellipse cx="50" cy="26" rx="9" ry="4" transform="rotate(24 50 26)"/><ellipse cx="66" cy="14" rx="9" ry="4" transform="rotate(-22 66 14)"/>
+    <ellipse cx="166" cy="15" rx="9" ry="4" transform="rotate(28 166 15)"/><ellipse cx="150" cy="26" rx="9" ry="4" transform="rotate(-24 150 26)"/><ellipse cx="134" cy="14" rx="9" ry="4" transform="rotate(22 134 14)"/>
+  </g>
+  <g transform="translate(100 20)"><circle class="flora__petal-b" r="14"/><circle class="flora__petal-a" r="9.5"/><path class="flora__line" d="M-8-2c2-7 13-9 16-2 2 4 0 7-4 9M-6 4c2 4 9 5 12 1"/></g>
+  <g class="flora__sprigs"><circle cx="86" cy="12" r="3"/><circle cx="114" cy="12" r="3"/><circle cx="84" cy="30" r="2.4"/><circle cx="116" cy="30" r="2.4"/></g>
+</svg>
+{% endmacro %}

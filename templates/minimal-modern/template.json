@@ -1,0 +1,35 @@
+{
+  "name": "Tối Giản",
+  "description": "Hiện đại, tinh gọn kiểu tạp chí: chữ lớn, khoảng trắng rộng, các phần được đánh số.",
+  "version": "1.0.0",
+  "author": "Wedding Studio",
+  "tags": ["hiện đại", "tối giản", "editorial"],
+  "published": true,
+  "order": 3,
+  "preview": "preview.webp",
+  "styles": ["style.css"],
+  "defaults": {
+    "tone": "modern",
+    "theme": {
+      "colors": {
+        "primary": "#2b2b2b",
+        "secondary": "#e9e4dc",
+        "background": "#f7f4ef",
+        "surface": "#ffffff",
+        "text": "#1d1d1d",
+        "accent": "#8a9a7b"
+      },
+      "fonts": { "heading": "Josefin Sans", "body": "Montserrat", "script": "Cormorant Garamond" },
+      "effect": "hearts",
+      "effectIntensity": "low",
+      "intro": "fade"
+    },
+    "sections": ["hero", "invitation", "couple", "events", "countdown", "story", "gallery", "quote", "rsvp", "wishes", "gift", "thanks"]
+  },
+  "palettes": [
+    { "name": "Đen & be", "colors": { "primary": "#2b2b2b", "secondary": "#e9e4dc", "background": "#f7f4ef", "surface": "#ffffff", "text": "#1d1d1d", "accent": "#8a9a7b" } },
+    { "name": "Xanh rêu", "colors": { "primary": "#4f5d47", "secondary": "#e3e6dc", "background": "#f5f6f1", "surface": "#ffffff", "text": "#22281f", "accent": "#b39a74" } },
+    { "name": "Đất nung", "colors": { "primary": "#a5573b", "secondary": "#f0e1d6", "background": "#faf6f2", "surface": "#ffffff", "text": "#2e211b", "accent": "#5e6b55" } },
+    { "name": "Xanh dương", "colors": { "primary": "#2f4a6d", "secondary": "#dfe6ef", "background": "#f6f8fb", "surface": "#ffffff", "text": "#16202e", "accent": "#c49a6c" } }
+  ]
+}

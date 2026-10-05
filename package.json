@@ -1,0 +1,48 @@
+{
+  "name": "wedding-studio",
+  "version": "1.0.0",
+  "description": "Nền tảng tạo thiệp cưới online: chọn mẫu, điền tên cô dâu chú rể, tự sinh nội dung & hiệu ứng, chia sẻ link.",
+  "private": true,
+  "type": "module",
+  "license": "Apache-2.0",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "concurrently -k -n server,studio -c blue,magenta \"npm:dev:server\" \"npm:dev:studio\"",
+    "dev:server": "node --watch-path=server --watch-path=views server/index.js",
+    "dev:studio": "vite build --watch",
+    "build": "vite build",
+    "start": "node server/index.js",
+    "test": "node --test --test-concurrency=1 \"tests/*.test.js\"",
+    "test:e2e": "node tests/e2e/smoke.mjs",
+    "template:new": "node scripts/new-template.js",
+    "template:validate": "node scripts/validate-templates.js",
+    "template:preview": "node scripts/generate-previews.js",
+    "demo:assets": "node scripts/generate-demo-assets.js",
+    "backup": "node scripts/backup.js"
+  },
+  "dependencies": {
+    "@fastify/compress": "^9.2.0",
+    "@fastify/cookie": "^11.1.2",
+    "@fastify/formbody": "^9.0.0",
+    "@fastify/helmet": "^13.1.1",
+    "@fastify/multipart": "^10.1.2",
+    "@fastify/rate-limit": "^11.2.0",
+    "@fastify/static": "^10.1.5",
+    "better-sqlite3": "^13.0.3",
+    "fastify": "^5.12.5",
+    "nunjucks": "^3.2.4",
+    "qrcode": "^1.5.4",
+    "sharp": "^0.35.5",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@preact/preset-vite": "^2.10.6",
+    "concurrently": "^10.0.5",
+    "pino-pretty": "^13.2.0",
+    "playwright-core": "1.56",
+    "preact": "^10.29.8",
+    "vite": "^7.3.6"
+  }
+}

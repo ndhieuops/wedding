@@ -1,0 +1,7 @@
+<section class="section quote" id="quote">
+  <figure class="container quote__inner" data-reveal="fade">
+    <span class="quote__mark" aria-hidden="true">“</span>
+    <blockquote class="quote__text">{{ content.quote | nl2br }}</blockquote>
+    {% if content.quoteAuthor %}<figcaption class="quote__author">— {{ content.quoteAuthor }}</figcaption>{% endif %}
+  </figure>
+</section>

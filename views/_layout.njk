@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="vi" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}{{ brand.name }}{% endblock %}</title>
+  <meta name="description" content="{% block description %}Tạo thiệp cưới online đẹp chỉ trong 1 phút: chọn mẫu, điền tên cô dâu chú rể — lời mời, lịch âm, bản đồ, xác nhận tham dự và hiệu ứng được tạo sẵn.{% endblock %}">
+  <meta name="theme-color" content="#fbf7f4">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <script>{{ bootScript | safe }}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap">
+  <link rel="stylesheet" href="/static/site.css">
+  {% block head %}{% endblock %}
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap site-header__inner">
+      <a class="logo" href="/"><span class="logo__mark" aria-hidden="true">囍</span><span>{{ brand.name }}</span></a>
+      <nav class="site-nav" aria-label="Chính">
+        <a href="/templates">Mẫu thiệp</a>
+        <a href="/my">Thiệp của tôi</a>
+        {% if config.allowPublicCreate %}<a class="btn btn--sm" href="/new">Tạo thiệp</a>{% endif %}
+      </nav>
+    </div>
+  </header>
+  <main>{% block main %}{% endblock %}</main>
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>© {{ brand.name }} · Thiệp cưới online cho người Việt</p>
+    </div>
+  </footer>
+</body>
+</html>

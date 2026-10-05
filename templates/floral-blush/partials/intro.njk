@@ -1,0 +1,37 @@
+{# Opening overlay. The click on "Mở thiệp" is also the user gesture that lets music autoplay on mobile. #}
+{% from "partials/flowers.njk" import cluster %}
+{% if theme.intro != 'none' and not skipIntro %}
+<div class="intro intro--{{ theme.intro }}" data-intro>
+  {% if theme.intro == 'curtain' %}
+  <div class="curtain curtain--left" aria-hidden="true"></div>
+  <div class="curtain curtain--right" aria-hidden="true"></div>
+  {% endif %}
+  <div class="intro__stage">
+    {% if theme.intro == 'envelope' %}
+    <div class="envelope" aria-hidden="true">
+      <div class="envelope__back"></div>
+      <div class="envelope__letter">
+        <span class="envelope__eyebrow">{{ content.headline or 'Thiệp mời' }}</span>
+        <span class="envelope__names">{{ first.shortName }} <i>&amp;</i> {{ second.shortName }}</span>
+        {% if wedding.display %}<span class="envelope__date">{{ wedding.display }}</span>{% endif %}
+      </div>
+      <div class="envelope__front"></div>
+      <div class="envelope__flap"></div>
+      <span class="envelope__seal">{{ monogram }}</span>
+    </div>
+    {% else %}
+    <div class="intro__card">
+      {{ cluster('flora--intro') }}
+      <span class="intro__monogram">{{ first.initial }}<i>&amp;</i>{{ second.initial }}</span>
+      <span class="intro__names">{{ first.shortName }} &amp; {{ second.shortName }}</span>
+      {% if wedding.display %}<span class="intro__date">{{ wedding.display }}</span>{% endif %}
+    </div>
+    {% endif %}
+    <div class="intro__text">
+      <p class="intro__to">Kính gửi</p>
+      <p class="intro__guest">{{ guest.name or 'Quý khách' }}</p>
+    </div>
+    <button type="button" class="intro__open" data-intro-open>Mở thiệp</button>
+  </div>
+</div>
+{% endif %}

@@ -1,0 +1,13 @@
+{% from "macros.njk" import title %}
+<section class="section countdown" id="countdown">
+  <div class="container">
+    {{ title('Đếm Ngược', 'Tới ngày chung đôi', 'Countdown') }}
+    <div class="countdown__grid" data-countdown="{{ wedding.countdownTarget }}" data-reveal="up">
+      <div class="countdown__item"><span class="countdown__value" data-unit="days">--</span><span class="countdown__label">Ngày</span></div>
+      <div class="countdown__item"><span class="countdown__value" data-unit="hours">--</span><span class="countdown__label">Giờ</span></div>
+      <div class="countdown__item"><span class="countdown__value" data-unit="minutes">--</span><span class="countdown__label">Phút</span></div>
+      <div class="countdown__item"><span class="countdown__value" data-unit="seconds">--</span><span class="countdown__label">Giây</span></div>
+    </div>
+    <p class="countdown__done" hidden>Hạnh phúc đã bắt đầu! Cảm ơn bạn đã đồng hành cùng chúng mình ♥</p>
+  </div>
+</section>

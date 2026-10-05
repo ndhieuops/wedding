@@ -1,0 +1,27 @@
+{% from "macros.njk" import title, icon %}
+<section class="section wishes" id="wishes">
+  <div class="container container--narrow">
+    {{ title('Sổ Lưu Bút', 'Gửi lời chúc phúc tới cô dâu & chú rể', 'Wishes') }}
+    <form class="form card" method="post" action="{{ wishesAction }}" data-form="wishes" data-reveal="up" novalidate>
+      <div class="form__row">
+        <label for="wish-name">Tên của bạn <span aria-hidden="true">*</span></label>
+        <input id="wish-name" name="name" type="text" maxlength="80" required autocomplete="name" value="{{ guest.name }}">
+      </div>
+      <div class="form__row">
+        <label for="wish-message">Lời chúc <span aria-hidden="true">*</span></label>
+        <textarea id="wish-message" name="message" rows="3" maxlength="500" required placeholder="Chúc hai bạn trăm năm hạnh phúc..."></textarea>
+      </div>
+      <div class="hp" aria-hidden="true"><label>Website <input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+      <button type="submit" class="btn btn--primary btn--block">{{ icon('send', 16) }} Gửi lời chúc</button>
+      <p class="form__status" role="status" aria-live="polite"></p>
+    </form>
+    <ul class="wishes__list" data-wishes-list>
+      {% for w in wishes %}
+      <li class="wish">
+        <span class="wish__avatar" aria-hidden="true">{{ w.initial }}</span>
+        <div class="wish__body"><p class="wish__name">{{ w.name }}</p><p class="wish__message">{{ w.message | nl2br }}</p></div>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>

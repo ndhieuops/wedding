@@ -1,0 +1,55 @@
+{% from "macros.njk" import title %}
+{% set groomFamily %}
+  <div class="family family--groom" data-reveal="up">
+    <h3 class="family__title">Nhà Trai</h3>
+    {% if groom.father %}<p class="family__parent">Ông: <strong>{{ groom.father }}</strong></p>{% endif %}
+    {% if groom.mother %}<p class="family__parent">Bà: <strong>{{ groom.mother }}</strong></p>{% endif %}
+    {% if groom.address %}<p class="family__address">{{ groom.address }}</p>{% endif %}
+  </div>
+{% endset %}
+{% set brideFamily %}
+  <div class="family family--bride" data-reveal="up">
+    <h3 class="family__title">Nhà Gái</h3>
+    {% if bride.father %}<p class="family__parent">Ông: <strong>{{ bride.father }}</strong></p>{% endif %}
+    {% if bride.mother %}<p class="family__parent">Bà: <strong>{{ bride.mother }}</strong></p>{% endif %}
+    {% if bride.address %}<p class="family__address">{{ bride.address }}</p>{% endif %}
+  </div>
+{% endset %}
+<section class="section invitation" id="invitation">
+  <div class="container">
+    {{ title('Thư Mời', '', 'Invitation') }}
+    {% if groom.hasParents or bride.hasParents %}
+    <div class="families">
+      {% if hostSide == 'bride' %}{{ brideFamily | safe }}{{ groomFamily | safe }}{% else %}{{ groomFamily | safe }}{{ brideFamily | safe }}{% endif %}
+    </div>
+    <p class="invitation__lead" data-reveal="fade">Trân trọng báo tin lễ thành hôn của con chúng tôi</p>
+    {% endif %}
+    <div class="invitation__couple" data-reveal="zoom">
+      <div class="invitation__person">
+        <span class="invitation__role">{{ 'Chú rể' if first == groom else 'Cô dâu' }}</span>
+        <span class="invitation__name">{{ first.fullName }}</span>
+      </div>
+      <span class="invitation__amp" aria-hidden="true">&amp;</span>
+      <div class="invitation__person">
+        <span class="invitation__role">{{ 'Cô dâu' if first == groom else 'Chú rể' }}</span>
+        <span class="invitation__name">{{ second.fullName }}</span>
+      </div>
+    </div>
+    {% if content.invitation %}
+    <div class="invitation__message" data-reveal="up">{{ content.invitation | paragraphs }}</div>
+    {% endif %}
+    {% if mainEvent and mainEvent.when %}
+    <div class="invitation__when" data-reveal="up">
+      <p class="invitation__time">Vào lúc <strong>{{ mainEvent.when.timeText or mainEvent.when.time }}</strong></p>
+      <div class="invitation__date">
+        <span class="invitation__weekday">{{ mainEvent.when.weekday }}</span>
+        <span class="invitation__day">{{ mainEvent.when.day }}</span>
+        <span class="invitation__monthyear">Tháng {{ mainEvent.when.month }}<br>{{ mainEvent.when.year }}</span>
+      </div>
+      {% if mainEvent.when.lunar %}<p class="invitation__lunar">(Tức {{ mainEvent.when.lunar.text }})</p>{% endif %}
+      {% if mainEvent.venue %}<p class="invitation__venue">Tại <strong>{{ mainEvent.venue }}</strong></p>{% endif %}
+      {% if mainEvent.address %}<p class="invitation__address">{{ mainEvent.address }}</p>{% endif %}
+    </div>
+    {% endif %}
+  </div>
+</section>

@@ -1,0 +1,54 @@
+# Wedding Studio
+#   cp .env.example .env   # rồi sửa mật khẩu & khoá bí mật
+#   docker compose up -d --build                    → http://localhost:3000
+#   docker compose --profile https up -d --build    → https://$DOMAIN (Caddy + Let's Encrypt)
+name: wedding-studio
+
+services:
+  app:
+    build:
+      context: .
+      target: runtime
+    image: wedding-studio:latest
+    restart: unless-stopped
+    init: true
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      NODE_ENV: production
+      DATA_DIR: /data
+      PORT: "3000"
+    ports:
+      - "${HOST_PORT:-3000}:3000"
+    volumes:
+      - wedding-data:/data
+      # Thêm/sửa mẫu thiệp không cần build lại image: sửa thư mục ./templates rồi bấm
+      # "Tải lại mẫu" trong trang Quản trị (hoặc docker compose restart app).
+      - ./templates:/app/templates:ro
+    logging:
+      driver: json-file
+      options: { max-size: "10m", max-file: "3" }
+
+  caddy:
+    image: caddy:2-alpine
+    profiles: ["https"]
+    restart: unless-stopped
+    depends_on:
+      app:
+        condition: service_healthy
+    environment:
+      DOMAIN: ${DOMAIN:-localhost}
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./deploy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+
+volumes:
+  wedding-data:
+  caddy-data:
+  caddy-config:

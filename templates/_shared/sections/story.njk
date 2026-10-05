@@ -1,0 +1,19 @@
+{% from "macros.njk" import title, photo %}
+<section class="section story" id="story">
+  <div class="container">
+    {{ title('Chuyện Tình Yêu', '', 'Our Love Story') }}
+    <ol class="timeline">
+      {% for item in story %}
+      <li class="timeline__item" data-reveal="{{ 'left' if loop.index0 % 2 == 0 else 'right' }}">
+        <span class="timeline__dot" aria-hidden="true"></span>
+        <div class="timeline__card">
+          {% if item.image %}<div class="timeline__photo">{{ photo(item.image, item.title, 'timeline__img', '(max-width: 600px) 90vw, 560px') }}</div>{% endif %}
+          {% if item.date %}<p class="timeline__date">{{ item.date }}</p>{% endif %}
+          {% if item.title %}<h3 class="timeline__title">{{ item.title }}</h3>{% endif %}
+          {% if item.text %}<p class="timeline__text">{{ item.text | nl2br }}</p>{% endif %}
+        </div>
+      </li>
+      {% endfor %}
+    </ol>
+  </div>
+</section>

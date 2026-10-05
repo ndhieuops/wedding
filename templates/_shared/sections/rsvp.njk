@@ -1,0 +1,49 @@
+{% from "macros.njk" import title, icon %}
+<section class="section rsvp" id="rsvp">
+  <div class="container container--narrow">
+    {{ title('Xác Nhận Tham Dự', content.rsvpNote, 'RSVP') }}
+    <form class="form card" method="post" action="{{ rsvp.action }}" data-form="rsvp" data-reveal="up" novalidate>
+      <div class="form__row">
+        <label for="rsvp-name">Tên của bạn <span aria-hidden="true">*</span></label>
+        <input id="rsvp-name" name="name" type="text" maxlength="80" autocomplete="name" required placeholder="VD: Nguyễn Văn An" value="{{ guest.name }}">
+      </div>
+      <div class="form__row">
+        <label for="rsvp-contact">Số điện thoại</label>
+        <input id="rsvp-contact" name="contact" type="tel" maxlength="40" autocomplete="tel" inputmode="tel" placeholder="Không bắt buộc">
+      </div>
+      <fieldset class="form__row form__choices">
+        <legend>Bạn sẽ đến chứ?</legend>
+        <label class="choice"><input type="radio" name="attending" value="yes" checked><span>Có, mình sẽ đến</span></label>
+        <label class="choice"><input type="radio" name="attending" value="maybe"><span>Mình chưa chắc</span></label>
+        <label class="choice"><input type="radio" name="attending" value="no"><span>Rất tiếc, mình bận</span></label>
+      </fieldset>
+      <div class="form__grid">
+        {% if rsvp.askGuests %}
+        <div class="form__row" data-when-attending>
+          <label for="rsvp-guests">Số người tham dự</label>
+          <select id="rsvp-guests" name="guests">
+            {% for n in range(1, 11) %}<option value="{{ n }}">{{ n }} người</option>{% endfor %}
+          </select>
+        </div>
+        {% endif %}
+        {% if rsvp.askSide %}
+        <div class="form__row">
+          <label for="rsvp-side">Bạn là khách của</label>
+          <select id="rsvp-side" name="side">
+            <option value="">— Chọn —</option>
+            <option value="groom">Nhà trai</option>
+            <option value="bride">Nhà gái</option>
+          </select>
+        </div>
+        {% endif %}
+      </div>
+      <div class="form__row">
+        <label for="rsvp-message">Lời nhắn</label>
+        <textarea id="rsvp-message" name="message" rows="3" maxlength="500" placeholder="Gửi lời nhắn tới cô dâu chú rể (không bắt buộc)"></textarea>
+      </div>
+      <div class="hp" aria-hidden="true"><label>Website <input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+      <button type="submit" class="btn btn--primary btn--block">{{ icon('send', 16) }} Gửi xác nhận</button>
+      <p class="form__status" role="status" aria-live="polite"></p>
+    </form>
+  </div>
+</section>

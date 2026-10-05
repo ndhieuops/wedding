@@ -1,0 +1,7 @@
+# HTTPS reverse proxy with automatic Let's Encrypt certificates.
+# Used by `docker compose --profile https up -d` — set DOMAIN in .env first.
+{$DOMAIN} {
+	encode zstd gzip
+	reverse_proxy app:3000
+	header -Server
+}

@@ -1,0 +1,22 @@
+{% from "macros.njk" import title, heart %}
+<section class="section calendar" id="calendar">
+  <div class="container">
+    {{ title('Tháng ' + wedding.calendar.month + ' / ' + wedding.calendar.year, wedding.long, 'Save the date') }}
+    <table class="calendar__table" data-reveal="zoom">
+      <thead><tr>{% for h in wedding.calendar.headers %}<th scope="col">{{ h }}</th>{% endfor %}</tr></thead>
+      <tbody>
+        {% for week in wedding.calendar.weeks %}
+        <tr>
+          {% for d in week %}
+          {% if d == wedding.calendar.highlight %}
+          <td class="calendar__day calendar__day--active" aria-current="date"><span class="calendar__heart">{{ heart(44) }}</span><span class="calendar__num">{{ d }}</span></td>
+          {% else %}
+          <td class="calendar__day">{{ d or '' }}</td>
+          {% endif %}
+          {% endfor %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>

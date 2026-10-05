@@ -1,0 +1,31 @@
+{% from "macros.njk" import title, icon %}
+<section class="section events" id="events">
+  <div class="container">
+    {{ title('Sự Kiện Cưới', 'Rất hân hạnh được đón tiếp', 'Wedding Events') }}
+    <div class="events__list">
+      {% for ev in events %}
+      <article class="event" data-reveal="up">
+        <h3 class="event__title">{{ ev.title }}</h3>
+        {% if ev.when %}
+        <p class="event__time">{{ icon('clock') }} <span>{{ ev.when.time or '' }}{% if ev.endTime %} – {{ ev.endTime }}{% endif %}</span></p>
+        <p class="event__date">{{ ev.when.weekday }}, {{ ev.when.slash }}</p>
+        {% if ev.when.lunar %}<p class="event__lunar">(Tức {{ ev.when.lunar.text }})</p>{% endif %}
+        {% endif %}
+        {% if ev.venue %}<p class="event__venue">{{ ev.venue }}</p>{% endif %}
+        {% if ev.address %}<p class="event__address">{{ icon('map', 16) }} <span>{{ ev.address }}</span></p>{% endif %}
+        {% if ev.note %}<p class="event__note">{{ ev.note | nl2br }}</p>{% endif %}
+        <div class="event__actions">
+          {% if ev.mapLink %}<a class="btn btn--ghost" href="{{ ev.mapLink }}" target="_blank" rel="noopener">{{ icon('map', 16) }} Chỉ đường</a>{% endif %}
+          {% if ev.calendarLink %}<a class="btn btn--ghost" href="{{ ev.calendarLink }}" target="_blank" rel="noopener">{{ icon('calendar', 16) }} Lưu vào lịch</a>{% endif %}
+        </div>
+        {% if ev.mapEmbed %}
+        <div class="event__map" data-map-src="{{ ev.mapEmbed }}">
+          <noscript><iframe src="{{ ev.mapEmbed }}" title="Bản đồ {{ ev.venue }}" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></noscript>
+          <button type="button" class="event__map-load" data-map-load>{{ icon('map', 18) }} Xem bản đồ</button>
+        </div>
+        {% endif %}
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>

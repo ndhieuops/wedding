@@ -1,0 +1,22 @@
+{% from "macros.njk" import title, photo, heart %}
+{% macro card(p, role) %}
+<article class="person" data-reveal="up">
+  <div class="person__photo">
+    {% if p.photo %}{{ photo(p.photo, role + ' ' + p.fullName, 'person__img', '(max-width: 600px) 80vw, 320px') }}
+    {% else %}<span class="person__monogram" aria-hidden="true">{{ p.initial }}</span>{% endif %}
+  </div>
+  <p class="person__role">{{ role }}</p>
+  <h3 class="person__name">{{ p.fullName }}</h3>
+  {% if p.bio %}<p class="person__bio">{{ p.bio | nl2br }}</p>{% endif %}
+</article>
+{% endmacro %}
+<section class="section couple" id="couple">
+  <div class="container">
+    {{ title('Cô Dâu & Chú Rể', content.coupleIntro, 'Bride & Groom') }}
+    <div class="couple__grid">
+      {{ card(first, 'Chú rể' if first == groom else 'Cô dâu') }}
+      <span class="couple__heart" aria-hidden="true">{{ heart(28) }}</span>
+      {{ card(second, 'Cô dâu' if first == groom else 'Chú rể') }}
+    </div>
+  </div>
+</section>
