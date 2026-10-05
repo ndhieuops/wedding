@@ -108,3 +108,9 @@ p { margin: 0; }
 .message__card h1 { font-family: "Playfair Display", serif; font-weight: 500; font-size: 28px; }
 .message__card p { color: var(--muted); }
 .message__actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 8px; }
+
+.fx-demo { padding-bottom: 56px; }
+.fx-demo__chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+.fx-chip { display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; border-radius: 999px; background: var(--card); border: 1px solid var(--line); text-decoration: none; font-weight: 500; font-size: 14.5px; transition: border-color .2s, transform .2s, box-shadow .2s; }
+.fx-chip:hover { border-color: var(--brand); transform: translateY(-2px); box-shadow: var(--shadow); }
+.fx-chip span { font-size: 18px; }

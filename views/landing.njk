@@ -75,7 +75,9 @@
   <div class="feature-grid">
     <div class="feature"><span>✍️</span><h3>Tự viết lời mời</h3><p>4 giọng văn: trang trọng, lãng mạn, hiện đại, truyền thống. Bấm “Gợi ý khác” để đổi.</p></div>
     <div class="feature"><span>🌙</span><h3>Lịch âm tự động</h3><p>“Tức ngày … tháng … năm Bính Ngọ” được tính chính xác theo lịch Việt Nam.</p></div>
-    <div class="feature"><span>💌</span><h3>Mở phong bì, kéo rèm</h3><p>Hiệu ứng mở thiệp, cánh hoa rơi, tim bay, lấp lánh — mượt trên cả điện thoại đời cũ.</p></div>
+    <div class="feature"><span>💌</span><h3>8 kiểu mở thiệp</h3><p>Phong bì, kéo rèm, mở cổng, thiệp gập, cuộn thư… kèm pháo hoa, mưa tim khi khách mở thiệp.</p></div>
+    <div class="feature"><span>🦋</span><h3>16 hiệu ứng nền</h3><p>Hoa anh đào, hoa mai, bướm bay, đom đóm, đèn trời, sao băng… kết hợp 2 lớp — mượt cả trên điện thoại đời cũ.</p></div>
+    <div class="feature"><span>✒️</span><h3>70 font chữ tiếng Việt</h3><p>Font thư pháp được chọn lọc hiển thị dấu đẹp, 12 bộ font phối sẵn, tên cô dâu chú rể có hiệu ứng viết tay.</p></div>
     <div class="feature"><span>📍</span><h3>Bản đồ & lịch</h3><p>Nút chỉ đường Google Maps, lưu sự kiện vào lịch điện thoại chỉ với một chạm.</p></div>
     <div class="feature"><span>✅</span><h3>Xác nhận tham dự</h3><p>Khách xác nhận online, bạn theo dõi số lượng & xuất Excel để đặt bàn.</p></div>
     <div class="feature"><span>🎁</span><h3>Hộp mừng cưới QR</h3><p>Mã VietQR tạo sẵn cho mọi ngân hàng, khách quét là chuyển khoản được ngay.</p></div>
@@ -83,6 +85,29 @@
     <div class="feature"><span>🙋</span><h3>Tên từng khách mời</h3><p>Mỗi khách nhận link riêng với dòng “Kính gửi: …” và ảnh xem trước khi chia sẻ Zalo/Facebook.</p></div>
   </div>
 </section>
+
+{% if hero %}
+<section class="fx-demo wrap" aria-label="Thử hiệu ứng">
+  <header class="section-head">
+    <p class="eyebrow">Bấm để xem thử</p>
+    <h2>Hiệu ứng làm khách mời “wow”</h2>
+  </header>
+  <div class="fx-demo__chips">
+    {% for fx in [
+      ['🎆', 'Pháo hoa khi mở thiệp', 'burst=fireworks&intro=envelope'],
+      ['🌸', 'Mưa hoa anh đào', 'effect=sakura&effect2=bokeh&intro=card'],
+      ['🌼', 'Hoa mai ngày Tết', 'effect=plum&effect2=golddust&intro=scroll'],
+      ['🦋', 'Bướm bay', 'effect=butterflies&effect2=leaves&intro=doors'],
+      ['🏮', 'Đèn trời', 'effect=lanterns&effect2=stars&intro=circle'],
+      ['✍️', 'Tên viết tay', 'name=handwrite&intro=fade'],
+      ['💕', 'Mưa tim', 'burst=hearts&effect=hearts&tap=hearts'],
+      ['🎈', 'Bóng bay & pháo giấy', 'effect=balloons&burst=confetti&intro=circle']
+    ] %}
+    <a class="fx-chip" href="/templates/{{ hero.id }}?{{ fx[2] }}" target="_blank" rel="noopener"><span aria-hidden="true">{{ fx[0] }}</span>{{ fx[1] }}</a>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
 
 <section class="cta wrap">
   <div class="cta__card">
