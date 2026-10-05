@@ -1,0 +1,21 @@
+{#
+  Đêm Sao — night-sky wedding. Extends the shared layout:
+  a fixed starry sky behind the page and a small self-drawing constellation between sections.
+#}
+{% extends "layout.njk" %}
+{% from "partials/sky.njk" import divider %}
+
+{% block background %}
+<div class="ms-sky" aria-hidden="true">
+  <span class="ms-sky__nebula"></span>
+  <span class="ms-sky__stars ms-sky__stars--far"></span>
+  <span class="ms-sky__stars ms-sky__stars--near"></span>
+</div>
+{% endblock %}
+
+{% block sections %}
+  {% for section in sections %}
+    {% include "sections/" + section + ".njk" %}
+    {% if section != 'hero' and not loop.last %}{{ divider(loop.index) }}{% endif %}
+  {% endfor %}
+{% endblock %}

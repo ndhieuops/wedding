@@ -1,0 +1,20 @@
+{#
+  Vườn Xanh — garden / eucalyptus wedding.
+  Overrides: sections/hero.njk (garden gate), macros.njk (section titles with a drawn olive branch),
+  partials/intro-decor.njk (garland on the opening card). Everything else is restyled in style.css.
+#}
+{% extends "layout.njk" %}
+
+{% block background %}
+<div class="gs-bg" aria-hidden="true">
+  <span class="gs-bg__branch gs-bg__branch--a"></span>
+  <span class="gs-bg__branch gs-bg__branch--b"></span>
+</div>
+{% endblock %}
+
+{% block sections %}
+  {% for section in sections %}
+    {% include "sections/" + section + ".njk" %}
+    {% if section != 'hero' and not loop.last %}<div class="gs-sep" aria-hidden="true"><span></span></div>{% endif %}
+  {% endfor %}
+{% endblock %}

@@ -1,0 +1,421 @@
+/* ==========================================================================
+   Vườn Xanh — garden wedding: sage, cream & a touch of warm gold.
+   Hand-drawn eucalyptus / olive line art (partials/botanicals.njk) draws itself
+   over a soft watercolour wash. Every colour comes from the theme variables.
+   ========================================================================== */
+.tpl {
+  --radius: 18px;
+  --radius-sm: 12px;
+  --c-on-primary: var(--c-surface);
+  --gs-ink: color-mix(in srgb, var(--c-primary) 80%, var(--c-text));
+  --gs-frame: color-mix(in srgb, var(--c-primary) 72%, var(--c-bg));
+  --gs-line: color-mix(in srgb, var(--c-primary) 32%, transparent);
+  --gs-line-soft: color-mix(in srgb, var(--c-primary) 18%, transparent);
+  --gs-wash1: color-mix(in srgb, var(--c-primary) 34%, var(--c-bg));
+  --gs-wash2: color-mix(in srgb, var(--c-primary) 17%, var(--c-bg));
+  --gs-wash3: color-mix(in srgb, var(--c-secondary) 72%, var(--c-primary));
+  --gs-gold: var(--c-accent);
+  --gs-gold-soft: color-mix(in srgb, var(--c-accent) 60%, var(--c-bg));
+  --gs-gold-ink: color-mix(in srgb, var(--c-accent) 66%, var(--c-text));
+  --gs-paper: color-mix(in srgb, var(--c-surface) 92%, var(--c-secondary));
+  --shadow-sm: 0 6px 18px -10px color-mix(in srgb, var(--c-primary) 45%, transparent);
+  --shadow: 0 18px 40px -22px color-mix(in srgb, var(--c-text) 45%, transparent);
+}
+
+/* ---------- fixed garden backdrop ---------- */
+.gs-bg {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
+  background:
+    radial-gradient(70% 40% at 50% -6%, color-mix(in srgb, var(--c-accent) 10%, transparent), transparent 72%),
+    radial-gradient(60% 38% at -6% 100%, color-mix(in srgb, var(--c-secondary) 55%, transparent), transparent 72%),
+    radial-gradient(48% 32% at 106% 45%, color-mix(in srgb, var(--c-secondary) 42%, transparent), transparent 72%);
+}
+.gs-bg__branch {
+  position: absolute; width: clamp(170px, 34vw, 300px); aspect-ratio: 240 / 400; background: var(--c-primary); opacity: .075;
+  -webkit-mask: url(branch.svg) center / contain no-repeat; mask: url(branch.svg) center / contain no-repeat;
+}
+.gs-bg__branch--a { left: -6%; bottom: -4%; }
+.gs-bg__branch--b { right: -7%; top: 12%; transform: scale(-1, -1); }
+
+/* ---------- botanical drawings (inline SVG) ---------- */
+.gs-bot { display: block; overflow: visible; }
+.gs-bot .gs-ink path { fill: none; stroke: var(--gs-ink); stroke-width: 1; stroke-linecap: round; stroke-linejoin: round; }
+.gs-bot .gs-ink .st { stroke-width: 1.25; }
+.gs-bot .gate { fill: none; stroke: var(--gs-frame); stroke-width: 1.5; }
+.gs-bot .gate--in { stroke-width: 1; opacity: .8; }
+.gs-bot .gs-wash .t1 { fill: var(--gs-wash1); }
+.gs-bot .gs-wash .t2 { fill: var(--gs-wash2); }
+.gs-bot .gs-wash .t3 { fill: var(--gs-wash3); }
+.gs-bot .gs-fruit :is(ellipse, circle) { fill: var(--gs-gold-soft); stroke: var(--gs-gold-ink); stroke-width: .7; }
+.gs-bot .gs-fruit path { fill: none; stroke: var(--gs-ink); stroke-width: .8; }
+
+/* the drawing sequence: stems first, leaves from base to tip, then the colour wash and gold fruits */
+.js svg.gs-bot[data-draw] .st { transition-duration: 1.7s; }
+.js svg.gs-bot[data-draw] .lf { transition-duration: 1.3s; }
+.js svg.gs-bot[data-draw] .d1 { transition-delay: .3s; }
+.js svg.gs-bot[data-draw] .d2 { transition-delay: .5s; }
+.js svg.gs-bot[data-draw] .d3 { transition-delay: .7s; }
+.js svg.gs-bot[data-draw] .d4 { transition-delay: .9s; }
+.js svg.gs-bot[data-draw] .d5 { transition-delay: 1.1s; }
+.js svg.gs-bot[data-draw] .gate { transition-duration: 1.8s; transition-timing-function: cubic-bezier(.45, 0, .25, 1); }
+.js svg.gs-bot[data-draw] :is(.gs-wash, .gs-fruit) { opacity: 0; transition: opacity 1.4s ease 1.3s; }
+.js svg.gs-bot[data-draw].is-drawn :is(.gs-wash, .gs-fruit) { opacity: 1; }
+/* the garden starts drawing itself the moment the gate (intro) begins to open */
+.intro.is-opening ~ .page .gs-hero svg.gs-bot[data-draw] :is(path, ellipse, circle) { stroke-dashoffset: 0; }
+.intro.is-opening ~ .page .gs-hero svg.gs-bot[data-draw] :is(.gs-wash, .gs-fruit) { opacity: 1; }
+.intro.is-opening ~ .page .gs-gate__post { scale: 1 1; }
+
+/* ---------- section separators: a hairline with a single gold leaf ---------- */
+.gs-sep { position: relative; z-index: 1; display: grid; place-items: center; height: 1px; }
+.gs-sep span { position: relative; width: min(260px, 64vw); height: 1px; background: linear-gradient(90deg, transparent, var(--gs-line), transparent); }
+.gs-sep span::after {
+  content: ""; position: absolute; left: 50%; top: 50%; width: 9px; height: 9px; translate: -50% -50%; rotate: 45deg;
+  border-radius: 0 80% 0 80%; background: var(--gs-gold); box-shadow: 0 0 0 5px var(--c-bg);
+}
+
+/* ==========================================================================
+   Hero — the garden gate
+   ========================================================================== */
+.gs-hero { padding: 76px 0 96px; color: var(--c-text); }
+.gs-hero__light {
+  position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background:
+    radial-gradient(42% 30% at 50% 30%, color-mix(in srgb, var(--c-accent) 13%, transparent), transparent 72%),
+    radial-gradient(60% 46% at 50% 48%, color-mix(in srgb, var(--c-surface) 85%, transparent), transparent 74%);
+}
+.gs-hero::before, .gs-hero::after {
+  content: ""; position: absolute; bottom: -18px; z-index: 0; width: clamp(120px, 30vw, 260px); aspect-ratio: 240 / 400;
+  background: var(--gs-wash1); opacity: .5; pointer-events: none;
+  -webkit-mask: url(branch.svg) center / contain no-repeat; mask: url(branch.svg) center / contain no-repeat;
+}
+.gs-hero::before { left: -40px; rotate: -8deg; }
+.gs-hero::after { right: -40px; transform: scaleX(-1); rotate: 8deg; }
+
+.gs-hero__corner { position: absolute; top: 0; z-index: 0; width: clamp(168px, 47vw, 420px); pointer-events: none; }
+.gs-hero__corner--l { left: 0; }
+.gs-hero__corner--r { right: 0; width: clamp(140px, 38vw, 340px); transform: scaleX(-1); }
+.gs-corner { width: 100%; height: auto; transform-origin: 0 0; animation: gs-sway 11s ease-in-out infinite; }
+.gs-hero__corner--r .gs-corner { animation-delay: -4s; animation-duration: 13s; }
+.gs-corner .gs-ink path { stroke-width: 1.45; }
+.gs-corner .gs-ink .st { stroke-width: 1.8; }
+@keyframes gs-sway { 0%, 100% { rotate: 0deg; } 50% { rotate: 1.6deg; } }
+
+/* gate frame: arch (SVG) + two double posts (CSS) + climbing sprigs (SVG) */
+.gs-gate { position: relative; z-index: 1; width: min(380px, calc(100vw - 56px)); margin-top: 18px; container-type: inline-size; }
+.gs-gate__frame { position: absolute; inset: 0; pointer-events: none; }
+.gs-gate__arch { position: absolute; left: 0; top: -24px; top: -6.5cqw; width: 100%; height: auto; }
+.gs-gate__post {
+  position: absolute; top: 52.5%; top: 52.5cqw; bottom: 0; width: 10px; width: 2.65cqw;
+  border-left: 1.4px solid var(--gs-frame); border-left-width: .375cqw; border-right: 1px solid var(--gs-frame); border-right-width: .25cqw;
+  transform-origin: 50% 0;
+}
+.gs-gate__post--l { left: 0; }
+.gs-gate__post--r { right: 0; transform: scaleX(-1); }
+.gs-gate__post::after { content: ""; position: absolute; left: -3px; right: -3px; bottom: 0; height: 1px; background: var(--gs-frame); opacity: .7; }
+.js .gs-gate__post { scale: 1 0; transition: scale 1.3s cubic-bezier(.5, 0, .3, 1) .9s; }
+.js .gs-gate__frame:has(.gs-gate__arch.is-drawn) .gs-gate__post { scale: 1 1; }
+.gs-gate__base { position: absolute; left: 0; bottom: 0; width: 100%; height: auto; }
+.gs-gate__base .gs-ink path { stroke-width: 1.15; }
+
+.gs-gate__inner.hero__inner {
+  position: relative; display: grid; justify-items: center; gap: 12px; text-align: center;
+  padding: 88px 26px 84px; padding: 23cqw 8cqw 22cqw;
+}
+.gs-hero .hero__guest { display: grid; gap: 0; font-size: 13px; line-height: 1.5; color: var(--c-muted); max-width: 30ch; }
+.gs-hero .hero__guest span { letter-spacing: .14em; text-transform: uppercase; font-size: 11.5px; }
+.gs-hero .hero__guest strong { font-family: var(--f-heading); font-style: italic; font-weight: 600; font-size: 21px; letter-spacing: .01em; color: var(--c-text); }
+.gs-hero .hero__eyebrow {
+  font-family: var(--f-heading); font-weight: 600; font-size: 13px; letter-spacing: .34em; padding-left: .34em;
+  text-transform: uppercase; color: var(--gs-gold-ink); margin-top: 2px;
+}
+.gs-hero .hero__names {
+  font-family: var(--f-script); font-weight: 400; color: var(--c-primary);
+  font-size: clamp(50px, 16vw, 92px); font-size: clamp(48px, 18.5cqw, 96px); line-height: 1.1; margin: 2px 0 0;
+}
+.gs-hero .hero__name { padding: 0 .12em; }
+.js .gs-hero .names--handwrite.is-playing > * { animation-duration: 1.15s; animation-delay: calc(var(--i, 0) * .55s + .1s); }
+.gs-hero .hero__amp { font-family: var(--f-heading); font-style: italic; font-size: .38em; color: var(--gs-gold-ink); margin: -.05em 0 -.02em; }
+.gs-hero__divider { width: 150px; margin-top: -2px; }
+.gs-hero__date { display: grid; justify-items: center; gap: 4px; font-family: var(--f-heading); }
+.gs-hero__weekday { font-family: var(--f-body); font-size: 11.5px; font-weight: 700; letter-spacing: .32em; padding-left: .32em; text-transform: uppercase; color: var(--c-muted); }
+.gs-hero__dmy { display: flex; align-items: center; gap: 14px; font-size: clamp(28px, 8vw, 36px); font-weight: 500; line-height: 1.1; letter-spacing: .04em; font-variant-numeric: lining-nums; font-feature-settings: "lnum" 1; }
+.gs-hero__dmy i { width: 7px; height: 7px; border-radius: 0 80% 0 80%; background: var(--gs-gold); rotate: -45deg; flex: none; }
+.gs-hero__lunar { margin-top: 4px; font-style: italic; font-size: 16px; color: var(--c-muted); max-width: 26ch; line-height: 1.4; text-wrap: balance; }
+.gs-hero .hero__scroll { color: var(--gs-frame); bottom: 22px; }
+
+/* cover photo framed by the arch (a view through the gate) */
+.gs-hero--photo .gs-gate__inner.hero__inner { padding-top: 54px; padding-top: 14.5cqw; }
+.gs-hero__photo {
+  width: 100%; width: 76cqw; aspect-ratio: 76 / 82; margin: 0 0 8px; overflow: hidden;
+  border-radius: 999px 999px 10px 10px; background: var(--gs-wash2);
+  box-shadow: 0 20px 40px -26px color-mix(in srgb, var(--c-text) 60%, transparent);
+}
+.gs-hero__img { width: 100%; height: 100%; object-fit: cover; }
+
+/* ==========================================================================
+   Section titles — script word, small caps, self-drawing olive branch
+   ========================================================================== */
+.gs-title { margin-bottom: clamp(30px, 6vw, 46px); }
+.gs-title .section-title__script { font-size: clamp(38px, 9.6vw, 54px); line-height: 1.05; color: var(--c-primary); }
+.gs-title .section-title__main {
+  font-family: var(--f-heading); font-weight: 600; font-size: clamp(17px, 4.6vw, 22px);
+  letter-spacing: .24em; padding-left: .24em; line-height: 1.45; color: var(--c-text); margin-top: 2px;
+}
+.gs-title .section-title__divider { margin-top: 8px; color: inherit; }
+.gs-divider { width: 172px; height: auto; }
+.gs-title .section-title__sub { margin-top: 10px; font-family: var(--f-heading); font-style: italic; font-size: 18px; line-height: 1.5; color: var(--c-muted); }
+
+/* ---------- cards: pressed-botanical stationery ---------- */
+.tpl :is(.card, .event, .timeline__card, .bank) {
+  background: var(--c-surface); border: 1px solid var(--gs-line);
+  box-shadow: inset 0 0 0 5px var(--c-surface), inset 0 0 0 6px var(--gs-line-soft), var(--shadow-sm);
+}
+.tpl :is(.event, .bank, .form.card) { position: relative; }
+.tpl :is(.event, .bank, .form.card)::after {
+  content: ""; position: absolute; top: -34px; right: -14px; width: 78px; height: 78px; pointer-events: none;
+  background: var(--gs-ink); opacity: .9;
+  -webkit-mask: url(sprig.svg) center / contain no-repeat; mask: url(sprig.svg) center / contain no-repeat;
+}
+.btn { letter-spacing: .05em; }
+.btn--primary { background: linear-gradient(180deg, color-mix(in srgb, var(--c-primary) 90%, #fff), var(--c-primary)); border-color: transparent; }
+.btn--ghost { background: color-mix(in srgb, var(--c-surface) 70%, transparent); }
+
+/* ---------- quote: an arched garden window with a garland ---------- */
+.quote .quote__inner {
+  position: relative; width: min(540px, calc(100% - 40px)); padding: 92px 28px 44px; margin-top: 26px;
+  border-radius: 50% 50% 22px 22px / 130px 130px 22px 22px;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--c-secondary) 45%, var(--c-surface)), var(--c-surface) 70%);
+  border: 1px solid var(--gs-line);
+  box-shadow: inset 0 0 0 6px color-mix(in srgb, var(--c-surface) 60%, transparent), inset 0 0 0 7px var(--gs-line-soft), var(--shadow-sm);
+}
+.quote__mark {
+  position: absolute; left: 50%; top: 14px; translate: -50% 0; width: min(210px, 62%); aspect-ratio: 240 / 96; font-size: 0; opacity: 1;
+  background: var(--gs-ink); -webkit-mask: url(garland.svg) center / contain no-repeat; mask: url(garland.svg) center / contain no-repeat;
+}
+.quote__text { margin-top: 10px; color: var(--c-primary); font-weight: 500; font-size: clamp(21px, 5.4vw, 27px); line-height: 1.5; text-wrap: balance; }
+.quote__author { color: var(--gs-gold-ink); font-weight: 600; }
+
+/* ---------- invitation ---------- */
+.family__title { color: var(--c-primary); font-weight: 600; font-size: 16px; letter-spacing: .26em; }
+.family__parent strong { font-weight: 700; }
+.invitation__name { color: var(--c-primary); }
+.invitation__amp { font-style: italic; color: var(--gs-gold-ink); }
+.invitation__day {
+  position: relative; color: var(--c-primary); font-weight: 500; font-size: 56px; padding: 26px 16px 10px; min-width: 96px;
+  border: 1px solid var(--gs-line); border-bottom: 0; border-radius: 999px 999px 0 0;
+}
+.invitation__day::after { content: ""; position: absolute; left: -10px; right: -10px; bottom: 0; height: 1px; background: var(--gs-line); }
+.invitation__weekday, .invitation__monthyear { border-color: var(--gs-line-soft); }
+.invitation__lunar, .invitation__address { color: var(--c-muted); }
+.invitation__lead, .invitation__address, .event__address span, .section-title__sub, .thanks__text, .person__bio { text-wrap: balance; }
+
+/* ---------- couple: arched portraits with a sprig ---------- */
+.person { position: relative; }
+.person__photo {
+  border-radius: 999px 999px 14px 14px; box-shadow: var(--shadow);
+  outline: 1px solid var(--gs-line); outline-offset: 6px; background: var(--gs-wash2);
+}
+.person::before {
+  content: ""; position: absolute; z-index: 1; top: 236px; left: calc(50% - 142px); width: 82px; height: 82px; pointer-events: none;
+  background: var(--gs-ink); rotate: 180deg; -webkit-mask: url(sprig.svg) center / contain no-repeat; mask: url(sprig.svg) center / contain no-repeat;
+}
+.person__monogram { color: var(--c-primary); }
+.person__name { font-weight: 600; }
+.person__role { color: var(--gs-gold-ink); font-weight: 700; }
+.couple__heart { position: relative; display: grid; place-items: center; width: 58px; height: 58px; color: var(--gs-gold); }
+.couple__heart::before {
+  content: ""; position: absolute; inset: 0; background: var(--c-primary); opacity: .8;
+  -webkit-mask: url(wreath.svg) center / contain no-repeat; mask: url(wreath.svg) center / contain no-repeat;
+}
+.couple__heart svg { position: relative; width: 20px; height: 20px; }
+
+/* ---------- story: a climbing vine ---------- */
+.timeline::before {
+  left: -4px; width: 24px; top: 0; bottom: 0; background: var(--gs-ink); opacity: .55;
+  -webkit-mask: url(vine.svg) top center / 24px 64px repeat-y; mask: url(vine.svg) top center / 24px 64px repeat-y;
+}
+.timeline__dot { width: 18px; height: 18px; left: -29px; top: 20px; border: 0; border-radius: 0 80% 0 80%; rotate: -45deg; background: var(--gs-gold); box-shadow: 0 0 0 4px var(--c-bg); }
+.timeline__card { border-radius: 20px; }
+.timeline__photo { border-radius: 20px 20px 0 0; }
+.timeline__date { color: var(--gs-gold-ink); font-weight: 700; }
+.timeline__title { font-weight: 600; font-size: 22px; }
+
+/* ---------- calendar: the day wrapped in a little wreath ---------- */
+.calendar__table {
+  border-collapse: separate; border-spacing: 0; padding: 40px 12px 16px; background: var(--c-surface);
+  border: 1px solid var(--gs-line); border-radius: 50% 50% 22px 22px / 70px 70px 22px 22px;
+  box-shadow: inset 0 0 0 5px var(--c-surface), inset 0 0 0 6px var(--gs-line-soft), var(--shadow-sm);
+}
+.calendar__table th { color: var(--gs-gold-ink); }
+.calendar__day { height: 46px; }
+.calendar__day--active { color: var(--c-primary); font-weight: 700; }
+.calendar__heart { display: none; }
+.calendar__day--active::before {
+  content: ""; position: absolute; left: 50%; top: 50%; width: 52px; height: 52px; translate: -50% -50%;
+  background: var(--c-primary); -webkit-mask: url(wreath.svg) center / contain no-repeat; mask: url(wreath.svg) center / contain no-repeat;
+}
+.calendar__num { display: inline-grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: color-mix(in srgb, var(--c-accent) 22%, transparent); }
+
+/* ---------- countdown: greenhouse windows ---------- */
+.countdown__item {
+  border-radius: 999px 999px 14px 14px; padding: 24px 4px 14px;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--c-secondary) 38%, var(--c-surface)), var(--c-surface) 75%);
+  border: 1px solid var(--gs-line);
+  box-shadow: inset 0 0 0 4px var(--c-surface), inset 0 0 0 5px var(--gs-line-soft), var(--shadow-sm);
+}
+.countdown__value { font-weight: 600; color: var(--c-primary); }
+.countdown__label { font-size: 11px; font-weight: 700; color: var(--c-muted); }
+
+/* ---------- events: arched cards ---------- */
+.event { border-radius: 50% 50% 20px 20px / 92px 92px 20px 20px; padding: 58px 22px 30px; }
+.event__title { font-weight: 600; letter-spacing: .14em; font-size: 22px; }
+.event__time { font-weight: 500; color: var(--c-text); }
+.event__time .icon { color: var(--gs-gold); }
+.event__date { color: var(--c-text); }
+.event__venue { font-weight: 600; }
+.event__map-load { color: var(--c-primary); border-color: var(--gs-line); }
+
+/* ---------- gallery: some photos framed as arched windows ---------- */
+.gallery__item { border-radius: 16px; box-shadow: var(--shadow-sm); }
+.gallery__item:nth-child(3n + 1) { border-radius: 999px 999px 16px 16px; }
+
+/* ---------- forms & wishes ---------- */
+.form.card { border-radius: 26px; padding: 30px 22px 26px; }
+.form input[type="text"], .form input[type="tel"], .form select, .form textarea { border-radius: 12px; background: color-mix(in srgb, var(--c-bg) 70%, var(--c-surface)); }
+.choice { border-radius: 999px; }
+.wish { border-radius: 18px; border-color: var(--gs-line-soft); }
+.wish__avatar { border-radius: 0 60% 0 60%; background: var(--c-primary); color: var(--c-on-primary); }
+
+/* ---------- gift ---------- */
+.bank { border-radius: 50% 50% 20px 20px / 70px 70px 20px 20px; padding-top: 44px; }
+.bank__owner { font-weight: 600; }
+.bank__copy { background: var(--gs-wash2); }
+
+/* ---------- thanks ---------- */
+.thanks { padding-top: calc(var(--section-pad) + 70px); background: radial-gradient(60% 50% at 50% 100%, color-mix(in srgb, var(--c-secondary) 55%, transparent), transparent 75%); }
+.thanks::before {
+  content: ""; position: absolute; left: 50%; top: calc(var(--section-pad) * .45); translate: -50% 0; width: min(280px, 72vw); aspect-ratio: 240 / 96;
+  background: var(--gs-ink); -webkit-mask: url(garland.svg) center / contain no-repeat; mask: url(garland.svg) center / contain no-repeat;
+}
+.thanks__script { color: var(--c-primary); }
+.thanks__names { font-weight: 600; }
+.thanks__heart { color: var(--gs-gold); }
+.thanks__hashtag { color: var(--gs-gold-ink); }
+.music-toggle { background: var(--c-primary); color: var(--c-on-primary); }
+
+/* ==========================================================================
+   Intro — a white lattice garden gate under a eucalyptus swag
+   ========================================================================== */
+.intro {
+  --gs-paint: color-mix(in srgb, var(--c-surface) 90%, var(--c-primary));
+  --gs-paint-shade: color-mix(in srgb, var(--c-surface) 74%, var(--c-primary));
+  --gs-garden: color-mix(in srgb, var(--c-primary) 78%, var(--c-text));
+  background: radial-gradient(120% 90% at 50% 35%, var(--gs-paper), var(--c-bg));
+}
+.intro--doors { background: transparent; }
+.intro--doors::before {
+  content: ""; position: absolute; inset: 0; z-index: 0; transition: opacity .9s ease .2s;
+  background: radial-gradient(90% 70% at 50% 45%, color-mix(in srgb, var(--c-secondary) 70%, var(--c-bg)), color-mix(in srgb, var(--c-primary) 40%, var(--c-bg)));
+}
+.intro--doors.is-opening::before { opacity: 0; }
+.intro--doors .door {
+  padding: 9vh 7vw 6vh; gap: 2.4vh; grid-template-rows: 1.25fr 1fr;
+  background:
+    repeating-linear-gradient(90deg, rgb(0 0 0 / .018) 0 1px, transparent 1px 7px),
+    linear-gradient(90deg, rgb(0 0 0 / .05), transparent 14%, transparent 86%, rgb(0 0 0 / .07)),
+    linear-gradient(180deg, var(--gs-paint), var(--gs-paint-shade));
+  box-shadow: inset 0 0 0 1px rgb(0 0 0 / .08);
+}
+.intro--doors .door--left { border-right: 1px solid rgb(0 0 0 / .14); }
+.intro--doors .door--right { border-left: 1px solid rgb(255 255 255 / .4); }
+.intro--doors .door__panel { border: 0; position: relative; }
+.intro--doors .door__panel:first-child {
+  background:
+    repeating-linear-gradient(45deg, transparent 0 16px, var(--gs-paint) 16px 20px),
+    repeating-linear-gradient(-45deg, transparent 0 16px, var(--gs-paint) 16px 20px),
+    radial-gradient(30% 22% at 28% 30%, color-mix(in srgb, var(--c-secondary) 85%, transparent), transparent 100%),
+    radial-gradient(34% 26% at 74% 62%, color-mix(in srgb, var(--c-secondary) 55%, var(--c-primary)), transparent 100%),
+    radial-gradient(26% 20% at 40% 86%, color-mix(in srgb, var(--c-accent) 35%, transparent), transparent 100%),
+    linear-gradient(180deg, var(--gs-garden), var(--c-primary));
+  box-shadow: inset 0 0 0 5px var(--gs-paint), inset 0 0 0 6px rgb(0 0 0 / .12), inset 0 10px 18px rgb(0 0 0 / .28);
+}
+.intro--doors .door--left .door__panel:first-child { border-radius: 100% 0 0 0 / 34% 0 0 0; }
+.intro--doors .door--right .door__panel:first-child { border-radius: 0 100% 0 0 / 0 34% 0 0; }
+.intro--doors .door__panel + .door__panel {
+  border-radius: 6px;
+  background:
+    repeating-linear-gradient(90deg, transparent 0 22px, rgb(0 0 0 / .045) 22px 23px, rgb(255 255 255 / .35) 23px 24px),
+    linear-gradient(180deg, var(--gs-paint), var(--gs-paint-shade));
+  box-shadow: inset 0 0 0 1px rgb(0 0 0 / .1), inset 3px 3px 0 rgb(255 255 255 / .45), inset -3px -3px 0 rgb(0 0 0 / .05), 0 1px 0 rgb(255 255 255 / .5);
+}
+.intro--doors .door::before {
+  content: ""; position: absolute; top: -6px; width: min(108%, 420px); aspect-ratio: 200 / 120; z-index: 1; pointer-events: none;
+  background: var(--gs-garden); -webkit-mask: url(swag.svg) top / contain no-repeat; mask: url(swag.svg) top / contain no-repeat;
+  filter: drop-shadow(0 6px 6px rgb(0 0 0 / .18));
+}
+.intro--doors .door--left::before { right: -2px; }
+.intro--doors .door--right::before { left: -2px; transform: scaleX(-1); }
+.intro--doors .door__knob {
+  width: 24px; height: 24px; margin-top: -12px; background: none; border-radius: 50%;
+  border: 2.5px solid var(--c-accent); box-shadow: 0 2px 5px rgb(0 0 0 / .25), inset 0 1px 2px rgb(0 0 0 / .25);
+}
+.intro--doors .door__knob::before {
+  content: ""; position: absolute; left: 50%; top: -9px; width: 10px; height: 10px; translate: -50% 0; border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, color-mix(in srgb, var(--c-accent) 50%, #fff), var(--c-accent) 60%, color-mix(in srgb, var(--c-accent) 70%, #000));
+}
+.intro--doors .door--left .door__knob { right: 14px; }
+.intro--doors .door--right .door__knob { left: 14px; }
+.intro--doors .intro__to, .intro--doors .intro__guest { color: var(--c-text); text-shadow: 0 0 12px var(--gs-paint), 0 0 2px var(--gs-paint); }
+
+/* opening card (doors / fade / curtain / circle) */
+.intro__card {
+  width: min(290px, 76vw); aspect-ratio: 5 / 6; padding: 78px 20px 46px; gap: 8px;
+  background: var(--c-surface); border: 1px solid var(--gs-line); border-radius: 999px 999px 20px 20px;
+  box-shadow: inset 0 0 0 7px var(--c-surface), inset 0 0 0 8px var(--gs-line-soft), 0 26px 50px -24px color-mix(in srgb, var(--c-text) 60%, transparent);
+}
+.intro__monogram { font-size: 66px; color: var(--c-primary); }
+.intro__monogram i { color: var(--gs-gold-ink); }
+.intro__names { font-weight: 600; font-size: 14px; letter-spacing: .2em; color: var(--c-text); }
+.intro__date { color: var(--gs-gold-ink); font-weight: 700; }
+.intro__to { color: var(--c-muted); }
+.intro__guest { font-style: italic; font-weight: 600; }
+.intro__open { background: var(--c-primary); color: var(--c-on-primary); letter-spacing: .16em; box-shadow: 0 10px 24px -10px color-mix(in srgb, var(--c-primary) 80%, transparent); }
+
+.gs-introdecor { position: absolute; top: 5%; left: 7%; width: 86%; height: auto; pointer-events: none; }
+.gs-introdecor--bottom { top: auto; bottom: 16px; left: 50%; width: 112px; translate: -50% 0; }
+.gs-introdecor--bottom .gs-fruit { animation-delay: 2.2s; }
+.gs-introdecor .gs-ink path { stroke-dasharray: 1; stroke-dashoffset: 1; animation: gs-draw 2.4s cubic-bezier(.5, .1, .3, 1) .4s forwards; }
+.gcard__cover .gs-introdecor--bottom { bottom: 22px; }
+.gs-introdecor :is(.gs-wash, .gs-fruit) { opacity: 0; animation: gs-fade 1.4s ease 2s forwards; }
+.gcard__cover .gs-introdecor:not(.gs-introdecor--bottom) { top: 4%; }
+.intro--card .gcard__cover { box-shadow: var(--shadow); outline: 1px solid color-mix(in srgb, var(--c-accent) 70%, transparent); outline-offset: -10px; }
+.gcard__cover .gs-ink path, .gcard__cover .gs-fruit path { stroke: color-mix(in srgb, #fff 85%, transparent); }
+.gcard__cover .gs-wash path { fill: rgb(255 255 255 / .16); }
+@keyframes gs-draw { to { stroke-dashoffset: 0; } }
+@keyframes gs-fade { to { opacity: 1; } }
+
+/* ---------- responsive ---------- */
+@media (max-width: 380px) {
+  .gs-hero { padding-top: 64px; }
+  .gs-hero__corner { width: 41vw; }
+  .gs-hero__corner--r { width: 35vw; }
+  .gs-hero__dmy { gap: 10px; }
+  .gs-title .section-title__main { letter-spacing: .18em; padding-left: .18em; }
+  .person::before { left: calc(50% - 132px); }
+}
+@media (min-width: 760px) {
+  .gs-hero { padding: 90px 0 110px; }
+  .gs-gate { width: min(500px, calc(100vw - 80px)); margin-top: 0; }
+  .gs-corner .gs-ink path { stroke-width: 1.1; }
+  .gs-corner .gs-ink .st { stroke-width: 1.4; }
+  .gs-hero .hero__guest strong { font-size: 24px; }
+  .gs-hero__lunar { font-size: 17px; }
+  .gs-bg__branch { opacity: .09; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .js svg.gs-bot[data-draw] *, .js .gs-gate__post { transition-delay: 0s !important; }
+  .gs-corner { animation: none; }
+  .js .gs-gate__post { scale: 1 1; }
+  .gs-introdecor .gs-ink path { stroke-dashoffset: 0; }
+  .gs-introdecor :is(.gs-wash, .gs-fruit) { opacity: 1; }
+}

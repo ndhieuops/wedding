@@ -1,0 +1,105 @@
+{
+  "name": "Đêm Sao",
+  "description": "Hôn lễ dưới bầu trời đêm: nền xanh navy thẳm, ánh vàng champagne, trăng khuyết, bản đồ sao và những chòm sao tự vẽ nét khi cuộn.",
+  "version": "1.0.0",
+  "author": "Wedding Studio",
+  "tags": [
+    "bầu trời đêm",
+    "lãng mạn",
+    "nền tối"
+  ],
+  "published": true,
+  "order": 6,
+  "preview": "preview.webp",
+  "entry": "index.njk",
+  "styles": [
+    "style.css"
+  ],
+  "scripts": [],
+  "defaults": {
+    "tone": "romantic",
+    "theme": {
+      "colors": {
+        "primary": "#d8bd88",
+        "secondary": "#2a3768",
+        "background": "#0a1130",
+        "surface": "#131c44",
+        "text": "#eee7d5",
+        "accent": "#f3e0b0"
+      },
+      "fonts": {
+        "heading": "Playfair Display SC",
+        "body": "Montserrat",
+        "script": "MonteCarlo"
+      },
+      "effect": "stars",
+      "effect2": "fireflies",
+      "effectIntensity": "medium",
+      "burst": "fireworks",
+      "tap": "sparkles",
+      "nameAnimation": "glow",
+      "intro": "curtain"
+    },
+    "sections": [
+      "hero",
+      "quote",
+      "invitation",
+      "couple",
+      "calendar",
+      "countdown",
+      "events",
+      "story",
+      "gallery",
+      "rsvp",
+      "wishes",
+      "gift",
+      "thanks"
+    ]
+  },
+  "palettes": [
+    {
+      "name": "Đêm xanh thẳm",
+      "colors": {
+        "primary": "#d8bd88",
+        "secondary": "#2a3768",
+        "background": "#0a1130",
+        "surface": "#131c44",
+        "text": "#eee7d5",
+        "accent": "#f3e0b0"
+      }
+    },
+    {
+      "name": "Ngân hà tím",
+      "colors": {
+        "primary": "#e3b48e",
+        "secondary": "#3a2a66",
+        "background": "#130d2b",
+        "surface": "#1f1742",
+        "text": "#f1e8ef",
+        "accent": "#f6d5c3"
+      }
+    },
+    {
+      "name": "Lục bảo đêm",
+      "colors": {
+        "primary": "#d6bf86",
+        "secondary": "#1d4744",
+        "background": "#071a1b",
+        "surface": "#10292a",
+        "text": "#e8efe7",
+        "accent": "#efe2b3"
+      }
+    },
+    {
+      "name": "Ánh trăng bạc",
+      "colors": {
+        "primary": "#c9d3e6",
+        "secondary": "#2b3850",
+        "background": "#0d1119",
+        "surface": "#171d29",
+        "text": "#e9edf4",
+        "accent": "#f1f4fb"
+      }
+    }
+  ]
+}

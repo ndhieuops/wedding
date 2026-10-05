@@ -1,0 +1,119 @@
+{#
+  Night-sky ornaments for "Đêm Sao". Every colour comes from the theme through CSS classes
+  (see style.css → "Sky ornaments"), so the palettes and the user's own colours just work.
+#}
+
+{# Crescent moon with a soft gradient and a few craters. uid keeps gradient ids unique per page. #}
+{% macro moon(uid='m', cls='') %}
+<span class="ms-moon {{ cls }}" aria-hidden="true">
+  <svg viewBox="0 0 100 100" focusable="false">
+    <defs>
+      <radialGradient id="msMoon-{{ uid }}" cx="18%" cy="40%" r="75%">
+        <stop offset="0" class="ms-moon__s1"/>
+        <stop offset=".5" class="ms-moon__s2"/>
+        <stop offset="1" class="ms-moon__s3"/>
+      </radialGradient>
+    </defs>
+    <g transform="rotate(-28 50 50)">
+      <path fill="url(#msMoon-{{ uid }})" d="M50 0a50 50 0 1 0 0 100A36 50 0 1 1 50 0Z"/>
+      <circle class="ms-moon__crater" cx="8" cy="47" r="2.8"/>
+      <circle class="ms-moon__crater" cx="9.5" cy="66" r="1.9"/>
+      <circle class="ms-moon__crater" cx="12" cy="29" r="1.5"/>
+    </g>
+  </svg>
+</span>
+{% endmacro %}
+
+{# Celestial chart: graduated rings + meridians (static, rotates very slowly). #}
+{% macro rings() %}
+<svg class="ms-chart__rings" viewBox="0 0 400 400" aria-hidden="true" focusable="false">
+  <g class="ms-chart__spin">
+    <circle class="ms-ring ms-ring--outer" cx="200" cy="200" r="197"/>
+    <circle class="ms-ring ms-ring--ticks" cx="200" cy="200" r="190" pathLength="360"/>
+    <circle class="ms-ring ms-ring--major" cx="200" cy="200" r="189" pathLength="360"/>
+    <circle class="ms-ring" cx="200" cy="200" r="182"/>
+    <circle class="ms-ring ms-ring--dots" cx="200" cy="200" r="160" pathLength="360"/>
+    <ellipse class="ms-ring ms-ring--grid" cx="200" cy="200" rx="74" ry="182"/>
+    <ellipse class="ms-ring ms-ring--grid" cx="200" cy="200" rx="138" ry="182"/>
+    <ellipse class="ms-ring ms-ring--ecliptic" cx="200" cy="200" rx="182" ry="58" transform="rotate(-16 200 200)"/>
+  </g>
+</svg>
+{% endmacro %}
+
+{# Two constellations that draw themselves (runtime: svg[data-draw]) + loose stars. #}
+{% macro constellations() %}
+<svg class="ms-chart__stars" viewBox="0 0 400 400" data-draw aria-hidden="true" focusable="false">
+  <g class="ms-con">
+    <line x1="78" y1="152" x2="100" y2="108"/>
+    <line x1="100" y1="108" x2="140" y2="118"/>
+    <line x1="140" y1="118" x2="160" y2="76"/>
+    <line x1="160" y1="76" x2="204" y2="62"/>
+    <line x1="160" y1="76" x2="148" y2="40"/>
+    <line x1="198" y1="340" x2="232" y2="322"/>
+    <line x1="232" y1="322" x2="262" y2="330"/>
+    <line x1="262" y1="330" x2="290" y2="306"/>
+    <line x1="290" y1="306" x2="324" y2="314"/>
+    <line x1="324" y1="314" x2="332" y2="280"/>
+    <line x1="332" y1="280" x2="298" y2="272"/>
+    <line x1="298" y1="272" x2="290" y2="306"/>
+  </g>
+  <g class="ms-dots">
+    <circle cx="78" cy="152" r="2.6"/>
+    <circle cx="100" cy="108" r="3.2"/>
+    <circle cx="140" cy="118" r="2.4"/>
+    <circle cx="160" cy="76" r="3.4"/>
+    <circle cx="204" cy="62" r="4.2"/>
+    <circle cx="148" cy="40" r="2.2"/>
+    <circle cx="198" cy="340" r="2.4"/>
+    <circle cx="232" cy="322" r="3"/>
+    <circle cx="262" cy="330" r="2.6"/>
+    <circle cx="290" cy="306" r="3.4"/>
+    <circle cx="324" cy="314" r="4.2"/>
+    <circle cx="332" cy="280" r="2.8"/>
+    <circle cx="298" cy="272" r="2.6"/>
+  </g>
+  <g class="ms-dust">
+    <circle cx="300" cy="104" r="1.6"/><circle cx="336" cy="168" r="1.2"/><circle cx="64" cy="248" r="1.5"/>
+    <circle cx="108" cy="300" r="1.9"/><circle cx="254" cy="58" r="1.2"/><circle cx="124" cy="352" r="1.3"/>
+    <circle cx="352" cy="226" r="1.1"/><circle cx="46" cy="196" r="1.2"/><circle cx="270" cy="370" r="1"/>
+  </g>
+  <path class="ms-flare" d="M204 50v24M192 62h24M324 302v24M312 314h24"/>
+</svg>
+{% endmacro %}
+
+{# Large faint constellations on both sides of the hero (desktop only). #}
+{% macro sideConstellations() %}
+<svg class="ms-side ms-side--left" viewBox="0 0 300 400" data-draw aria-hidden="true" focusable="false">
+  <polyline class="ms-side__line" points="100,92 156,40 214,80"/>
+  <polyline class="ms-side__line" points="100,92 128,192 154,200 180,208 214,80"/>
+  <polyline class="ms-side__line" points="128,192 104,322"/>
+  <polyline class="ms-side__line" points="180,208 222,312"/>
+  <g class="ms-side__dots"><circle cx="156" cy="40" r="2.6"/><circle cx="100" cy="92" r="4"/><circle cx="214" cy="80" r="3.2"/><circle cx="128" cy="192" r="2.8"/><circle cx="154" cy="200" r="3"/><circle cx="180" cy="208" r="2.8"/><circle cx="104" cy="322" r="3.6"/><circle cx="222" cy="312" r="3"/></g>
+</svg>
+<svg class="ms-side ms-side--right" viewBox="0 0 300 400" data-draw aria-hidden="true" focusable="false">
+  <polyline class="ms-side__line" points="150,34 156,130 160,226 166,330"/>
+  <polyline class="ms-side__line" points="52,178 104,150 156,130 214,112 262,72"/>
+  <g class="ms-side__dots"><circle cx="150" cy="34" r="4"/><circle cx="156" cy="130" r="3.4"/><circle cx="160" cy="226" r="2.6"/><circle cx="166" cy="330" r="3"/><circle cx="52" cy="178" r="2.6"/><circle cx="104" cy="150" r="2.8"/><circle cx="214" cy="112" r="2.8"/><circle cx="262" cy="72" r="2.4"/></g>
+</svg>
+{% endmacro %}
+
+{# Small constellation used between sections — three shapes that alternate. #}
+{% macro divider(n=1) %}
+{% set v = n % 3 %}
+<div class="ms-divider" aria-hidden="true">
+  <svg viewBox="0 0 220 44" data-draw focusable="false">
+    {% if v == 0 %}
+    <polyline class="ms-divider__line" points="14,30 46,18 78,26 110,8 142,26 174,18 206,30"/>
+    <g class="ms-divider__dots"><circle cx="14" cy="30" r="1.8"/><circle cx="46" cy="18" r="2.4"/><circle cx="78" cy="26" r="2"/><circle cx="110" cy="8" r="3.4"/><circle cx="142" cy="26" r="2"/><circle cx="174" cy="18" r="2.4"/><circle cx="206" cy="30" r="1.8"/></g>
+    {% elif v == 1 %}
+    <polyline class="ms-divider__line" points="18,24 52,32 84,16 110,26 136,16 168,32 202,24"/>
+    <polyline class="ms-divider__line" points="110,26 110,40"/>
+    <g class="ms-divider__dots"><circle cx="18" cy="24" r="1.8"/><circle cx="52" cy="32" r="2.2"/><circle cx="84" cy="16" r="2.6"/><circle cx="110" cy="26" r="3.4"/><circle cx="136" cy="16" r="2.6"/><circle cx="168" cy="32" r="2.2"/><circle cx="202" cy="24" r="1.8"/><circle cx="110" cy="40" r="1.6"/></g>
+    {% else %}
+    <polyline class="ms-divider__line" points="22,30 60,20 92,28 110,12 128,28 160,20 198,30"/>
+    <polyline class="ms-divider__line" points="92,28 128,28"/>
+    <g class="ms-divider__dots"><circle cx="22" cy="30" r="1.8"/><circle cx="60" cy="20" r="2.4"/><circle cx="92" cy="28" r="2.2"/><circle cx="110" cy="12" r="3.4"/><circle cx="128" cy="28" r="2.2"/><circle cx="160" cy="20" r="2.4"/><circle cx="198" cy="30" r="1.8"/></g>
+    {% endif %}
+  </svg>
+</div>
+{% endmacro %}

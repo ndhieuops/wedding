@@ -1,0 +1,105 @@
+{
+  "name": "Vườn Xanh",
+  "description": "Tiệc cưới ngoài vườn: cổng vòm hoa lá, cành bạch đàn và ô liu vẽ tay tự hiện nét, tông xanh xô thơm, kem ấm và chút ánh vàng.",
+  "version": "1.0.0",
+  "author": "Wedding Studio",
+  "tags": [
+    "sân vườn",
+    "lá xanh",
+    "lãng mạn"
+  ],
+  "published": true,
+  "order": 5,
+  "preview": "preview.webp",
+  "entry": "index.njk",
+  "styles": [
+    "style.css"
+  ],
+  "scripts": [],
+  "defaults": {
+    "tone": "romantic",
+    "theme": {
+      "colors": {
+        "primary": "#5f7553",
+        "secondary": "#cddcbb",
+        "background": "#f8f5ec",
+        "surface": "#fffdf7",
+        "text": "#2f3a2a",
+        "accent": "#b6924f"
+      },
+      "fonts": {
+        "heading": "Cormorant Garamond",
+        "body": "Nunito",
+        "script": "Send Flowers"
+      },
+      "effect": "leaves",
+      "effect2": "butterflies",
+      "effectIntensity": "low",
+      "burst": "petals",
+      "tap": "none",
+      "nameAnimation": "handwrite",
+      "intro": "doors"
+    },
+    "sections": [
+      "hero",
+      "quote",
+      "invitation",
+      "couple",
+      "story",
+      "calendar",
+      "countdown",
+      "events",
+      "gallery",
+      "rsvp",
+      "wishes",
+      "gift",
+      "thanks"
+    ]
+  },
+  "palettes": [
+    {
+      "name": "Xô thơm & kem",
+      "colors": {
+        "primary": "#5f7553",
+        "secondary": "#cddcbb",
+        "background": "#f8f5ec",
+        "surface": "#fffdf7",
+        "text": "#2f3a2a",
+        "accent": "#b6924f"
+      }
+    },
+    {
+      "name": "Bạch đàn xám xanh",
+      "colors": {
+        "primary": "#4f6e6a",
+        "secondary": "#c4d9d2",
+        "background": "#f5f7f3",
+        "surface": "#ffffff",
+        "text": "#263532",
+        "accent": "#b98f55"
+      }
+    },
+    {
+      "name": "Ô liu nắng",
+      "colors": {
+        "primary": "#6a6b3c",
+        "secondary": "#e2dcb4",
+        "background": "#fbf7ee",
+        "surface": "#fffdf6",
+        "text": "#38331f",
+        "accent": "#c07f45"
+      }
+    },
+    {
+      "name": "Vườn đêm",
+      "colors": {
+        "primary": "#a9c196",
+        "secondary": "#3c5040",
+        "background": "#1d2820",
+        "surface": "#253229",
+        "text": "#ece7d8",
+        "accent": "#d4b16d"
+      }
+    }
+  ]
+}

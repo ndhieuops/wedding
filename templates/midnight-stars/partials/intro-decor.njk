@@ -1,0 +1,9 @@
+{# Decoration inside the intro card (included by _shared/partials/intro.njk): crescent moon + a tiny constellation. #}
+{% from "partials/sky.njk" import moon %}
+<span class="ms-introdecor" aria-hidden="true">
+  {{ moon('intro', 'ms-moon--intro') }}
+  <svg class="ms-introdecor__stars" viewBox="0 0 160 40" focusable="false">
+    <polyline pathLength="1" points="10,30 40,18 66,26 80,10 94,26 120,18 150,30"/>
+    <circle cx="10" cy="30" r="1.6"/><circle cx="40" cy="18" r="2.2"/><circle cx="66" cy="26" r="1.8"/><circle cx="80" cy="10" r="3"/><circle cx="94" cy="26" r="1.8"/><circle cx="120" cy="18" r="2.2"/><circle cx="150" cy="30" r="1.6"/>
+  </svg>
+</span>

@@ -1,0 +1,49 @@
+{#
+  "Đêm Sao" hero (overrides _shared/sections/hero.njk): a celestial chart — graduated rings,
+  constellations that draw themselves, a crescent moon — framing the couple's names, then the
+  date like the caption of a star map, above a moonlit horizon.
+  With a cover photo, the photo sits inside the chart (a window on the sky) and the names go below.
+#}
+{% from "macros.njk" import photo %}
+{% from "partials/sky.njk" import moon, rings, constellations, sideConstellations %}
+{% set namesBlock %}
+    <h1 class="hero__names ms-names" data-names data-reveal="zoom">
+      <span class="hero__name">{{ first.shortName }}</span>
+      <span class="hero__amp" aria-label="và">&amp;</span>
+      <span class="hero__name">{{ second.shortName }}</span>
+    </h1>
+{% endset %}
+<section class="section hero ms-hero{% if cover.image %} ms-hero--photo{% endif %}" id="hero">
+  <div class="ms-hero__glow" aria-hidden="true"></div>
+  {{ sideConstellations() }}
+  <div class="ms-hero__inner">
+    {% if guest.name %}<p class="hero__guest ms-hero__guest" data-reveal="fade">Trân trọng kính mời <strong>{{ guest.name }}</strong></p>{% endif %}
+    <p class="ms-hero__eyebrow" data-reveal="fade">{{ content.headline or 'Save the Date' }}</p>
+
+    <div class="ms-chart">
+      {{ rings() }}
+      {{ constellations() }}
+      {{ moon('hero', 'ms-moon--hero') }}
+      <div class="ms-chart__core">
+        {% if cover.image %}
+        <figure class="ms-chart__photo">{{ photo(cover.image, 'Ảnh cưới của ' + names, 'ms-chart__img hero__img--' + cover.position, '(max-width: 600px) 72vw, 380px', true) }}</figure>
+        {% else %}
+        {{ namesBlock | safe }}
+        {% endif %}
+      </div>
+    </div>
+
+    {% if cover.image %}{{ namesBlock | safe }}{% endif %}
+
+    {% if wedding.display %}
+    <div class="ms-hero__date" data-reveal="up">
+      <span class="ms-hero__weekday">{{ wedding.weekday }}{% if wedding.time %} <i aria-hidden="true">·</i> {{ wedding.time }}{% endif %}</span>
+      <span class="ms-hero__day"><span>{{ wedding.day }}</span><span class="ms-sep">.</span><span>{{ wedding.month }}</span><span class="ms-sep">.</span><span>{{ wedding.year }}</span></span>
+      {% if wedding.lunar %}<span class="ms-hero__lunar">Nhằm {{ wedding.lunar.text }}</span>{% endif %}
+    </div>
+    {% endif %}
+    {% if mainEvent and mainEvent.venue %}<p class="ms-hero__venue" data-reveal="fade">{{ mainEvent.venue }}</p>{% endif %}
+  </div>
+  <div class="ms-hero__horizon" aria-hidden="true"></div>
+  <a class="hero__scroll" href="#{{ sections[1] or 'thanks' }}" aria-label="Cuộn xuống"><span></span></a>
+</section>
