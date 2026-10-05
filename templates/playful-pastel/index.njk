@@ -1,0 +1,25 @@
+{#
+  Kẹo Ngọt — Gen-Z candy pastel: soft blobs, gingham, wavy candy bands and tilted stickers.
+  Bands (quote, countdown, rsvp, gift, thanks) get wavy top/bottom edges in style.css;
+  plain sections that follow each other are separated by a little row of stickers.
+#}
+{% extends "layout.njk" %}
+{% from "partials/candy.njk" import sprite, sticker %}
+
+{% block background %}
+{{ sprite() }}
+<div class="pp-bg" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+{% endblock %}
+
+{% block sections %}
+  {% set bands = ['hero', 'quote', 'countdown', 'rsvp', 'gift', 'thanks'] %}
+  {% for section in sections %}
+    {% include "sections/" + section + ".njk" %}
+    {% set nextSection = sections[loop.index] %}
+    {% if nextSection and bands.indexOf(section) == -1 and bands.indexOf(nextSection) == -1 %}
+    <div class="pp-sprinkles" aria-hidden="true">
+      {{ sticker('star', 'pp-st--butter') }}{{ sticker('heart', 'pp-st--pink') }}{{ sticker('sparkle', 'pp-st--mint') }}
+    </div>
+    {% endif %}
+  {% endfor %}
+{% endblock %}

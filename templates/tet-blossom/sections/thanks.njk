@@ -1,0 +1,19 @@
+{#
+  Xuân Hỷ closing: a canopy of mai & đào blossoms with two firecracker garlands, then the thanks.
+  Overrides _shared/sections/thanks.njk (same classes, the heart becomes a 囍).
+#}
+{% from "partials/spring.njk" import mai, dao, phao %}
+<section class="section thanks tb-thanks" id="thanks">
+  <div class="tb-thanks__canopy" aria-hidden="true">
+    <div class="tb-thanks__mai">{{ mai() }}</div>
+    <div class="tb-thanks__dao">{{ dao() }}</div>
+    {{ phao('tb-thanks__phao tb-thanks__phao--left', 5) }}
+    {{ phao('tb-thanks__phao tb-thanks__phao--right', 6) }}
+  </div>
+  <div class="container" data-reveal="fade">
+    <p class="thanks__script">Thank you</p>
+    {% if content.thankYou %}<p class="thanks__text">{{ content.thankYou | nl2br }}</p>{% endif %}
+    <p class="thanks__names">{{ first.shortName }} <span class="thanks__heart tb-thanks__hy" aria-hidden="true">囍</span> {{ second.shortName }}</p>
+    {% if content.hashtag %}<p class="thanks__hashtag">{{ content.hashtag }}</p>{% endif %}
+  </div>
+</section>

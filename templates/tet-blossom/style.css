@@ -1,0 +1,497 @@
+/* ==========================================================================
+   Xuân Hỷ — a bright spring (Tết-season) wedding
+   cream paper · yellow mai & pink đào blossoms · firecracker garlands ·
+   lucky red & gold accents · tear-off calendar page · lì xì envelopes
+   Every colour derives from the theme variables so all palettes work.
+   ========================================================================== */
+.tpl {
+  --hy-font: "Noto Serif SC", "Songti SC", "SimSun", serif;
+  --tb-red-light: color-mix(in srgb, var(--c-primary) 84%, #fff);
+  --tb-red-deep: color-mix(in srgb, var(--c-primary) 76%, #000);
+  --tb-red-grad: linear-gradient(170deg, var(--tb-red-light), var(--c-primary) 48%, var(--tb-red-deep));
+  --tb-gold-light: color-mix(in srgb, var(--c-accent) 38%, #fff);
+  --tb-gold-grad: linear-gradient(135deg, var(--tb-gold-light), var(--c-accent) 50%, color-mix(in srgb, var(--c-accent) 68%, #000));
+  --tb-ochre: color-mix(in srgb, var(--c-accent) 48%, var(--c-text));   /* readable gold for text on cream */
+  --tb-gold-line: color-mix(in srgb, var(--c-accent) 50%, transparent);
+  --tb-lattice:
+    repeating-linear-gradient(45deg, color-mix(in srgb, var(--c-accent) 16%, transparent) 0 1px, transparent 1px 13px),
+    repeating-linear-gradient(-45deg, color-mix(in srgb, var(--c-accent) 16%, transparent) 0 1px, transparent 1px 13px);
+
+  /* ornament colours — blossoms follow the accent (mai) and secondary (đào) colours but keep
+     their natural warm hearts, so they stay mai-yellow / peach-pink whatever the primary is */
+  --tb-mai: color-mix(in srgb, var(--c-accent) 84%, #fff);
+  --tb-mai-edge: color-mix(in srgb, var(--c-accent) 82%, #c2410c);
+  --tb-mai-glow: color-mix(in srgb, var(--c-accent) 50%, #d9480f);
+  --tb-stamen: color-mix(in srgb, var(--c-accent) 30%, #b42318);
+  --tb-dao: color-mix(in srgb, var(--c-secondary) 70%, #e64980);
+  --tb-dao-deep: color-mix(in srgb, var(--c-secondary) 28%, #c2255c);
+  --tb-bark: color-mix(in srgb, var(--c-text) 72%, #8a6448);
+  --tb-leaf: color-mix(in srgb, var(--c-accent) 38%, #5d8a34);
+
+  --radius: 16px;
+  --shadow: 0 22px 44px -26px color-mix(in srgb, var(--tb-red-deep) 55%, transparent);
+  --shadow-sm: 0 10px 26px -16px color-mix(in srgb, var(--tb-red-deep) 50%, transparent);
+}
+
+/* ---------- warm paper with gold flecks (giấy điều nhũ vàng) ---------- */
+.tb-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+.tb-paper {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background:
+    radial-gradient(circle at 30% 40%, color-mix(in srgb, var(--c-accent) 40%, transparent) 0 1px, transparent 1.6px) 0 0 / 47px 53px,
+    radial-gradient(circle at 70% 65%, color-mix(in srgb, var(--c-accent) 32%, transparent) 0 .8px, transparent 1.4px) 0 0 / 31px 37px,
+    radial-gradient(55% 38% at 0% 0%, color-mix(in srgb, var(--c-accent) 13%, transparent), transparent 70%),
+    radial-gradient(55% 40% at 100% 100%, color-mix(in srgb, var(--c-secondary) 50%, transparent), transparent 70%);
+}
+
+/* ---------- SVG ornament colours ---------- */
+.tb-branch, .tb-phao, .tb-sprig { display: block; overflow: visible; }
+.tb-bark path { fill: none; stroke: var(--tb-bark); stroke-linecap: round; stroke-linejoin: round; }
+.tb-mai__petals { fill: var(--tb-mai); stroke: var(--tb-mai-edge); stroke-width: .55; }
+.tb-mai__glow { fill: var(--tb-mai-glow); opacity: .5; }
+.tb-mai__stamen { fill: none; stroke: var(--tb-stamen); stroke-width: .5; stroke-linecap: round; }
+.tb-mai__tip, .tb-mai__eye { fill: var(--tb-stamen); }
+.tb-mai__bud { fill: var(--tb-mai-edge); }
+.tb-dao__petals { fill: var(--tb-dao); stroke: var(--tb-dao-deep); stroke-width: .45; stroke-opacity: .55; }
+.tb-dao__blush { fill: var(--tb-dao-deep); opacity: .5; }
+.tb-dao__stamen { fill: none; stroke: var(--tb-dao-deep); stroke-width: .5; stroke-linecap: round; }
+.tb-dao__tip { fill: var(--c-accent); }
+.tb-dao__bud { fill: var(--tb-dao-deep); }
+.tb-sepal { fill: var(--tb-bark); }
+.tb-leaf { fill: var(--tb-leaf); }
+.tb-cord { fill: none; stroke: var(--c-accent); stroke-width: 1.6; }
+.tb-wick { stroke: var(--tb-bark); stroke-width: 1; }
+.tb-cracker__body { fill: var(--c-primary); }
+.tb-cracker__band { fill: var(--c-accent); }
+.tb-cracker__shine { fill: #fff; opacity: .32; }
+.tb-knot { fill: var(--c-primary); stroke: var(--c-accent); stroke-width: 1.4; }
+.tb-knot__inner { fill: none; stroke: var(--c-accent); stroke-width: 1.1; }
+.tb-knot__loop { fill: none; stroke: var(--c-primary); stroke-width: 2.4; }
+.tb-tassel { fill: none; stroke: var(--c-primary); stroke-width: 1.4; stroke-linecap: round; }
+.tb-sprig__line { fill: none; stroke: var(--tb-gold-line); stroke-width: 1.2; }
+.tb-sprig__dot { fill: var(--c-accent); }
+
+/* ---------- the red lucky diamond with a gold 囍 ---------- */
+.tb-hy { position: relative; display: grid; place-items: center; width: 66px; height: 66px; }
+.tb-hy::before {
+  content: ""; position: absolute; inset: 9px; rotate: 45deg; border-radius: 6px;
+  background: var(--tb-lattice), var(--tb-red-grad);
+  box-shadow: inset 0 0 0 3px var(--c-primary), inset 0 0 0 4.5px var(--c-accent), 0 10px 22px -10px var(--tb-red-deep);
+}
+.tb-hy__glyph {
+  position: relative; font-family: var(--hy-font); font-weight: 700; font-size: 27px; line-height: 1;
+  background: var(--tb-gold-grad); -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+
+/* ==========================================================================
+   HERO — spring scene
+   ========================================================================== */
+.tb-hero { padding: 0; align-content: center; }
+.tb-hero__inner {
+  position: relative; z-index: 3; width: min(520px, 100%);
+  padding: clamp(150px, 36vw, 190px) 26px clamp(96px, 16vh, 120px); gap: 12px;
+}
+.tb-hero__sky { position: absolute; inset: 0; z-index: -1; pointer-events: none; }
+.tb-cloud {
+  position: absolute; width: 132px; height: 64px; opacity: .3;
+  background: var(--c-accent); -webkit-mask: url(cloud.svg) center / contain no-repeat; mask: url(cloud.svg) center / contain no-repeat;
+}
+.tb-cloud--a { top: 34%; right: -30px; }
+.tb-cloud--b { bottom: 20%; left: -36px; transform: scaleX(-1); width: 110px; }
+.tb-cloud--c { bottom: 6%; right: 30%; width: 90px; opacity: .22; }
+
+.tb-hero__mai { position: absolute; z-index: 2; top: -8px; left: -22px; width: min(76vw, 420px); pointer-events: none; }
+.tb-hero__mai svg { transform-origin: 0 0; rotate: -14deg; translate: 0 18%; animation: tb-sway 9s ease-in-out infinite; }
+.tb-hero__dao { position: absolute; z-index: 1; bottom: -14px; right: -30px; width: min(68vw, 400px); pointer-events: none; }
+.tb-hero__dao svg { transform-origin: 100% 100%; animation: tb-sway2 10s ease-in-out infinite; }
+@keyframes tb-sway { 50% { transform: rotate(1.6deg); } }
+@keyframes tb-sway2 { 50% { transform: rotate(-1.4deg); } }
+
+.tb-hero__phao { position: absolute; z-index: 3; top: 0; width: 50px; height: auto; transform-origin: 50% 0; animation: tb-swing 4.2s ease-in-out infinite; pointer-events: none; }
+.tb-hero__phao--right { right: 5%; }
+.tb-hero__phao--left { left: 26%; width: 40px; animation-delay: -2s; display: none; }
+@keyframes tb-swing { 0%, 100% { rotate: -3deg; } 50% { rotate: 3deg; } }
+
+.tb-hero__hy { margin-bottom: 4px; }
+.tb-hero__hy::after {   /* the gold cord the diamond hangs from */
+  content: ""; position: absolute; left: 50%; bottom: calc(100% - 4px); width: 1.5px; height: 120px; translate: -50% 0;
+  background: linear-gradient(transparent, var(--c-accent) 40%);
+}
+.tb-hero__guest { font-size: 14.5px; color: var(--c-muted); max-width: 32ch; text-wrap: balance; }
+.tb-hero__guest strong { color: var(--c-primary); font-weight: 600; }
+.tb-hero__eyebrow {
+  display: flex; align-items: center; gap: 12px; font-family: var(--f-heading);
+  font-size: 12.5px; letter-spacing: .32em; text-transform: uppercase; color: var(--c-text); padding-left: .32em;
+}
+.tb-hero__eyebrow::before, .tb-hero__eyebrow::after { content: ""; width: 7px; height: 7px; rotate: 45deg; background: var(--c-accent); flex: none; }
+
+.tb-hero__names { font-size: clamp(56px, 16vw, 104px); line-height: 1.02; margin: 2px 0 4px; color: var(--c-primary); }
+.tb-hero__names .hero__name {
+  padding: .06em .2em .12em;
+  background: linear-gradient(180deg, var(--tb-red-light) 10%, var(--c-primary) 55%, var(--tb-red-deep));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.tb-hero__names .hero__amp {
+  display: flex; align-items: center; gap: .45em; font-size: .3em; color: var(--tb-ochre); margin: -.05em 0 .05em;
+}
+.tb-hero__names .hero__amp::before, .tb-hero__names .hero__amp::after { content: ""; width: 2.2em; height: 1px; background: linear-gradient(90deg, transparent, var(--c-accent)); }
+.tb-hero__names .hero__amp::after { background: linear-gradient(90deg, var(--c-accent), transparent); }
+
+/* tear-off calendar page (tờ lịch) */
+.tb-leaf {
+  position: relative; width: min(232px, 100%); margin-top: 14px; text-align: center;
+  background: var(--c-surface); border-radius: 8px 8px 2px 2px;
+  box-shadow: 0 4px 0 -1px color-mix(in srgb, var(--c-surface) 92%, var(--c-text)), 0 8px 0 -3px color-mix(in srgb, var(--c-surface) 86%, var(--c-text)), 0 26px 40px -22px color-mix(in srgb, var(--tb-red-deep) 60%, transparent);
+  font-variant-numeric: lining-nums tabular-nums;
+}
+.tb-leaf::before {  /* binding holes */
+  content: ""; position: absolute; top: 7px; left: 50%; translate: -50% 0; width: 112px; height: 8px; z-index: 1;
+  background: radial-gradient(circle, color-mix(in srgb, var(--tb-red-deep) 80%, #000) 0 2.6px, color-mix(in srgb, var(--c-accent) 80%, #fff) 2.8px 3.8px, transparent 4px) 0 0 / 16px 8px repeat-x;
+}
+.tb-leaf__head {
+  display: flex; justify-content: center; gap: 10px; padding: 22px 12px 9px; border-radius: 8px 8px 0 0;
+  background: var(--tb-lattice), var(--tb-red-grad); color: var(--tb-gold-light);
+  font-family: var(--f-heading); font-size: 13px; letter-spacing: .24em; text-transform: uppercase; padding-left: calc(12px + .24em);
+}
+.tb-leaf__year { display: inline-flex; align-items: center; gap: 10px; opacity: .9; }
+.tb-leaf__year::before { content: ""; width: 5px; height: 5px; rotate: 45deg; background: var(--c-accent); }
+.tb-leaf__body { display: grid; padding: 6px 12px 10px; }
+.tb-leaf__day { font-family: var(--f-heading); font-size: 84px; line-height: 1; color: var(--c-primary); letter-spacing: -.01em; }
+.tb-leaf__weekday { font-size: 12.5px; font-weight: 600; letter-spacing: .3em; text-transform: uppercase; color: var(--c-text); padding-left: .3em; }
+.tb-leaf__foot {
+  display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 10px; margin: 0 14px; padding: 10px 0 16px;
+  border-top: 1px dashed color-mix(in srgb, var(--c-accent) 60%, transparent); text-align: left;
+}
+.tb-leaf__lunar-text { display: grid; font-size: 12.5px; line-height: 1.45; color: var(--c-muted); }
+.tb-leaf__lunar-text span:first-child { font-size: 10.5px; font-weight: 600; letter-spacing: .22em; text-transform: uppercase; color: var(--c-primary); }
+.tb-leaf__lunar-day {
+  display: grid; place-items: center; width: 50px; height: 50px; border-radius: 50%;
+  border: 1.5px solid var(--c-accent); box-shadow: inset 0 0 0 3px var(--c-surface), inset 0 0 0 4px var(--tb-gold-line);
+  font-family: var(--f-heading); font-size: 22px; color: var(--c-primary);
+}
+.tb-leaf::after {   /* torn bottom edge */
+  content: ""; position: absolute; left: 0; right: 0; top: 100%; height: 6px;
+  background: linear-gradient(135deg, var(--c-surface) 3px, transparent 0) 0 0 / 7px 6px repeat-x, linear-gradient(225deg, var(--c-surface) 3px, transparent 0) 0 0 / 7px 6px repeat-x;
+}
+.tb-hero .hero__scroll { color: var(--c-primary); opacity: .55; z-index: 3; }
+
+/* optional cover photo: a round "moon window" with the 囍 diamond as a badge */
+.tb-hero__photo {
+  width: min(240px, 62vw); aspect-ratio: 1; border-radius: 50%; overflow: hidden; margin: 0 0 -42px;
+  border: 4px solid var(--c-surface); box-shadow: 0 0 0 1.5px var(--c-accent), 0 24px 44px -24px var(--tb-red-deep);
+}
+.tb-hero__photo img { width: 100%; height: 100%; object-fit: cover; }
+.tb-hero--photo .tb-hero__hy::after { display: none; }
+.tb-hero--photo .tb-hero__inner { padding-top: clamp(120px, 30vw, 150px); }
+
+/* câu đối couplets (wide screens only) */
+.tb-couplet { display: none; }
+
+@media (min-width: 700px) {
+  .tb-hero__phao--left { display: block; left: 7%; }
+  .tb-hero__phao--right { right: 7%; }
+  .tb-hero__mai { width: min(52vw, 520px); }
+  .tb-hero__dao { width: min(46vw, 480px); }
+}
+@media (min-width: 1024px) {
+  .tb-hero__inner { padding-top: 84px; padding-bottom: 92px; gap: 9px; }
+  .tb-hero__names { font-size: clamp(80px, 6.8vw, 96px); }
+  .tb-leaf__day { font-size: 74px; }
+  .tb-leaf__body { padding-bottom: 6px; }
+  .tb-hero__mai { width: 560px; left: -40px; top: -30px; }
+  .tb-hero__dao { width: 430px; right: -36px; bottom: -36px; }
+  .tb-hero__phao--left { left: calc(50% - 330px); width: 44px; }
+  .tb-hero__phao--right { right: calc(50% - 330px); width: 52px; }
+  .tb-hero__hy::after { height: 110px; }
+  .tb-couplet {
+    position: absolute; top: 47%; z-index: 2; translate: 0 -50%; display: grid; gap: 6px; justify-items: center;
+    width: 86px; padding: 30px 0; border-radius: 4px;
+    background: var(--tb-lattice), var(--tb-red-grad);
+    box-shadow: inset 0 0 0 5px var(--c-primary), inset 0 0 0 6px var(--c-accent), 0 22px 40px -22px var(--tb-red-deep);
+    font-family: var(--f-script); font-size: 37px; line-height: 1.28; color: var(--tb-gold-light);
+  }
+  .tb-couplet::before, .tb-couplet::after { content: ""; width: 9px; height: 9px; rotate: 45deg; background: var(--c-accent); }
+  .tb-couplet::before { margin-bottom: 6px; }
+  .tb-couplet::after { margin-top: 6px; }
+  .tb-couplet--left { left: calc(50% - 480px); }
+  .tb-couplet--right { right: calc(50% - 480px); }
+}
+
+/* ==========================================================================
+   SECTION TITLES — a hanging lucky tag, script line, red title, blossom twig
+   ========================================================================== */
+.section-title { position: relative; }
+.tb-tag { position: relative; display: grid; place-items: center; width: 40px; height: 40px; margin: 0 auto 14px; }
+.tb-tag::before { content: ""; position: absolute; left: 50%; bottom: calc(100% - 6px); width: 1.5px; height: 34px; translate: -50% 0; background: linear-gradient(transparent, var(--c-accent)); }
+.tb-tag::after {
+  content: ""; position: absolute; inset: 7px; rotate: 45deg; border-radius: 4px;
+  background: var(--tb-red-grad); box-shadow: inset 0 0 0 2px var(--c-primary), inset 0 0 0 3px var(--c-accent), 0 6px 14px -6px var(--tb-red-deep);
+}
+.tb-tag__glyph { position: relative; z-index: 1; font-family: var(--hy-font); font-weight: 700; font-size: 15px; line-height: 1; color: var(--tb-gold-light); }
+.section-title__script { font-size: clamp(30px, 8vw, 42px); color: var(--tb-ochre); margin-bottom: 2px; }
+.section-title__main {
+  font-weight: 400; text-transform: none; letter-spacing: .01em;
+  font-size: clamp(28px, 7vw, 40px); line-height: 1.25; color: var(--c-primary); text-wrap: balance;
+}
+.section-title__divider { margin-top: 10px; }
+.section-title__divider .tb-sprig { width: 210px; height: auto; }
+.section-title__sub { margin-top: 12px; font-size: 15px; }
+
+/* ==========================================================================
+   BODY SECTIONS
+   ========================================================================== */
+/* quote — a calm breath with blossoms in the corners */
+.quote {
+  --sc: 11px; overflow: hidden; padding-block: max(84px, calc(var(--section-pad) * .95));
+  background: radial-gradient(70% 90% at 50% 50%, color-mix(in srgb, var(--c-secondary) 22%, var(--c-bg)), color-mix(in srgb, var(--c-secondary) 42%, var(--c-bg)));
+  -webkit-mask:
+    radial-gradient(var(--sc) at 50% var(--sc), #000 calc(100% - 1px), #0000) 50% 0 / calc(2 * var(--sc)) calc(2 * var(--sc)) repeat-x,
+    radial-gradient(var(--sc) at 50% calc(100% - var(--sc)), #000 calc(100% - 1px), #0000) 50% 100% / calc(2 * var(--sc)) calc(2 * var(--sc)) repeat-x,
+    linear-gradient(#000 0 0) 0 var(--sc) / 100% calc(100% - 2 * var(--sc)) no-repeat;
+  mask:
+    radial-gradient(var(--sc) at 50% var(--sc), #000 calc(100% - 1px), #0000) 50% 0 / calc(2 * var(--sc)) calc(2 * var(--sc)) repeat-x,
+    radial-gradient(var(--sc) at 50% calc(100% - var(--sc)), #000 calc(100% - 1px), #0000) 50% 100% / calc(2 * var(--sc)) calc(2 * var(--sc)) repeat-x,
+    linear-gradient(#000 0 0) 0 var(--sc) / 100% calc(100% - 2 * var(--sc)) no-repeat;
+}
+.quote::before, .quote::after {
+  content: ""; position: absolute; width: clamp(110px, 28vw, 210px); aspect-ratio: 300 / 220; pointer-events: none; opacity: .5;
+  -webkit-mask: url(mai-branch.svg) center / contain no-repeat; mask: url(mai-branch.svg) center / contain no-repeat;
+}
+.quote::before { top: 14px; left: -24px; background: var(--c-accent); }
+.quote::after { bottom: 14px; right: -24px; background: var(--tb-dao); -webkit-mask-image: url(dao-branch.svg); mask-image: url(dao-branch.svg); }
+.quote__inner { position: relative; z-index: 1; max-width: 560px; }
+.quote__mark { font-size: 84px; color: var(--c-accent); opacity: .9; }
+.quote__text { color: var(--c-text); font-style: normal; text-wrap: balance; }
+.quote__author { color: var(--tb-ochre); }
+
+/* invitation — a cream card with gold frame */
+.invitation .container {
+  position: relative; width: calc(100% - 28px); padding: 48px 20px 44px; background: var(--c-surface);
+  border-radius: 22px; border: 1px solid var(--tb-gold-line);
+  box-shadow: inset 0 0 0 6px var(--c-surface), inset 0 0 0 7px color-mix(in srgb, var(--c-accent) 30%, transparent), var(--shadow);
+}
+.invitation .container::before, .invitation .container::after {
+  content: ""; position: absolute; width: 130px; aspect-ratio: 300 / 220; pointer-events: none; opacity: .55;
+  -webkit-mask: url(mai-branch.svg) center / contain no-repeat; mask: url(mai-branch.svg) center / contain no-repeat;
+}
+.invitation .container::before { top: 10px; left: 10px; background: var(--c-accent); }
+.invitation .container::after { bottom: 10px; right: 10px; background: var(--tb-dao); -webkit-mask-image: url(dao-branch.svg); mask-image: url(dao-branch.svg); }
+.invitation .section-title { position: relative; z-index: 1; }
+.families { position: relative; gap: 14px; }
+.family__title { color: var(--c-primary); font-size: 15px; letter-spacing: .24em; }
+.invitation__lead { color: var(--c-muted); }
+.invitation__name { color: var(--c-primary); font-size: clamp(38px, 10vw, 54px); }
+.invitation__amp { font-family: var(--f-heading); font-style: italic; color: var(--tb-ochre); }
+.invitation__day { color: var(--c-primary); font-size: 70px; }
+.invitation__weekday, .invitation__monthyear { border-color: var(--tb-gold-line); }
+.invitation__lunar { color: var(--c-primary); font-style: normal; font-weight: 500; }
+
+/* cards in general */
+.card, .timeline__card, .wish { border-color: var(--tb-gold-line); background: var(--c-surface); }
+
+/* events — a lì xì flap with a gold seal on top of every card */
+.events__list { gap: 30px; }
+.event {
+  position: relative; overflow: hidden; padding: 0 22px 28px; gap: 6px; border-radius: 20px;
+  border-color: var(--tb-gold-line); box-shadow: var(--shadow);
+}
+.event::before {
+  content: ""; display: block; width: calc(100% + 44px); height: 70px; margin: 0 -22px 30px;
+  background: var(--tb-lattice), var(--tb-red-grad);
+  border-radius: 0 0 50% 50% / 0 0 70% 70%;
+  box-shadow: 0 2px 0 var(--c-accent), 0 10px 18px -12px var(--tb-red-deep);
+}
+.event::after {
+  content: "囍"; position: absolute; top: 44px; left: 50%; translate: -50% 0; width: 50px; height: 50px; border-radius: 50%;
+  display: grid; place-items: center; font-family: var(--hy-font); font-weight: 700; font-size: 22px; color: var(--c-primary);
+  background: var(--tb-gold-grad); box-shadow: 0 0 0 3px var(--c-surface), 0 8px 16px -6px var(--tb-red-deep);
+}
+.event__title { color: var(--c-primary); font-size: 22px; letter-spacing: .08em; }
+.event__time { color: var(--c-text); font-size: 30px; }
+.event__time .icon { color: var(--c-accent); }
+.event__date { letter-spacing: .04em; }
+.event__lunar { color: var(--c-primary); font-weight: 500; }
+.event__venue { font-size: 20px; }
+.event__address .icon { color: var(--c-accent); }
+
+/* calendar — wall-calendar card, Sundays in red, the day in a lucky diamond */
+.calendar__table {
+  border-collapse: separate; border-spacing: 0; background: var(--c-surface); border-radius: 18px; overflow: hidden;
+  border: 1px solid var(--tb-gold-line); box-shadow: var(--shadow);
+}
+.calendar__table thead th { background: var(--tb-lattice), var(--tb-red-grad); color: var(--tb-gold-light); padding: 13px 0 11px; letter-spacing: .1em; }
+.calendar__table tbody tr:first-child td { padding-top: 8px; }
+.calendar__table td:last-child { color: var(--c-primary); }
+.calendar__day { height: 46px; }
+.calendar__day--active { color: var(--c-on-primary); }
+.calendar__heart svg { display: none; }
+.calendar__heart::before {
+  content: ""; width: 31px; height: 31px; rotate: 45deg; border-radius: 5px;
+  background: var(--tb-red-grad); box-shadow: 0 0 0 2px var(--c-surface), 0 0 0 3.5px var(--c-accent), 0 8px 14px -6px var(--tb-red-deep);
+}
+
+/* countdown — little tear-off calendar pages */
+.countdown__item { position: relative; overflow: hidden; padding: 0 2px 12px; border-radius: 10px; border-color: var(--tb-gold-line); }
+.countdown__item::before {
+  content: ""; display: block; height: 16px; margin: 0 -2px 10px;
+  --ring: radial-gradient(circle, color-mix(in srgb, var(--tb-red-deep) 80%, #000) 0 2px, var(--tb-gold-light) 2.2px 3px, transparent 3.2px);
+  background: var(--ring) 28% 4px / 8px 8px no-repeat, var(--ring) 72% 4px / 8px 8px no-repeat, var(--tb-red-grad);
+}
+.countdown__value { color: var(--c-primary); }
+.countdown__label { font-size: 11px; }
+.countdown__done { color: var(--c-primary); }
+
+/* couple — moon-window portraits with a gold ring */
+.couple__heart { color: var(--c-primary); }
+.couple__heart svg { display: none; }
+.couple__heart::before { content: "囍"; font-family: var(--hy-font); font-weight: 700; font-size: 30px; line-height: 1; }
+.person__photo {
+  border-radius: 50%; aspect-ratio: 1; width: min(100%, 210px); border: 5px solid var(--c-surface);
+  box-shadow: 0 0 0 1.5px var(--c-accent), 0 0 0 7px color-mix(in srgb, var(--c-accent) 14%, transparent), var(--shadow);
+  background: radial-gradient(circle at 50% 40%, var(--c-surface), color-mix(in srgb, var(--c-secondary) 70%, var(--c-surface)));
+}
+.person__monogram { color: var(--c-primary); }
+.person__role { color: var(--tb-ochre); font-weight: 600; }
+.person__name { color: var(--c-primary); }
+
+/* story — a mai branch with blossoms for dots */
+.timeline::before { width: 2.5px; left: 8px; background: linear-gradient(var(--tb-bark), color-mix(in srgb, var(--tb-bark) 50%, transparent)); border-radius: 2px; }
+.timeline__dot {
+  left: -33px; top: 14px; width: 26px; height: 26px; border: 0; border-radius: 0; background: var(--tb-mai-edge);
+  -webkit-mask: url(mai.svg) center / contain no-repeat; mask: url(mai.svg) center / contain no-repeat;
+}
+.timeline__item:nth-child(even) .timeline__dot { background: var(--tb-dao); }
+.timeline__card { border-radius: 18px; box-shadow: var(--shadow-sm); }
+.timeline__date { color: var(--c-primary); }
+.timeline__title { color: var(--c-text); }
+
+/* gallery */
+.gallery__item { border-radius: 14px; border: 4px solid var(--c-surface); box-shadow: var(--shadow-sm); }
+
+/* forms — a red & gold ribbon with a lucky diamond on top */
+.form.card { position: relative; padding-top: 40px; border-radius: 20px; box-shadow: var(--shadow); overflow: visible; }
+.form.card::before {
+  content: ""; position: absolute; top: 0; left: 0; right: 0; height: 10px; border-radius: 20px 20px 0 0;
+  background: var(--tb-red-grad); box-shadow: 0 2px 0 var(--c-accent);
+}
+.form.card::after {
+  content: ""; position: absolute; top: -9px; left: 50%; width: 26px; height: 26px; translate: -50% 0; rotate: 45deg; border-radius: 4px;
+  background: var(--tb-gold-grad); box-shadow: 0 0 0 3px var(--c-surface), 0 6px 12px -4px var(--tb-red-deep);
+}
+.choice:has(input:checked) { background: color-mix(in srgb, var(--c-secondary) 40%, var(--c-surface)); }
+.wish__avatar { background: var(--tb-red-grad); color: var(--tb-gold-light); box-shadow: 0 0 0 2px var(--c-surface), 0 0 0 3px var(--c-accent); }
+.wish { border-radius: 16px; }
+
+/* buttons */
+.btn { border-color: color-mix(in srgb, var(--c-primary) 70%, transparent); }
+.btn--primary, .intro__open {
+  background: var(--tb-red-grad); color: #fff; border: 0;
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--c-accent) 70%, transparent), inset 0 0 0 3px color-mix(in srgb, var(--c-primary) 90%, transparent), var(--shadow-sm);
+}
+.music-toggle { background: var(--tb-red-grad); color: var(--tb-gold-light); box-shadow: 0 0 0 2px var(--c-accent), var(--shadow); }
+
+/* gift — every account is a red lì xì envelope */
+.bank {
+  position: relative; overflow: hidden; padding: 92px 22px 26px; border: 0; border-radius: 16px;
+  background: var(--tb-lattice), var(--tb-red-grad); color: #fff;
+  box-shadow: inset 0 0 0 6px color-mix(in srgb, var(--c-primary) 90%, #000), inset 0 0 0 7px var(--c-accent), var(--shadow);
+}
+.bank::before {
+  content: ""; position: absolute; top: 0; left: 0; right: 0; height: 64px;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--c-primary) 90%, #fff), color-mix(in srgb, var(--c-primary) 82%, #000));
+  border-radius: 0 0 50% 50% / 0 0 80% 80%; box-shadow: 0 2px 0 var(--c-accent), 0 12px 18px -10px rgb(0 0 0 / .35);
+}
+.bank::after {
+  content: "囍"; position: absolute; top: 38px; left: 50%; translate: -50% 0; width: 52px; height: 52px; border-radius: 50%;
+  display: grid; place-items: center; font-family: var(--hy-font); font-weight: 700; font-size: 23px; color: var(--c-primary);
+  background: var(--tb-gold-grad); box-shadow: 0 0 0 3px color-mix(in srgb, var(--c-primary) 85%, #000), 0 8px 16px -6px rgb(0 0 0 / .4);
+}
+.bank__owner { color: var(--tb-gold-light); }
+.bank__qr { border: 3px solid var(--c-accent); }
+.bank__name { color: #fff; }
+.bank__number { background: var(--c-surface); color: var(--c-text); border-radius: 999px; padding: 4px 4px 4px 16px; font-size: 17px; }
+.bank__copy { background: var(--c-primary); color: #fff; border-radius: 50%; }
+.bank__holder { color: color-mix(in srgb, #fff 82%, var(--c-accent)); }
+
+/* thanks — a canopy of blossoms and firecrackers */
+.tb-thanks { overflow: visible; overflow-x: clip; padding-top: 12px; }
+.tb-thanks__canopy { position: relative; height: clamp(200px, 50vw, 300px); margin-bottom: 4px; pointer-events: none; }
+.tb-thanks__mai { position: absolute; top: 0; left: -22px; width: min(72vw, 440px); }
+.tb-thanks__mai svg { transform-origin: 0 0; rotate: -12deg; translate: 0 14%; }
+.tb-thanks__dao { position: absolute; top: 0; right: -22px; width: min(62vw, 400px); }
+.tb-thanks__dao svg { transform: scaleY(-1); }
+.tb-thanks__phao { position: absolute; top: 4%; width: 40px; transform-origin: 50% 0; animation: tb-swing 4.6s ease-in-out infinite; }
+.tb-thanks__phao--left { left: 27%; }
+.tb-thanks__phao--right { right: 24%; width: 44px; animation-delay: -2.3s; }
+@media (min-width: 700px) {
+  .tb-thanks__canopy { height: clamp(240px, 26vw, 320px); }
+  .tb-thanks__mai { width: 38vw; max-width: 560px; }
+  .tb-thanks__dao { width: 35vw; max-width: 520px; }
+  .tb-thanks__phao--left { left: 21vw; width: 46px; }
+  .tb-thanks__phao--right { right: 19vw; width: 50px; }
+}
+.tb-thanks .container { position: relative; z-index: 1; }
+.thanks__script { color: var(--c-primary); }
+.thanks__text { text-wrap: balance; }
+.thanks__names { color: var(--c-text); flex-wrap: wrap; justify-content: center; }
+.tb-thanks__hy { font-family: var(--hy-font); font-weight: 700; font-size: 22px; line-height: 1; color: var(--c-primary); }
+.thanks__hashtag { color: var(--tb-ochre); }
+
+/* ==========================================================================
+   INTRO — a red lì xì card with a gold seal
+   ========================================================================== */
+.intro { background: radial-gradient(120% 80% at 50% 18%, var(--c-surface), var(--c-bg) 55%, color-mix(in srgb, var(--c-secondary) 55%, var(--c-bg))); }
+.intro::before, .intro::after {
+  content: ""; position: absolute; z-index: 0; width: min(78vw, 460px); aspect-ratio: 300 / 220; pointer-events: none;
+  -webkit-mask: url(mai-branch.svg) center / contain no-repeat; mask: url(mai-branch.svg) center / contain no-repeat;
+}
+.intro::before { top: -10px; left: -30px; background: color-mix(in srgb, var(--c-accent) 42%, transparent); }
+.intro::after { bottom: -14px; right: -30px; background: color-mix(in srgb, var(--tb-dao) 55%, transparent); -webkit-mask-image: url(dao-branch.svg); mask-image: url(dao-branch.svg); }
+.intro__to { color: var(--tb-ochre); }
+.intro__guest { color: var(--c-primary); }
+.intro__open { letter-spacing: .14em; }
+
+.gcard__cover, .intro__card {
+  overflow: hidden; color: var(--tb-gold-light); border: 0; border-radius: 6px 16px 16px 6px;
+  place-content: end center; padding-bottom: 34px; gap: 6px;
+  background: radial-gradient(90% 50% at 50% 100%, rgb(255 255 255 / .12), transparent 70%), var(--tb-lattice), var(--tb-red-grad);
+  box-shadow: 0 30px 50px -28px var(--tb-red-deep), 0 0 0 1px color-mix(in srgb, var(--c-accent) 55%, transparent);
+}
+.gcard__cover::before, .intro__card::before {   /* thin gold frame printed on the envelope */
+  content: ""; position: absolute; inset: 9px; z-index: 2; pointer-events: none;
+  border: 1px solid color-mix(in srgb, var(--c-accent) 75%, transparent); border-radius: 3px 10px 10px 3px;
+}
+.intro__card { width: min(290px, 74vw); aspect-ratio: 3 / 4.1; border-radius: 16px; }
+.gcard__monogram, .intro__monogram { position: relative; z-index: 1; font-family: var(--f-script); font-size: 58px; line-height: 1.1; color: var(--tb-gold-light); }
+.gcard__title, .intro__names { position: relative; z-index: 1; font-family: var(--f-heading); font-size: 12px; letter-spacing: .3em; text-transform: uppercase; color: var(--tb-gold-light); }
+.gcard__date, .intro__date { position: relative; z-index: 1; font-size: 12px; letter-spacing: .26em; color: color-mix(in srgb, #fff 80%, var(--c-accent)); opacity: 1; }
+.tb-lixi__flap {
+  position: absolute; top: 0; left: 0; right: 0; height: 42%; z-index: 0;
+  background: var(--tb-lattice), linear-gradient(180deg, color-mix(in srgb, var(--c-primary) 92%, #fff), color-mix(in srgb, var(--c-primary) 80%, #000));
+  border-radius: 0 0 50% 50% / 0 0 38% 38%;
+  box-shadow: 0 2px 0 var(--c-accent), 0 14px 22px -12px rgb(0 0 0 / .45);
+}
+.tb-lixi__seal {
+  position: absolute; z-index: 1; top: 42%; left: 50%; translate: -50% -50%; width: 74px; height: 74px; border-radius: 50%;
+  display: grid; place-items: center; font-family: var(--hy-font); font-weight: 700; font-size: 36px; line-height: 1; color: var(--c-primary);
+  background: var(--tb-gold-grad); box-shadow: 0 0 0 4px color-mix(in srgb, var(--c-primary) 80%, #000), 0 0 0 5.5px var(--c-accent), 0 12px 22px -8px rgb(0 0 0 / .5);
+}
+.tb-lixi__sprig { position: absolute; z-index: 1; left: -30px; top: -16px; width: 172px; rotate: -8deg; }
+.gcard__inside { background: var(--c-surface); border-color: var(--tb-gold-line); }
+.gcard__inside::before {
+  content: ""; position: absolute; right: 10px; bottom: 10px; width: 120px; aspect-ratio: 300 / 220; opacity: .5;
+  background: var(--tb-dao); -webkit-mask: url(dao-branch.svg) center / contain no-repeat; mask: url(dao-branch.svg) center / contain no-repeat;
+}
+.gcard__inside::after { content: "囍"; position: absolute; top: 26px; left: 50%; translate: -50% 0; font-family: var(--hy-font); font-weight: 700; font-size: 30px; line-height: 1; color: var(--c-primary); }
+.gcard__names { color: var(--c-primary); }
+.gcard__guest { color: var(--c-text); }
+
+/* small screens */
+@media (max-width: 360px) {
+  .tb-hero__phao--right { right: 2%; width: 42px; }
+  .tb-leaf__day { font-size: 72px; }
+  .countdown__label { letter-spacing: .1em; }
+}
+
+/* on red doors / curtains the open button turns gold so it still stands out */
+.intro--doors .intro__open, .intro--curtain .intro__open { background: var(--tb-gold-grad); color: var(--tb-red-deep); }

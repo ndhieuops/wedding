@@ -1,0 +1,23 @@
+{#
+  Đông Dương (Indochine) — emerald & ochre, colonial arched windows, louvered shutters,
+  encaustic cement tiles (gạch bông), rattan cane and tropical leaves.
+  Every ornament is a local SVG used as a CSS mask, so it takes the theme colours.
+#}
+{% extends "layout.njk" %}
+
+{% block background %}
+<div class="ind-wall" aria-hidden="true">
+  <span class="ind-wall__leaf ind-wall__leaf--l"></span>
+  <span class="ind-wall__leaf ind-wall__leaf--r"></span>
+</div>
+{% endblock %}
+
+{% block sections %}
+  {% for section in sections %}
+    {% include "sections/" + section + ".njk" %}
+    {% set nextSection = sections[loop.index] %}
+    {% if section != 'hero' and section != 'quote' and not loop.last and nextSection != 'quote' and nextSection != 'thanks' %}
+    <div class="ind-sep" aria-hidden="true"><span class="ind-sep__arch"></span></div>
+    {% endif %}
+  {% endfor %}
+{% endblock %}

@@ -1,0 +1,41 @@
+{#
+  Cẩm Thạch hero: an Art Deco ballroom portal on white marble — sunburst crown, stepped
+  double frame, metallic small-caps names and a framed date. Overrides _shared/sections/hero.njk.
+#}
+{% from "macros.njk" import photo %}
+<section class="section hero lm-hero{% if cover.image %} lm-hero--photo{% endif %}" id="hero">
+  <div class="lm-hero__rays" aria-hidden="true"></div>
+  <span class="lm-hero__pillar lm-hero__pillar--left" aria-hidden="true"></span>
+  <span class="lm-hero__pillar lm-hero__pillar--right" aria-hidden="true"></span>
+  <div class="lm-hero__portal">
+    <span class="lm-hero__crown" aria-hidden="true"></span>
+    <div class="lm-hero__frame lm-step">
+      <span class="lm-corner lm-corner--tl" aria-hidden="true"></span>
+      <span class="lm-corner lm-corner--tr" aria-hidden="true"></span>
+      <span class="lm-corner lm-corner--bl" aria-hidden="true"></span>
+      <span class="lm-corner lm-corner--br" aria-hidden="true"></span>
+      {% if guest.name %}
+      <p class="hero__guest lm-hero__guest" data-reveal="fade"><span>Trân trọng kính mời</span> <strong>{{ guest.name }}</strong></p>
+      {% endif %}
+      <p class="lm-hero__eyebrow" data-reveal="fade">{{ content.headline or 'Lễ Thành Hôn' }}</p>
+      {% if cover.image %}
+      <figure class="lm-hero__photo" data-reveal="zoom">{{ photo(cover.image, 'Ảnh cưới của ' + names, 'hero__img--' + cover.position, '(max-width: 600px) 64vw, 300px', true) }}</figure>
+      {% endif %}
+      <h1 class="hero__names lm-hero__names" data-names data-reveal="zoom">
+        <span class="hero__name">{{ first.shortName }}</span>
+        <span class="hero__amp" aria-label="và">&amp;</span>
+        <span class="hero__name">{{ second.shortName }}</span>
+      </h1>
+      <span class="lm-rule" aria-hidden="true"></span>
+      {% if wedding.display %}
+      <div class="lm-hero__date" data-reveal="up">
+        <span class="lm-hero__weekday">{{ wedding.weekday }}</span>
+        <span class="lm-hero__day">{{ wedding.day | pad2 }}</span>
+        <span class="lm-hero__my">Tháng {{ wedding.month }}<br>{{ wedding.year }}</span>
+      </div>
+      {% if wedding.lunar %}<p class="lm-hero__lunar" data-reveal="up">Nhằm {{ wedding.lunar.text }}</p>{% endif %}
+      {% endif %}
+    </div>
+  </div>
+  <a class="hero__scroll" href="#{{ sections[1] or 'thanks' }}" aria-label="Cuộn xuống"><span></span></a>
+</section>

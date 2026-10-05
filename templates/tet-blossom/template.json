@@ -1,0 +1,105 @@
+{
+  "name": "Xuân Hỷ",
+  "description": "Cưới ngày xuân rộn ràng: cành mai vàng, hoa đào hồng, dây pháo đỏ, tờ lịch ngày cưới và chữ Song Hỷ vàng kim trên nền kem ấm áp.",
+  "version": "1.0.0",
+  "author": "Wedding Studio",
+  "tags": [
+    "ngày xuân",
+    "mai đào",
+    "vui tươi"
+  ],
+  "published": true,
+  "order": 13,
+  "preview": "preview.webp",
+  "entry": "index.njk",
+  "styles": [
+    "style.css"
+  ],
+  "scripts": [],
+  "defaults": {
+    "tone": "traditional",
+    "theme": {
+      "colors": {
+        "primary": "#c3262d",
+        "secondary": "#f9cfd6",
+        "background": "#fff8ec",
+        "surface": "#fffdf7",
+        "text": "#4a2519",
+        "accent": "#e9ad25"
+      },
+      "fonts": {
+        "heading": "Prata",
+        "body": "Be Vietnam Pro",
+        "script": "Imperial Script"
+      },
+      "effect": "plum",
+      "effect2": "golddust",
+      "effectIntensity": "medium",
+      "burst": "fireworks",
+      "tap": "sparkles",
+      "nameAnimation": "shimmer",
+      "intro": "card"
+    },
+    "sections": [
+      "hero",
+      "quote",
+      "invitation",
+      "events",
+      "calendar",
+      "countdown",
+      "couple",
+      "story",
+      "gallery",
+      "rsvp",
+      "wishes",
+      "gift",
+      "thanks"
+    ]
+  },
+  "palettes": [
+    {
+      "name": "Mai vàng – đào hồng",
+      "colors": {
+        "primary": "#c3262d",
+        "secondary": "#f9cfd6",
+        "background": "#fff8ec",
+        "surface": "#fffdf7",
+        "text": "#4a2519",
+        "accent": "#e9ad25"
+      }
+    },
+    {
+      "name": "Hồng đào",
+      "colors": {
+        "primary": "#c0275e",
+        "secondary": "#fbd3dc",
+        "background": "#fff7f6",
+        "surface": "#ffffff",
+        "text": "#4a1d2d",
+        "accent": "#e3a72c"
+      }
+    },
+    {
+      "name": "Cam quýt ngày Tết",
+      "colors": {
+        "primary": "#b84a17",
+        "secondary": "#fcd9c6",
+        "background": "#fffaf0",
+        "surface": "#fffefa",
+        "text": "#45261a",
+        "accent": "#e6a91c"
+      }
+    },
+    {
+      "name": "Xanh ngọc xuân",
+      "colors": {
+        "primary": "#1d6b58",
+        "secondary": "#f8d2d6",
+        "background": "#fbf8ee",
+        "surface": "#ffffff",
+        "text": "#22372f",
+        "accent": "#dba52b"
+      }
+    }
+  ]
+}

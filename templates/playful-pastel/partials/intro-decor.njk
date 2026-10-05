@@ -1,0 +1,10 @@
+{# Stickers stuck on the intro card (included by _shared/partials/intro.njk inside .intro__card). #}
+{% from "partials/candy.njk" import sticker %}
+<span class="pp-intro-decor" aria-hidden="true">
+  {{ sticker('heart', 'pp-st--pink pp-id pp-id--heart') }}
+  {{ sticker('star', 'pp-st--butter pp-id pp-id--star') }}
+  {{ sticker('lolly', 'pp-st--lav pp-id pp-id--lolly') }}
+  {{ sticker('sparkle', 'pp-st--mint pp-id pp-id--spark') }}
+  <span class="pp-id pp-id--label">Thiệp mời</span>
+</span>
+<span class="pp-id-head" aria-hidden="true">{{ content.headline or 'Tụi mình cưới nhé!' }}</span>

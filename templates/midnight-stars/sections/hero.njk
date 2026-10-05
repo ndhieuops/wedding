@@ -6,14 +6,18 @@
 #}
 {% from "macros.njk" import photo %}
 {% from "partials/sky.njk" import moon, rings, constellations, sideConstellations %}
+{# Longer short-names get a smaller size so they stay inside the chart rings. #}
+{% set l1 = first.shortName | length %}{% set l2 = second.shortName | length %}
+{% set nameLen = l1 if l1 > l2 else l2 %}
+{% set namesSize = ' ms-names--xl' if nameLen > 12 else (' ms-names--long' if nameLen > 7 else '') %}
 {% set namesBlock %}
-    <h1 class="hero__names ms-names" data-names data-reveal="zoom">
+    <h1 class="hero__names ms-names{{ namesSize }}" data-names data-reveal="zoom">
       <span class="hero__name">{{ first.shortName }}</span>
       <span class="hero__amp" aria-label="và">&amp;</span>
       <span class="hero__name">{{ second.shortName }}</span>
     </h1>
 {% endset %}
-<section class="section hero ms-hero{% if cover.image %} ms-hero--photo{% endif %}" id="hero">
+<section class="section hero ms-hero{% if cover.image %} ms-hero--photo{% endif %}{% if namesSize %} ms-hero--longnames{% endif %}" id="hero">
   <div class="ms-hero__glow" aria-hidden="true"></div>
   {{ sideConstellations() }}
   <div class="ms-hero__inner">

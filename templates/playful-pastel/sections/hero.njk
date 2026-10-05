@@ -1,0 +1,65 @@
+{#
+  Kẹo Ngọt hero: gingham awning with scalloped edge, a die-cut "sticker" blob holding the names,
+  a spinning Save-the-date badge, candy stickers all around and the date as three tilted candy tiles.
+  Keeps the runtime hooks: <h1 data-names data-reveal> with child spans (name · ampersand · name).
+#}
+{% from "macros.njk" import photo %}
+{% from "partials/candy.njk" import sticker %}
+<section class="section hero pp-hero{% if cover.image %} pp-hero--photo{% endif %}" id="hero">
+  <div class="pp-awning" aria-hidden="true"><span></span></div>
+
+  <div class="pp-hero__float" aria-hidden="true">
+    {{ sticker('lolly', 'pp-st--lav pp-fl pp-fl--lolly') }}
+    {{ sticker('daisy', 'pp-st--butter pp-fl pp-fl--daisy') }}
+    {{ sticker('candy', 'pp-st--mint pp-fl pp-fl--candy') }}
+    {{ sticker('sparkle', 'pp-st--butter pp-fl pp-fl--spark1') }}
+    {{ sticker('sparkle', 'pp-st--pink pp-fl pp-fl--spark2') }}
+    {{ sticker('star', 'pp-st--pink pp-fl pp-fl--star2') }}
+    {{ sticker('heart', 'pp-st--mint pp-fl pp-fl--heart2') }}
+  </div>
+
+  <div class="hero__inner pp-hero__inner">
+    {% if guest.name %}<p class="hero__guest pp-hero__guest" data-reveal="fade">Trân trọng kính mời <strong>{{ guest.name }}</strong></p>{% endif %}
+    <p class="hero__eyebrow pp-hero__eyebrow" data-reveal="fade">{{ sticker('sparkle', 'pp-st--butter') }}<span>{{ content.headline or 'Tụi mình cưới nhé!' }}</span>{{ sticker('sparkle', 'pp-st--mint') }}</p>
+
+    {% if cover.image %}
+    <figure class="pp-hero__photo" data-reveal="zoom">
+      <span class="pp-tape" aria-hidden="true"></span>
+      {{ photo(cover.image, 'Ảnh cưới của ' + names, 'pp-hero__img hero__img--' + cover.position, '(max-width: 600px) 76vw, 360px', true) }}
+    </figure>
+    {% endif %}
+
+    <div class="pp-stage">
+      <span class="pp-stage__blob" aria-hidden="true"></span>
+      {{ sticker('heart', 'pp-st--pink pp-stage__heart') }}
+      {{ sticker('star', 'pp-st--butter pp-stage__star') }}
+      {% if wedding.display %}
+      <svg class="pp-badge" viewBox="0 0 120 120" aria-hidden="true" focusable="false">
+        <circle class="pp-badge__disc" cx="60" cy="60" r="56"/>
+        <circle class="pp-badge__ring" cx="60" cy="60" r="35"/>
+        <path id="pp-badge-path" d="M60 60m-44 0a44 44 0 1 1 88 0a44 44 0 1 1-88 0" fill="none" stroke="none"/>
+        <g class="pp-badge__spin"><text class="pp-badge__text"><textPath href="#pp-badge-path" textLength="272" lengthAdjust="spacing">HẸN BẠN NGÀY VUI • {{ wedding.display }} •</textPath></text></g>
+        <use href="#pp-heart" x="40" y="40" width="40" height="40" class="pp-badge__heart"/>
+      </svg>
+      {% endif %}
+      <h1 class="hero__names pp-hero__names" data-names data-reveal="zoom">
+        <span class="hero__name">{{ first.shortName }}</span>
+        <span class="hero__amp" aria-label="và">&amp;</span>
+        <span class="hero__name">{{ second.shortName }}</span>
+      </h1>
+    </div>
+
+    {% if wedding.display %}
+    <div class="pp-date" data-reveal="up">
+      <p class="pp-date__weekday">{{ wedding.weekday }}{% if wedding.time %} <i aria-hidden="true">•</i> {{ wedding.time }}{% endif %}</p>
+      <p class="pp-date__tiles">
+        <span class="pp-tile pp-tile--d"><b>{{ wedding.day }}</b><small>Ngày</small></span>
+        <span class="pp-tile pp-tile--m"><b>{{ wedding.month }}</b><small>Tháng</small></span>
+        <span class="pp-tile pp-tile--y"><b>{{ wedding.year }}</b><small>Năm</small></span>
+      </p>
+      {% if wedding.lunar %}<p class="pp-date__lunar">Nhằm {{ wedding.lunar.text }}</p>{% endif %}
+    </div>
+    {% endif %}
+  </div>
+  <a class="hero__scroll" href="#{{ sections[1] or 'thanks' }}" aria-label="Cuộn xuống"><span></span></a>
+</section>

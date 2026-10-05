@@ -1,0 +1,22 @@
+{#
+  Cẩm Thạch — luxury hotel ballroom: white marble, rose-gold metal, Art Deco geometry.
+  Every ornament is a lean SVG used as a CSS mask and painted with the theme colours:
+    marble.svg (vector veining, no filters → cheap to paint), fan.svg (sunburst), rule.svg,
+    scales.svg (fan-scale lattice on the doors), corner.svg (hero frame corner, rotated in CSS),
+    dc-tl/tr/bl/br.svg (22px stepped notches drawn 1:1 so they meet the CSS frame lines exactly).
+  Overrides: sections/hero.njk (ballroom portal) and partials/intro-decor.njk (plaque crown).
+#}
+{% extends "layout.njk" %}
+
+{% block background %}
+<div class="lm-marble" aria-hidden="true"><i class="lm-marble__veins"></i><i class="lm-marble__gold"></i></div>
+{% endblock %}
+
+{% block sections %}
+  {% for section in sections %}
+    {% include "sections/" + section + ".njk" %}
+    {% if section != 'hero' and not loop.last %}
+    <div class="lm-sep" aria-hidden="true"><i></i></div>
+    {% endif %}
+  {% endfor %}
+{% endblock %}

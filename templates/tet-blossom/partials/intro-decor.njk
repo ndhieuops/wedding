@@ -1,0 +1,9 @@
+{#
+  Lì xì cover decoration for the "card" intro (rendered inside .gcard__cover):
+  the envelope flap, a gold 囍 seal and a mai sprig across the corner.
+  (In the "fade"/"curtain"/"doors" intros the same markup sits inside .intro__card.)
+#}
+{% from "partials/spring.njk" import mai %}
+<span class="tb-lixi__flap" aria-hidden="true"></span>
+<span class="tb-lixi__seal" aria-hidden="true">囍</span>
+<span class="tb-lixi__sprig" aria-hidden="true">{{ mai() }}</span>

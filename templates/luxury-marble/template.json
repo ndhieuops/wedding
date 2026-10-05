@@ -1,0 +1,105 @@
+{
+  "name": "Cẩm Thạch",
+  "description": "Tiệc cưới sảnh khách sạn xa hoa: nền đá cẩm thạch trắng vân mảnh, ánh kim vàng hồng, hoạ tiết Art Deco đối xứng — quạt toả nắng, khung bậc thang, đường chỉ đôi và cánh cửa mạ vàng khi mở thiệp.",
+  "version": "1.0.0",
+  "author": "Wedding Studio",
+  "tags": [
+    "sang trọng",
+    "đá cẩm thạch",
+    "hoạ tiết Art Deco"
+  ],
+  "published": true,
+  "order": 11,
+  "preview": "preview.webp",
+  "entry": "index.njk",
+  "styles": [
+    "style.css"
+  ],
+  "scripts": [],
+  "defaults": {
+    "tone": "classic",
+    "theme": {
+      "colors": {
+        "primary": "#955a45",
+        "secondary": "#efe4dc",
+        "background": "#f7f4f0",
+        "surface": "#fffdfb",
+        "text": "#2b2523",
+        "accent": "#d2ac8c"
+      },
+      "fonts": {
+        "heading": "Playfair Display SC",
+        "body": "Montserrat",
+        "script": "Bonheur Royale"
+      },
+      "effect": "golddust",
+      "effect2": "sparkles",
+      "effectIntensity": "low",
+      "burst": "fireworks",
+      "tap": "sparkles",
+      "nameAnimation": "shimmer",
+      "intro": "doors"
+    },
+    "sections": [
+      "hero",
+      "quote",
+      "invitation",
+      "couple",
+      "calendar",
+      "countdown",
+      "events",
+      "story",
+      "gallery",
+      "rsvp",
+      "wishes",
+      "gift",
+      "thanks"
+    ]
+  },
+  "palettes": [
+    {
+      "name": "Vàng hồng",
+      "colors": {
+        "primary": "#955a45",
+        "secondary": "#efe4dc",
+        "background": "#f7f4f0",
+        "surface": "#fffdfb",
+        "text": "#2b2523",
+        "accent": "#d2ac8c"
+      }
+    },
+    {
+      "name": "Sâm panh",
+      "colors": {
+        "primary": "#84663a",
+        "secondary": "#ece4d3",
+        "background": "#f7f5ef",
+        "surface": "#fffefa",
+        "text": "#28241c",
+        "accent": "#d3bb8a"
+      }
+    },
+    {
+      "name": "Ngọc lục bảo",
+      "colors": {
+        "primary": "#7f6434",
+        "secondary": "#d3e2d8",
+        "background": "#f1f5f2",
+        "surface": "#fbfdfb",
+        "text": "#0f3a30",
+        "accent": "#cbb07a"
+      }
+    },
+    {
+      "name": "Hắc thạch",
+      "colors": {
+        "primary": "#c89e74",
+        "secondary": "#2b2623",
+        "background": "#161413",
+        "surface": "#1f1c1a",
+        "text": "#efe7dd",
+        "accent": "#e3c8a2"
+      }
+    }
+  ]
+}

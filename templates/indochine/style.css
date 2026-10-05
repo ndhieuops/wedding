@@ -1,0 +1,486 @@
+/* ==========================================================================
+   Đông Dương (Indochine) — emerald & ochre, lime-washed walls, colonial
+   arched windows, louvered shutters, gạch bông cement tiles, rattan cane
+   and tropical leaves.
+   Every ornament is a local SVG used as a CSS mask over a theme colour,
+   so the 6 user colours (and the palettes in template.json) drive it all.
+   ========================================================================== */
+.tpl {
+  --ink: var(--c-primary);
+  --ink-deep: color-mix(in srgb, var(--c-primary) 76%, #000);
+  --ink-lift: color-mix(in srgb, var(--c-primary) 82%, #fff);
+  --ochre: var(--c-accent);
+  --ochre-ink: color-mix(in srgb, var(--c-accent) 70%, var(--c-text));   /* readable ochre for text on cream */
+  --ochre-light: color-mix(in srgb, var(--c-accent) 52%, #fff);           /* ochre for text on green */
+  --hair: color-mix(in srgb, var(--c-primary) 26%, transparent);
+  --hair-ochre: color-mix(in srgb, var(--c-accent) 55%, transparent);
+  --leaf: color-mix(in srgb, var(--c-primary) 88%, var(--c-bg));
+  --leaf-back: color-mix(in srgb, var(--c-primary) 58%, var(--c-bg));
+  --leaf-faint: color-mix(in srgb, var(--c-primary) 26%, var(--c-bg));
+  --radius: 3px;
+  --radius-sm: 2px;
+  --shadow: 0 18px 40px -22px color-mix(in srgb, var(--c-primary) 55%, transparent);
+  --shadow-sm: 0 8px 22px -14px color-mix(in srgb, var(--c-primary) 50%, transparent);
+}
+
+/* ---------- Lime-washed wall (fixed) ---------- */
+.ind-wall {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background:
+    radial-gradient(70% 45% at 15% 8%, color-mix(in srgb, var(--c-secondary) 55%, transparent), transparent 70%),
+    radial-gradient(55% 40% at 92% 38%, color-mix(in srgb, var(--c-secondary) 38%, transparent), transparent 70%),
+    radial-gradient(60% 45% at 30% 92%, color-mix(in srgb, var(--c-secondary) 45%, transparent), transparent 70%),
+    radial-gradient(40% 30% at 70% 70%, color-mix(in srgb, var(--c-surface) 60%, transparent), transparent 70%),
+    var(--c-bg);
+}
+.ind-wall__leaf { display: none; }
+@media (min-width: 980px) {
+  .ind-wall__leaf { display: block; position: absolute; background: var(--c-primary); opacity: .1; }
+  .ind-wall__leaf--l { left: -40px; bottom: -40px; width: 300px; height: 560px; -webkit-mask: url(banana-tilt.svg) 0 100% / contain no-repeat; mask: url(banana-tilt.svg) 0 100% / contain no-repeat; transform: scaleX(-1); }
+  .ind-wall__leaf--r { right: 0; top: 0; width: 460px; height: 380px; -webkit-mask: url(palm.svg) 0 0 / 520px auto no-repeat; mask: url(palm.svg) 0 0 / 520px auto no-repeat; transform: scale(-1, -1); opacity: .08; }
+}
+
+/* ---------- Gạch bông: two-colour tiles from two masks ---------- */
+.ind-tiles { display: inline-flex; align-items: center; gap: 6px; }
+.ind-tiles::before, .ind-tiles::after { content: ""; width: clamp(28px, 10vw, 54px); height: 1px; background: var(--hair-ochre); margin-inline: 4px; }
+.ind-tile { position: relative; display: block; width: 14px; height: 14px; background: var(--c-surface); box-shadow: 0 0 0 1px var(--hair); }
+.ind-tile--lg { width: 22px; height: 22px; }
+.ind-tile::before, .ind-tile::after, .ind-card__tiles::before, .ind-card__tiles::after, .ind-floor::before, .ind-floor::after,
+.couple__heart::before, .couple__heart::after { content: ""; position: absolute; inset: 0; }
+.ind-tile::before, .ind-card__tiles::before, .ind-floor::before, .couple__heart::before { background: var(--c-primary); -webkit-mask: url(tile-a.svg) center / 100% 100%; mask: url(tile-a.svg) center / 100% 100%; }
+.ind-tile::after, .ind-card__tiles::after, .ind-floor::after, .couple__heart::after { background: var(--c-accent); -webkit-mask: url(tile-b.svg) center / 100% 100%; mask: url(tile-b.svg) center / 100% 100%; }
+
+/* ---------- Section separator: a little arched fanlight on a sill ---------- */
+.ind-sep { position: relative; z-index: 1; display: flex; justify-content: center; align-items: flex-end; gap: 12px; padding: 0 22px; }
+.ind-sep::before, .ind-sep::after { content: ""; flex: 0 1 96px; height: 1px; margin-bottom: 0; background: linear-gradient(90deg, transparent, var(--hair-ochre)); }
+.ind-sep::after { background: linear-gradient(90deg, var(--hair-ochre), transparent); }
+.ind-sep__arch { position: relative; flex: none; width: 36px; height: 19px; border: 1.5px solid var(--c-primary); border-bottom: 0; border-radius: 999px 999px 0 0; overflow: hidden; }
+.ind-sep__arch::before { content: ""; position: absolute; inset: 2px 2px 0; background: var(--c-accent); -webkit-mask: url(fanlight.svg) center bottom / 100% 100% no-repeat; mask: url(fanlight.svg) center bottom / 100% 100% no-repeat; }
+
+/* ---------- Section titles ---------- */
+.section-title { margin-bottom: clamp(30px, 6vw, 48px); }
+.section-title__script { font-family: var(--f-script); font-size: clamp(36px, 9vw, 50px); line-height: 1; color: var(--ochre-ink); margin-bottom: 4px; }
+.section-title__main {
+  display: flex; align-items: center; justify-content: center; gap: 14px;
+  font-family: var(--f-heading); font-weight: 500; font-size: clamp(21px, 5.4vw, 30px);
+  letter-spacing: .16em; line-height: 1.3; color: var(--c-primary);
+}
+.section-title__main::before, .section-title__main::after { content: ""; flex: 0 0 auto; width: 7px; height: 7px; rotate: 45deg; border: 1px solid var(--c-accent); }
+.section-title__divider { margin-top: 14px; color: inherit; }
+.section-title__sub { margin-top: 16px; color: var(--c-muted); font-size: 15px; }
+
+/* ---------- Buttons ---------- */
+.btn { border-radius: var(--radius-sm); text-transform: uppercase; letter-spacing: .14em; font-size: 12.5px; padding: 10px 18px; }
+.btn--primary { background: var(--c-primary); color: var(--c-on-primary); box-shadow: inset 0 0 0 3px var(--c-primary), inset 0 0 0 4px var(--hair-ochre), var(--shadow-sm); }
+.btn--primary:hover { filter: brightness(1.1); }
+.music-toggle { background: var(--c-primary); box-shadow: 0 0 0 3px var(--c-bg), 0 0 0 4px var(--c-accent), var(--shadow); }
+
+/* ==========================================================================
+   HERO — the arched colonial window
+   ========================================================================== */
+.ind-hero {
+  padding: 56px 0 128px;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--c-secondary) 42%, var(--c-bg)), var(--c-bg) 60%);
+}
+.ind-hero__stage { position: relative; z-index: 2; width: 100%; display: grid; justify-items: center; gap: 18px; padding: 0 16px; }
+.ind-hero .hero__guest { font-size: 14.5px; color: var(--c-muted); max-width: 340px; text-wrap: balance; }
+.ind-hero .hero__guest strong { color: var(--c-primary); font-weight: 600; }
+
+/* leaves around the window — rotation is baked into the SVGs and each leaf is cropped by its own
+   box (mask-position), so nothing ever sticks out of the page; stems hide behind the tiled floor. */
+.ind-hero__flora { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+.ind-hero__flora--front { z-index: 3; }
+.ind-leaf { position: absolute; display: block; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; }
+.ind-leaf--palm {
+  right: 0; top: 0; width: 100%; height: 300px; background: var(--leaf-faint);
+  -webkit-mask-image: url(palm.svg); mask-image: url(palm.svg);
+  -webkit-mask-size: auto 100%; mask-size: auto 100%; -webkit-mask-position: -120px -64px; mask-position: -120px -64px;
+  transform: scaleX(-1); transform-origin: 50% 0; animation: ind-sway-palm 10s ease-in-out infinite;
+}
+.ind-leaf--back-l, .ind-leaf--back-r, .ind-leaf--front-l, .ind-leaf--front-r {
+  bottom: 0; -webkit-mask-image: url(banana-tilt.svg); mask-image: url(banana-tilt.svg);
+  -webkit-mask-size: auto 100%; mask-size: auto 100%;
+}
+.ind-leaf--back-r { right: 0; width: 34%; height: min(66vh, 560px); background: var(--leaf-back); -webkit-mask-position: 0 100%; mask-position: 0 100%; transform-origin: 0 100%; animation: ind-sway 11s ease-in-out -3s infinite; }
+.ind-leaf--back-l { left: 0; width: 30%; height: min(58vh, 480px); background: var(--leaf-faint); -webkit-mask-position: 0 100%; mask-position: 0 100%; transform: scaleX(-1); transform-origin: 50% 100%; animation: ind-sway 12s ease-in-out -6s infinite reverse; }
+.ind-leaf--front-l { left: 0; width: 104px; height: 290px; background: var(--leaf); -webkit-mask-position: 0 100%; mask-position: 0 100%; transform: scaleX(-1); transform-origin: 50% 100%; animation: ind-sway 9s ease-in-out infinite; }
+.ind-leaf--front-r { right: 0; width: 70px; height: 200px; background: var(--leaf); -webkit-mask-position: 0 100%; mask-position: 0 100%; transform-origin: 0 100%; animation: ind-sway 10s ease-in-out -4s infinite reverse; }
+@keyframes ind-sway { 50% { rotate: 1.4deg; } }
+@keyframes ind-sway-palm { 50% { rotate: -1deg; } }
+
+/* the window */
+.ind-window { --w: min(330px, calc(100vw - 104px)); --frame: 9px; position: relative; width: var(--w); }
+.ind-window__frame {
+  position: relative; z-index: 1; overflow: hidden;
+  border: var(--frame) solid var(--c-primary); border-bottom-width: 0; border-radius: 999px 999px 0 0;
+  background: var(--c-surface);
+  box-shadow: 0 0 0 3px var(--c-bg), 0 0 0 4px var(--hair), 0 34px 50px -34px color-mix(in srgb, var(--c-text) 55%, transparent);
+}
+.ind-window__frame::after { /* ochre bead inside the frame */
+  content: ""; position: absolute; inset: 0; z-index: 3; pointer-events: none; border-radius: inherit;
+  box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--c-accent) 80%, transparent);
+}
+.ind-window__fan {
+  position: relative; display: block; aspect-ratio: 2 / 1;
+  background: radial-gradient(circle at 50% 100%, color-mix(in srgb, var(--c-primary) 55%, var(--c-accent)) 0 14%, color-mix(in srgb, var(--c-primary) 82%, var(--c-accent)) 40%, var(--c-primary) 75%);
+  border-bottom: 7px solid var(--c-primary);
+  box-shadow: 0 1.5px 0 color-mix(in srgb, var(--c-accent) 80%, transparent);
+}
+.ind-window__fan::before {
+  content: ""; position: absolute; inset: 0; background: var(--ochre-light);
+  -webkit-mask: url(fanlight.svg) center bottom / 100% 100% no-repeat; mask: url(fanlight.svg) center bottom / 100% 100% no-repeat;
+}
+.ind-window__pane {
+  position: relative; padding: 24px 14px 30px;
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--c-text) 7%, transparent), transparent 22px),
+    linear-gradient(180deg, var(--c-surface), color-mix(in srgb, var(--c-secondary) 32%, var(--c-surface)));
+}
+/* half-open louvered shutters */
+.ind-shutter {
+  --slat: color-mix(in srgb, var(--c-primary) 90%, #fff);
+  position: absolute; z-index: 0; top: calc(var(--w) * .5 - 2px); bottom: 0; width: 34px;
+  border: 3px solid var(--ink-deep); border-radius: 1px;
+  background:
+    linear-gradient(180deg, transparent calc(46% - 3px), var(--ink-deep) calc(46% - 3px) calc(46% + 3px), transparent calc(46% + 3px)),
+    repeating-linear-gradient(180deg, color-mix(in srgb, var(--c-primary) 55%, #fff) 0 1px, var(--slat) 1px 5px, var(--c-primary) 5px 8px, var(--ink-deep) 8px 9.5px);
+  box-shadow: 0 16px 24px -16px color-mix(in srgb, var(--c-text) 60%, transparent);
+}
+.ind-shutter--left { right: calc(100% + 3px); transform-origin: 100% 50%; transform: perspective(420px) rotateY(32deg); }
+.ind-shutter--right { left: calc(100% + 3px); transform-origin: 0 50%; transform: perspective(420px) rotateY(-32deg); }
+.ind-window__sill {
+  position: relative; z-index: 2; display: block; height: 13px; margin: 0 -40px;
+  background: linear-gradient(180deg, var(--ink-lift), var(--c-primary) 45%, var(--ink-deep));
+  border-radius: 2px; box-shadow: 0 10px 14px -10px color-mix(in srgb, var(--c-text) 65%, transparent);
+}
+.ind-window__sill::after { content: ""; position: absolute; left: 16px; right: 16px; top: 100%; height: 6px; background: var(--ink-deep); border-radius: 0 0 3px 3px; opacity: .9; }
+
+/* text inside the window */
+.ind-hero__text { display: grid; justify-items: center; gap: 10px; text-align: center; }
+.ind-hero .hero__eyebrow { text-wrap: balance; max-width: 230px; line-height: 1.6; font-family: var(--f-heading); font-size: 11.5px; letter-spacing: .28em; padding-left: .28em; color: var(--ochre-ink); font-weight: 600; }
+.ind-hero .hero__names { font-family: var(--f-script); font-weight: 400; color: var(--c-primary); font-size: clamp(48px, 14.5vw, 84px); line-height: 1.02; }
+.ind-hero .hero__name { padding: 0 .12em; }
+.ind-hero .hero__amp { font-family: var(--f-heading); font-style: italic; font-size: .36em; color: var(--c-accent); margin: .06em 0 .1em; }
+.ind-hero .hero__date { gap: 4px; margin-top: 4px; }
+.ind-hero .hero__weekday { font-family: var(--f-body); font-size: 11px; letter-spacing: .3em; padding-left: .3em; color: var(--c-muted); font-weight: 500; }
+.ind-hero .hero__date-main { display: inline-flex; align-items: center; justify-content: center; gap: .42em; font-family: var(--f-heading); font-size: clamp(24px, 6.6vw, 30px); letter-spacing: .06em; color: var(--c-text); }
+.ind-hero .hero__date-main i { display: inline-block; width: 6px; height: 6px; rotate: 45deg; background: var(--c-accent); }
+.ind-hero .hero__lunar { font-family: var(--f-heading); font-style: italic; font-size: 13.5px; color: var(--c-muted); max-width: 240px; line-height: 1.45; }
+
+/* photo variant: the cover fills the arch, the fanlight becomes muntins over the glass */
+.ind-hero--photo .ind-window { --w: min(340px, calc(100vw - 104px)); }
+.ind-hero--photo .ind-window__frame { aspect-ratio: 3 / 4.2; }
+.ind-hero--photo .ind-window__fan { position: absolute; inset: 0 0 auto; z-index: 2; background: none; border-bottom-width: 5px; box-shadow: 0 1px 0 color-mix(in srgb, var(--c-accent) 80%, transparent); }
+.ind-hero--photo .ind-window__fan::before { background: var(--c-surface); opacity: .8; }
+.ind-hero--photo .ind-window__pane { position: absolute; inset: 0; padding: 0; background: var(--c-secondary); }
+.ind-window__img { width: 100%; height: 100%; object-fit: cover; }
+.ind-hero--photo .ind-hero__text { margin-top: 10px; }
+.ind-hero--photo .ind-hero__flora--front { display: none; }
+
+/* gạch bông floor along the bottom of the hero */
+.ind-floor {
+  position: absolute; left: 0; right: 0; bottom: 0; z-index: 4; height: 60px;
+  background: var(--c-surface); border-top: 4px solid var(--c-primary);
+  box-shadow: 0 -1px 0 var(--c-accent), inset 0 10px 14px -10px color-mix(in srgb, var(--c-text) 40%, transparent);
+}
+.ind-floor::before, .ind-floor::after { -webkit-mask-size: 30px 30px; mask-size: 30px 30px; -webkit-mask-repeat: repeat; mask-repeat: repeat; -webkit-mask-position: 50% 0; mask-position: 50% 0; }
+.ind-floor::before { opacity: .92; }
+.ind-hero .hero__scroll { bottom: 76px; color: var(--c-primary); z-index: 5; }
+
+/* ==========================================================================
+   QUOTE — an arched niche on a field of cement tiles
+   ========================================================================== */
+.quote { background: var(--c-primary); color: var(--c-surface); padding-block: 72px; overflow: hidden; isolation: isolate; }
+.quote::before, .quote::after { content: ""; position: absolute; inset: 0; z-index: -1; -webkit-mask-size: 56px 56px; mask-size: 56px 56px; -webkit-mask-position: 50% 50%; mask-position: 50% 50%; }
+.quote::before { background: color-mix(in srgb, var(--c-surface) 12%, transparent); -webkit-mask-image: url(tile-a.svg); mask-image: url(tile-a.svg); }
+.quote::after { background: color-mix(in srgb, var(--c-accent) 36%, transparent); -webkit-mask-image: url(tile-b.svg); mask-image: url(tile-b.svg); }
+.quote__inner {
+  position: relative; width: min(540px, calc(100% - 40px)); padding: 64px 26px 40px;
+  background: var(--c-primary); border: 1px solid color-mix(in srgb, var(--c-accent) 75%, transparent);
+  border-radius: 50% 50% 3px 3px / 170px 170px 3px 3px;
+  box-shadow: 0 0 0 7px var(--c-primary), 0 0 0 8px color-mix(in srgb, var(--c-accent) 45%, transparent), 0 30px 60px -20px rgb(0 0 0 / .45);
+}
+.quote__mark { font-family: var(--f-heading); font-style: italic; color: var(--ochre-light); opacity: 1; font-size: 76px; }
+.quote__text { font-family: var(--f-heading); font-style: italic; font-size: clamp(18px, 4.5vw, 23px); line-height: 1.65; color: var(--c-surface); }
+.quote__author { color: var(--ochre-light); letter-spacing: .18em; text-transform: uppercase; font-size: 12px; }
+
+/* ==========================================================================
+   INVITATION
+   ========================================================================== */
+.families {
+  position: relative; gap: 0; padding: 26px 8px 22px; background: var(--c-surface); border-radius: var(--radius);
+  box-shadow: inset 0 0 0 5px var(--c-surface), inset 0 0 0 6px var(--hair), var(--shadow-sm);
+}
+.family { padding: 0 12px; }
+.family + .family { border-left: 1px solid var(--hair); }
+.family__title { font-family: var(--f-heading); font-size: 15px; letter-spacing: .24em; color: var(--c-primary); font-weight: 600; }
+.family__title::after { content: ""; display: block; width: 26px; height: 1px; margin: 8px auto 0; background: var(--c-accent); }
+.family__parent { font-size: 14.5px; }
+.family__parent strong { font-weight: 600; }
+.invitation__lead { font-family: var(--f-heading); font-size: 16px; }
+.invitation__role { color: var(--ochre-ink); font-size: 11px; letter-spacing: .32em; font-weight: 600; }
+.invitation__name { font-family: var(--f-script); color: var(--c-primary); font-size: clamp(42px, 10.5vw, 58px); line-height: 1.15; }
+.invitation__amp { font-family: var(--f-heading); font-style: italic; color: var(--c-accent); }
+.invitation__message { font-size: 15.5px; }
+.invitation__time strong { color: var(--c-primary); }
+.invitation__date { gap: 14px; }
+.invitation__weekday, .invitation__monthyear { border-color: var(--hair-ochre); font-family: var(--f-heading); font-size: 13px; }
+.invitation__day {
+  display: grid; place-items: center; width: 92px; padding: 22px 0 12px; font-size: 50px; color: var(--c-primary);
+  background: var(--c-surface); border: 1.5px solid var(--c-primary); border-radius: 999px 999px 3px 3px;
+  box-shadow: inset 0 0 0 4px var(--c-surface), inset 0 0 0 5px var(--hair-ochre), var(--shadow-sm);
+}
+.invitation__lunar { font-family: var(--f-heading); }
+.invitation__venue strong { font-family: var(--f-heading); font-weight: 600; color: var(--c-primary); }
+
+/* ==========================================================================
+   COUPLE — portraits in arched windows over rattan cane
+   ========================================================================== */
+.person__photo {
+  position: relative; width: min(100%, 210px); border-radius: 999px 999px 3px 3px;
+  border: 6px solid var(--c-primary); background: color-mix(in srgb, var(--c-secondary) 70%, var(--c-surface));
+  box-shadow: 0 0 0 3px var(--c-bg), 0 0 0 4px var(--hair-ochre), var(--shadow);
+}
+.person__photo::before { content: ""; position: absolute; inset: 0; background: color-mix(in srgb, var(--c-accent) 55%, transparent); -webkit-mask: url(rattan.svg) center / 20px 20px; mask: url(rattan.svg) center / 20px 20px; }
+.person__img { position: relative; z-index: 1; }
+.person__monogram {
+  position: relative; z-index: 1; display: grid; place-items: center; width: 104px; height: 104px; border-radius: 50%;
+  background: var(--c-surface); box-shadow: 0 0 0 1.5px var(--c-accent), 0 0 0 6px var(--c-surface), var(--shadow-sm);
+  font-size: 64px; line-height: 1; padding-top: 6px;
+}
+.person__role { color: var(--ochre-ink); font-weight: 600; font-size: 11px; }
+.person__name { font-family: var(--f-heading); color: var(--c-primary); }
+.person__bio { font-size: 14.5px; }
+.couple__heart { position: relative; display: block; width: 24px; height: 24px; rotate: 45deg; background: var(--c-surface); box-shadow: 0 0 0 1px var(--c-primary), 0 0 0 4px var(--c-bg), 0 0 0 5px var(--hair-ochre); animation: none; justify-self: center; }
+.couple__heart svg { display: none; }
+
+/* ==========================================================================
+   CALENDAR — the day sits in a little arched window
+   ========================================================================== */
+.calendar__table { font-family: var(--f-heading); border-block: 1px solid var(--hair-ochre); }
+.calendar__table th { padding-top: 14px; color: var(--ochre-ink); }
+.calendar__table tbody tr:last-child td { padding-bottom: 8px; }
+.calendar__day--active { color: var(--c-on-primary); }
+.calendar__heart { animation: none; color: transparent; }
+.calendar__heart svg { display: none; }
+.calendar__heart::before {
+  content: ""; width: 36px; height: 42px; border-radius: 999px 999px 2px 2px; background: var(--c-primary);
+  box-shadow: 0 0 0 2px var(--c-surface), 0 0 0 3px var(--c-accent);
+}
+
+/* ==========================================================================
+   COUNTDOWN — each number on its own cement tile
+   ========================================================================== */
+.countdown__item {
+  --tc: color-mix(in srgb, var(--c-accent) 42%, var(--c-surface));
+  --tr: color-mix(in srgb, var(--c-primary) 45%, transparent);
+  display: grid; place-content: center; aspect-ratio: 1; padding: 6px 2px; border-radius: var(--radius-sm);
+  border: 1px solid color-mix(in srgb, var(--c-primary) 40%, transparent);
+  background:
+    radial-gradient(circle at 0 0, var(--tc) 0 10px, transparent 10.5px),
+    radial-gradient(circle at 100% 0, var(--tc) 0 10px, transparent 10.5px),
+    radial-gradient(circle at 0 100%, var(--tc) 0 10px, transparent 10.5px),
+    radial-gradient(circle at 100% 100%, var(--tc) 0 10px, transparent 10.5px),
+    radial-gradient(circle at 0 0, transparent 0 14px, var(--tr) 14px 15px, transparent 15.5px),
+    radial-gradient(circle at 100% 0, transparent 0 14px, var(--tr) 14px 15px, transparent 15.5px),
+    radial-gradient(circle at 0 100%, transparent 0 14px, var(--tr) 14px 15px, transparent 15.5px),
+    radial-gradient(circle at 100% 100%, transparent 0 14px, var(--tr) 14px 15px, transparent 15.5px),
+    var(--c-surface);
+  box-shadow: inset 0 0 0 4px var(--c-surface), inset 0 0 0 5px color-mix(in srgb, var(--c-primary) 14%, transparent), var(--shadow-sm);
+}
+.countdown__value { font-family: var(--f-heading); font-weight: 500; color: var(--c-primary); font-size: clamp(26px, 7.6vw, 42px); }
+.countdown__label { font-size: 10.5px; letter-spacing: .22em; padding-left: .22em; color: var(--ochre-ink); font-weight: 600; }
+.countdown__done { font-family: var(--f-heading); font-style: italic; }
+
+/* ==========================================================================
+   EVENTS — arched cards with a fanlight and a tiled threshold
+   ========================================================================== */
+.event {
+  position: relative; overflow: hidden; gap: 5px;
+  padding: 98px 22px 56px; border-radius: 50% 50% 3px 3px / 130px 130px 3px 3px;
+  border: 1.5px solid var(--c-primary); background: var(--c-surface);
+  box-shadow: inset 0 0 0 5px var(--c-surface), inset 0 0 0 6px var(--hair-ochre), var(--shadow);
+}
+.event::before {
+  content: ""; position: absolute; top: 14px; left: 50%; translate: -50% 0; width: 148px; height: 74px;
+  background: var(--c-accent); opacity: .85;
+  -webkit-mask: url(fanlight.svg) center bottom / 100% 100% no-repeat; mask: url(fanlight.svg) center bottom / 100% 100% no-repeat;
+}
+.event::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 22px; border-top: 1px solid var(--hair-ochre);
+  background: var(--c-primary); opacity: .9;
+  -webkit-mask: url(tile-a.svg) 50% 0 / 22px 22px repeat-x; mask: url(tile-a.svg) 50% 0 / 22px 22px repeat-x;
+}
+.event__title { font-weight: 500; font-size: 21px; letter-spacing: .14em; color: var(--c-primary); position: relative; padding-bottom: 12px; margin-bottom: 4px; }
+.event__title::after { content: ""; position: absolute; left: 50%; bottom: 0; width: 7px; height: 7px; translate: -50% 0; rotate: 45deg; background: var(--c-accent); }
+.event__time { font-size: 30px; color: var(--c-text); }
+.event__time .icon { color: var(--c-accent); }
+.event__date { font-family: var(--f-heading); font-weight: 600; letter-spacing: .04em; }
+.event__venue { font-weight: 600; color: var(--c-primary); }
+.event__map-load { border-radius: var(--radius-sm); border-color: var(--hair-ochre); }
+
+/* ==========================================================================
+   STORY — diamond tiles on a double rail
+   ========================================================================== */
+.timeline::before { left: 5.5px; width: 5px; background: none; border-inline: 1px solid var(--hair-ochre); }
+.timeline__dot { top: 20px; width: 16px; height: 16px; border-radius: 1px; rotate: 45deg; background: var(--c-accent); border: 1.5px solid var(--c-primary); box-shadow: inset 0 0 0 2.5px var(--c-surface), 0 0 0 3px var(--c-bg); }
+.timeline__card { border-radius: var(--radius); border-color: var(--hair); box-shadow: inset 0 0 0 4px var(--c-surface), inset 0 0 0 5px color-mix(in srgb, var(--c-accent) 30%, transparent), var(--shadow-sm); }
+.timeline__photo { border-radius: var(--radius) var(--radius) 0 0; }
+.timeline__date { color: var(--ochre-ink); font-size: 12px; letter-spacing: .2em; }
+.timeline__title { color: var(--c-primary); }
+
+/* ==========================================================================
+   GALLERY — framed prints, every third one arched
+   ========================================================================== */
+.gallery__item { padding: 5px; border-radius: var(--radius-sm); background: var(--c-surface); box-shadow: 0 0 0 1px var(--hair), var(--shadow-sm); }
+.gallery__item img { border-radius: 1px; }
+.gallery__item:nth-child(3n+1) { border-radius: 999px 999px 2px 2px; }
+.gallery__item:nth-child(3n+1) img { border-radius: 999px 999px 0 0; }
+
+/* ==========================================================================
+   FORMS & CARDS — a strip of gạch bông across the top
+   ========================================================================== */
+.card { border-radius: var(--radius); border-color: var(--hair); }
+.form.card, .bank.card { position: relative; overflow: hidden; padding-top: 44px; box-shadow: inset 0 0 0 5px var(--c-surface), inset 0 0 0 6px color-mix(in srgb, var(--c-accent) 28%, transparent), var(--shadow); }
+.form.card::before, .form.card::after, .bank.card::before, .bank.card::after {
+  content: ""; position: absolute; left: 0; right: 0; top: 0; height: 20px;
+  -webkit-mask-size: 20px 20px; mask-size: 20px 20px; -webkit-mask-repeat: repeat-x; mask-repeat: repeat-x; -webkit-mask-position: 50% 0; mask-position: 50% 0;
+}
+.form.card::before, .bank.card::before { background: var(--c-primary); -webkit-mask-image: url(tile-a.svg); mask-image: url(tile-a.svg); }
+.form.card::after, .bank.card::after { background: var(--c-accent); -webkit-mask-image: url(tile-b.svg); mask-image: url(tile-b.svg); }
+.form label, .form legend { font-family: var(--f-heading); font-weight: 600; letter-spacing: .02em; }
+.form input[type="text"], .form input[type="tel"], .form select, .form textarea { border-radius: var(--radius-sm); background: color-mix(in srgb, var(--c-bg) 70%, var(--c-surface)); }
+.choice { border-radius: var(--radius-sm); }
+.wish { border-radius: var(--radius); border-color: var(--hair); box-shadow: inset 3px 0 0 var(--c-accent); }
+.wish__avatar { border-radius: 999px 999px 2px 2px; background: var(--c-primary); color: var(--c-surface); font-family: var(--f-heading); height: 42px; }
+.wish__name { font-family: var(--f-heading); color: var(--c-primary); }
+.bank__owner { font-family: var(--f-heading); color: var(--c-primary); }
+.bank__owner .icon { color: var(--c-accent); }
+.bank__qr { border-radius: 2px; box-shadow: 0 0 0 1px var(--hair-ochre), var(--shadow-sm); }
+.bank__copy { border-radius: var(--radius-sm); }
+
+/* ==========================================================================
+   THANKS — a green veranda with banana leaves
+   ========================================================================== */
+.thanks { background: var(--c-primary); color: var(--c-surface); overflow: hidden; isolation: isolate; padding-block: 92px 110px; }
+.thanks::before { /* tiled threshold */
+  content: ""; position: absolute; left: 0; right: 0; top: 0; height: 28px; z-index: -1;
+  background: var(--ochre-light); opacity: .9;
+  -webkit-mask: url(tile-a.svg) 50% 0 / 28px 28px repeat-x; mask: url(tile-a.svg) 50% 0 / 28px 28px repeat-x;
+}
+.thanks::after { /* leaves in the corners */
+  content: ""; position: absolute; inset: 0; z-index: -1; background: var(--ink-deep); opacity: .8;
+  -webkit-mask: url(banana-tilt.svg) right -60px bottom -30px / auto 380px no-repeat, url(palm.svg) left -170px top 40px / auto 260px no-repeat;
+  mask: url(banana-tilt.svg) right -60px bottom -30px / auto 380px no-repeat, url(palm.svg) left -170px top 40px / auto 260px no-repeat;
+}
+.thanks .container { /* an arched doorway that bookends the hero window */
+  position: relative; width: min(500px, calc(100% - 40px)); padding: 108px 22px 44px;
+  border: 1px solid color-mix(in srgb, var(--c-accent) 70%, transparent);
+  border-radius: 50% 50% 3px 3px / 180px 180px 3px 3px;
+  outline: 1px solid color-mix(in srgb, var(--c-accent) 35%, transparent); outline-offset: 6px;
+}
+.thanks .container::before {
+  content: ""; position: absolute; top: 16px; left: 50%; translate: -50% 0; width: 170px; height: 85px;
+  background: var(--ochre-light); opacity: .75;
+  -webkit-mask: url(fanlight.svg) center bottom / 100% 100% no-repeat; mask: url(fanlight.svg) center bottom / 100% 100% no-repeat;
+}
+.thanks__script { color: var(--ochre-light); font-size: clamp(54px, 14vw, 84px); }
+.thanks__text { color: color-mix(in srgb, var(--c-surface) 90%, transparent); }
+.thanks__names { font-family: var(--f-heading); color: var(--c-surface); letter-spacing: .18em; }
+.thanks__heart, .thanks__hashtag { color: var(--ochre-light); }
+
+/* ==========================================================================
+   INTRO — louvered colonial shutters around an arched card
+   ========================================================================== */
+.intro--doors { background: transparent; }
+.intro--doors .door {
+  grid-template-rows: 1.2fr 1fr; gap: 2.6vh; padding: 6vh 4.5vw 5vh;
+  background:
+    linear-gradient(90deg, rgb(0 0 0 / .14), transparent 18%, rgb(255 255 255 / .05) 60%, rgb(0 0 0 / .16)),
+    var(--ink-deep);
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / .06);
+}
+.intro--doors .door--left { border-right: 2px solid color-mix(in srgb, var(--c-accent) 50%, #000); }
+.intro--doors .door--right { border-left: 0; }
+.intro--doors .door__panel {
+  position: relative; border: 0; border-radius: 1px;
+  background:
+    linear-gradient(180deg, rgb(0 0 0 / .28), transparent 14px),
+    repeating-linear-gradient(180deg, color-mix(in srgb, var(--c-primary) 55%, #fff) 0 1px, color-mix(in srgb, var(--c-primary) 90%, #fff) 1px 6px, var(--c-primary) 6px 10px, var(--ink-deep) 10px 12px);
+  box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--c-accent) 60%, transparent), 0 0 0 5px var(--c-primary), 0 0 0 6px rgb(0 0 0 / .25);
+}
+.intro--doors .door__panel::after { /* tilt rod */
+  content: ""; position: absolute; top: 8%; bottom: 8%; left: 50%; width: 3px; margin-left: -1.5px; border-radius: 2px;
+  background: linear-gradient(90deg, var(--ink-deep), color-mix(in srgb, var(--c-primary) 70%, #fff), var(--ink-deep));
+}
+.intro--doors .door__knob {
+  width: 7px; height: 54px; margin-top: -27px; border-radius: 4px;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--c-accent) 60%, #000), color-mix(in srgb, var(--c-accent) 60%, #fff) 45%, var(--c-accent));
+}
+.intro--doors .door--left .door__knob { right: 10px; }
+.intro--doors .door--right .door__knob { left: 10px; }
+.intro--doors .intro__to { color: var(--ochre-light); text-shadow: 0 1px 6px rgb(0 0 0 / .5); }
+.intro--doors .intro__guest { color: var(--c-surface); font-family: var(--f-heading); text-shadow: 0 1px 8px rgb(0 0 0 / .5); }
+.intro--doors .intro__text { padding: 8px 18px; border-radius: 3px; background: color-mix(in srgb, var(--ink-deep) 70%, transparent); }
+
+.intro__card {
+  overflow: hidden; width: min(290px, 74vw); aspect-ratio: 3 / 4.05; padding: calc(50% + 4px) 18px 30px; place-content: center; gap: 6px;
+  background: var(--c-surface); border: 2px solid var(--c-accent); border-radius: 999px 999px 4px 4px;
+  box-shadow: 0 0 0 6px var(--c-surface), 0 0 0 7px var(--hair-ochre), 0 30px 60px -20px rgb(0 0 0 / .55);
+}
+.ind-card__fan {
+  position: absolute; left: 0; right: 0; top: 0; aspect-ratio: 2 / 1; border-bottom: 5px solid var(--c-primary);
+  background: radial-gradient(circle at 50% 100%, color-mix(in srgb, var(--c-primary) 55%, var(--c-accent)) 0 14%, color-mix(in srgb, var(--c-primary) 82%, var(--c-accent)) 40%, var(--c-primary) 75%);
+}
+.ind-card__fan::before { content: ""; position: absolute; inset: 0; background: var(--ochre-light); -webkit-mask: url(fanlight.svg) center bottom / 100% 100% no-repeat; mask: url(fanlight.svg) center bottom / 100% 100% no-repeat; }
+.ind-card__tiles { position: absolute; left: 0; right: 0; bottom: 0; height: 22px; border-top: 1px solid var(--hair-ochre); }
+.ind-card__tiles::before, .ind-card__tiles::after { -webkit-mask-size: 22px 22px; mask-size: 22px 22px; -webkit-mask-repeat: repeat-x; mask-repeat: repeat-x; -webkit-mask-position: 50% 0; mask-position: 50% 0; }
+.ind-card__eyebrow { font-family: var(--f-heading); font-size: 10.5px; letter-spacing: .3em; padding-left: .3em; text-transform: uppercase; color: var(--ochre-ink); font-weight: 600; }
+.intro__monogram { font-size: 64px; color: var(--c-primary); margin: 2px 0 4px; }
+.intro__monogram i { color: var(--c-accent); }
+.intro__names { font-family: var(--f-heading); font-size: 12.5px; letter-spacing: .24em; color: var(--c-text); }
+.intro__date { font-family: var(--f-heading); color: var(--ochre-ink); letter-spacing: .22em; }
+.intro__open {
+  background: var(--c-surface); color: var(--c-primary); border-radius: 2px; letter-spacing: .26em; font-size: 13px;
+  box-shadow: inset 0 0 0 1px var(--c-accent), inset 0 0 0 4px var(--c-surface), inset 0 0 0 5px var(--hair-ochre), 0 12px 30px -10px rgb(0 0 0 / .55);
+  animation: ind-breathe 2.4s ease-in-out infinite;
+}
+@keyframes ind-breathe { 50% { box-shadow: inset 0 0 0 1px var(--c-accent), inset 0 0 0 4px var(--c-surface), inset 0 0 0 5px var(--hair-ochre), 0 0 0 9px color-mix(in srgb, var(--c-surface) 22%, transparent), 0 12px 30px -10px rgb(0 0 0 / .55); } }
+.gcard__cover .ind-card__eyebrow { display: none; }
+.gcard__cover:has(.ind-card__fan) { padding-top: calc(50% + 14px); }
+.gcard__cover .ind-card__fan { left: 18px; right: 18px; top: 18px; border: 1.5px solid var(--hair-ochre); border-bottom-width: 4px; border-radius: 999px 999px 0 0; background: color-mix(in srgb, var(--ink-deep) 55%, transparent); }
+.gcard__cover .ind-card__tiles { background: var(--c-surface); }
+/* the fade / curtain / circle intros also use .intro__card — give them the wall behind */
+.intro:not(.intro--doors) { background: radial-gradient(120% 90% at 50% 25%, var(--c-surface), color-mix(in srgb, var(--c-secondary) 70%, var(--c-bg))); }
+
+/* ---------- responsiveness ---------- */
+@media (max-width: 420px) {
+  .families { grid-template-columns: 1fr; gap: 18px; padding-inline: 4px; }
+  .family + .family { border-left: 0; border-top: 1px solid var(--hair); padding-top: 18px; }
+  .couple__grid { gap: 30px; }
+}
+@media (max-width: 360px) {
+  .ind-window { --w: calc(100vw - 92px); }
+  .ind-shutter { width: 28px; }
+  .section-title__main { gap: 10px; letter-spacing: .12em; }
+}
+@media (min-width: 900px) {
+  .ind-hero { padding-top: 48px; }
+  .ind-window { --w: 372px; }
+  .ind-shutter { width: 46px; }
+  .ind-window__sill { margin: 0 -56px; }
+  .ind-hero .hero__names { font-size: 80px; }
+  .ind-floor { height: 72px; }
+  .ind-leaf--palm { right: 0; width: 50%; height: 400px; -webkit-mask-position: -150px -70px; mask-position: -150px -70px; }
+  .ind-leaf--back-l { left: calc(50% - 640px); width: 420px; height: 640px; }
+  .ind-leaf--back-r { right: calc(50% - 600px); width: 380px; height: 620px; }
+  .ind-leaf--front-l { left: calc(50% - 360px); width: 210px; height: 400px; -webkit-mask-position: 100% 100%; mask-position: 100% 100%; }
+  .ind-leaf--front-r { right: calc(50% - 330px); width: 150px; height: 260px; }
+  /* photo hero on desktop: window left, names right */
+  .ind-hero--photo .ind-hero__stage { grid-template-columns: auto minmax(0, 420px); justify-content: center; align-items: center; column-gap: 64px; }
+  .ind-hero--photo .hero__guest { grid-column: 1 / -1; }
+  .ind-hero--photo .ind-window { --w: 360px; }
+  .ind-hero--photo .ind-hero__text { margin-top: 0; }
+  .ind-hero--photo .ind-leaf--back-r { right: 0; }
+  .ind-floor::before, .ind-floor::after { -webkit-mask-size: 36px 36px; mask-size: 36px 36px; }
+}

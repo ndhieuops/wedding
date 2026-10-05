@@ -1,0 +1,105 @@
+{
+  "name": "Kẹo Ngọt",
+  "description": "Trẻ trung, vui nhộn với sắc kẹo pastel bạc hà, đào, oải hương và vàng bơ — sticker nghiêng nghiêng, khăn ca rô, đường lượn sóng và bóng bay.",
+  "version": "1.0.0",
+  "author": "Wedding Studio",
+  "tags": [
+    "trẻ trung",
+    "pastel",
+    "vui nhộn"
+  ],
+  "published": true,
+  "order": 14,
+  "preview": "preview.webp",
+  "entry": "index.njk",
+  "styles": [
+    "style.css"
+  ],
+  "scripts": [],
+  "defaults": {
+    "tone": "modern",
+    "theme": {
+      "colors": {
+        "primary": "#e8558a",
+        "secondary": "#c6eedf",
+        "background": "#fff8f1",
+        "surface": "#ffffff",
+        "text": "#3b3170",
+        "accent": "#ffd36b"
+      },
+      "fonts": {
+        "heading": "Lexend",
+        "body": "Quicksand",
+        "script": "Pacifico"
+      },
+      "effect": "balloons",
+      "effect2": "confetti",
+      "effectIntensity": "low",
+      "burst": "confetti",
+      "tap": "hearts",
+      "nameAnimation": "letters",
+      "intro": "circle"
+    },
+    "sections": [
+      "hero",
+      "quote",
+      "invitation",
+      "couple",
+      "calendar",
+      "countdown",
+      "events",
+      "story",
+      "gallery",
+      "rsvp",
+      "wishes",
+      "gift",
+      "thanks"
+    ]
+  },
+  "palettes": [
+    {
+      "name": "Dâu bạc hà",
+      "colors": {
+        "primary": "#e8558a",
+        "secondary": "#c6eedf",
+        "background": "#fff8f1",
+        "surface": "#ffffff",
+        "text": "#3b3170",
+        "accent": "#ffd36b"
+      }
+    },
+    {
+      "name": "Soda oải hương",
+      "colors": {
+        "primary": "#8a63e0",
+        "secondary": "#ffdccb",
+        "background": "#fbf8ff",
+        "surface": "#ffffff",
+        "text": "#30285c",
+        "accent": "#a6e6cf"
+      }
+    },
+    {
+      "name": "Kem đào",
+      "colors": {
+        "primary": "#e7603f",
+        "secondary": "#ffe9a8",
+        "background": "#fffaf4",
+        "surface": "#ffffff",
+        "text": "#46304a",
+        "accent": "#c3b2f7"
+      }
+    },
+    {
+      "name": "Chanh bạc hà",
+      "colors": {
+        "primary": "#1f9a80",
+        "secondary": "#fff0a3",
+        "background": "#f5fffb",
+        "surface": "#ffffff",
+        "text": "#1f3d48",
+        "accent": "#ffb7cc"
+      }
+    }
+  ]
+}

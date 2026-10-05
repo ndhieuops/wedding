@@ -1,0 +1,14 @@
+{# Xuân Hỷ — spring (Tết-season) wedding: mai & đào blossoms, firecracker garlands, lucky red & gold. #}
+{% extends "layout.njk" %}
+{% from "partials/spring.njk" import defs %}
+
+{# Only the 囍 glyph (≈2 KB) so the Song Hỷ symbol renders the same on every device. #}
+{% block head %}
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@700&text=%E5%9B%8D&display=block">
+{% endblock %}
+
+{# Shared SVG <defs> (flowers, buds, firecracker) used by every ornament, then the warm paper layer. #}
+{% block background %}
+{{ defs() }}
+<div class="tb-paper" aria-hidden="true"></div>
+{% endblock %}

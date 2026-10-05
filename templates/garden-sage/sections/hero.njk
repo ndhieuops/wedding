@@ -40,7 +40,11 @@
         <span class="gs-hero__dmy">
           <span>{{ wedding.day }}</span><i aria-hidden="true"></i><span>{{ wedding.month }}</span><i aria-hidden="true"></i><span>{{ wedding.year }}</span>
         </span>
-        {% if wedding.lunar %}<span class="gs-hero__lunar">Nhằm {{ wedding.lunar.text }}</span>{% endif %}
+        {% if wedding.lunar %}
+        {# keep "ngày … tháng …" and "năm …" together so the line never breaks between "tháng" and its number #}
+        {% set lunarParts = wedding.lunar.text.split(' năm ') %}
+        <span class="gs-hero__lunar">{% if lunarParts.length == 2 %}<span>Nhằm {{ lunarParts[0] }}</span> <span>năm {{ lunarParts[1] }}</span>{% else %}Nhằm {{ wedding.lunar.text }}{% endif %}</span>
+        {% endif %}
       </div>
       {% endif %}
     </div>

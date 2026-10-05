@@ -217,6 +217,12 @@
 .ms-chart__photo img { width: 100%; height: 100%; object-fit: cover; }
 .ms-hero--photo .ms-chart__core { padding: 12%; }
 .ms-hero--photo .ms-names { font-size: clamp(50px, 14vw, 92px); margin-top: -4px; }
+/* longer short-names (class set in sections/hero.njk) shrink so they stay inside the rings */
+.ms-names .hero__name { text-wrap: balance; }
+.tpl .ms-names--long { font-size: clamp(44px, 12vw, 80px); line-height: 1.02; }
+.tpl .ms-names--xl { font-size: clamp(36px, 9.8vw, 64px); line-height: 1.04; }
+/* long names cross the constellations: let the star lines step back so the names stay clean */
+.ms-hero--longnames:not(.ms-hero--photo) .ms-chart__stars { opacity: .5; }
 
 /* ==========================================================================
    Section titles — script in gold, spaced small caps, moon & stars divider
@@ -393,20 +399,26 @@
 .thanks { overflow: hidden; padding-bottom: calc(var(--section-pad) * .55 + min(180px, 42vw)); }
 .thanks .container { position: relative; z-index: 2; }
 .thanks::before {
-  content: ""; position: absolute; left: 50%; bottom: 0; z-index: 0; width: min(260px, 64vw); aspect-ratio: 1; margin-left: calc(min(260px, 64vw) / -2); translate: 0 34%;
+  content: ""; position: absolute; left: 50%; bottom: 0; z-index: 0; width: min(236px, 58vw); aspect-ratio: 1; margin-left: calc(min(236px, 58vw) / -2); translate: 0 30%;
   border-radius: 50%;
   background:
-    radial-gradient(circle at 28% 42%, color-mix(in srgb, var(--c-primary) 22%, transparent) 0 5%, transparent 6.5%),
-    radial-gradient(circle at 64% 30%, color-mix(in srgb, var(--c-primary) 18%, transparent) 0 3.5%, transparent 5%),
-    radial-gradient(circle at 46% 24%, color-mix(in srgb, var(--c-primary) 14%, transparent) 0 2.5%, transparent 3.5%),
-    radial-gradient(circle at 38% 34%, var(--gold-hi), var(--c-accent) 42%, color-mix(in srgb, var(--c-primary) 92%, var(--c-accent)) 100%);
-  box-shadow: inset -18px -14px 40px color-mix(in srgb, var(--c-primary) 55%, transparent), 0 0 60px 6px color-mix(in srgb, var(--c-primary) 36%, transparent), 0 0 170px 46px color-mix(in srgb, var(--c-primary) 15%, transparent);
+    radial-gradient(circle at 30% 44%, color-mix(in srgb, var(--c-primary) 24%, transparent) 0 6.5%, transparent 9%),
+    radial-gradient(circle at 60% 28%, color-mix(in srgb, var(--c-primary) 18%, transparent) 0 4.5%, transparent 6.5%),
+    radial-gradient(18% 12% at 46% 62%, color-mix(in srgb, var(--c-primary) 18%, transparent), transparent),
+    radial-gradient(circle at 72% 50%, color-mix(in srgb, var(--c-primary) 14%, transparent) 0 3%, transparent 4.5%),
+    radial-gradient(circle at 40% 36%, var(--gold-hi), var(--c-accent) 46%, color-mix(in srgb, var(--c-primary) 90%, var(--c-accent)) 84%, color-mix(in srgb, var(--c-primary) 82%, var(--c-bg)) 100%);
+  box-shadow:
+    inset -14px -10px 34px color-mix(in srgb, var(--c-primary) 48%, transparent),
+    0 0 56px 6px color-mix(in srgb, var(--c-accent) 32%, transparent),
+    0 0 160px 50px color-mix(in srgb, var(--c-primary) 13%, transparent);
   animation: ms-moonrise 12s ease-in-out infinite alternate;
 }
-@keyframes ms-moonrise { from { translate: 0 36%; } to { translate: 0 31%; } }
+@keyframes ms-moonrise { from { translate: 0 32%; } to { translate: 0 26%; } }
 .thanks::after {
-  content: ""; position: absolute; left: 0; right: 0; bottom: -1px; z-index: 1; height: clamp(64px, 15vw, 140px);
-  background: var(--c-bg); -webkit-mask: url(ridge.svg) bottom / 100% 100% no-repeat; mask: url(ridge.svg) bottom / 100% 100% no-repeat;
+  content: ""; position: absolute; left: 0; right: 0; bottom: -1px; z-index: 1; height: clamp(84px, 21vw, 170px);
+  /* two opaque ridges; the far one catches a little moonlight */
+  background: linear-gradient(180deg, color-mix(in srgb, var(--c-secondary) 55%, var(--c-bg)) 30%, var(--c-bg) 78%);
+  -webkit-mask: url(ridge.svg) bottom / 100% 100% no-repeat; mask: url(ridge.svg) bottom / 100% 100% no-repeat;
 }
 .thanks__script { padding: 0 .2em; background: var(--gold-grad); -webkit-background-clip: text; background-clip: text; color: transparent; font-size: clamp(56px, 15vw, 88px); }
 .thanks__text { color: color-mix(in srgb, var(--c-text) 90%, var(--c-bg)); }
@@ -422,9 +434,15 @@
    Intro — navy velvet curtain hung with gold stars, a moon medallion
    ========================================================================== */
 .intro {
+  --is: color-mix(in srgb, var(--c-accent) 75%, transparent);
+  --is-dim: color-mix(in srgb, var(--c-accent) 40%, transparent);
   background:
-    radial-gradient(1.2px 1.2px at 30px 40px, color-mix(in srgb, var(--c-accent) 70%, transparent) 50%, transparent 52%) 0 0 / 160px 170px,
-    radial-gradient(1px 1px at 110px 120px, color-mix(in srgb, var(--c-accent) 60%, transparent) 50%, transparent 52%) 0 0 / 160px 170px,
+    radial-gradient(1.4px 1.4px at 23px 41px, var(--is) 50%, transparent 55%) 0 0 / 173px 181px,
+    radial-gradient(1px 1px at 131px 97px, var(--is-dim) 50%, transparent 55%) 0 0 / 173px 181px,
+    radial-gradient(1px 1px at 67px 150px, var(--is) 50%, transparent 55%) 0 0 / 211px 197px,
+    radial-gradient(1.8px 1.8px at 180px 30px, var(--is) 50%, transparent 55%) 0 0 / 293px 277px,
+    radial-gradient(1px 1px at 40px 220px, var(--is-dim) 50%, transparent 55%) 0 0 / 293px 277px,
+    radial-gradient(1px 1px at 90px 60px, var(--is-dim) 50%, transparent 55%) 0 0 / 127px 139px,
     radial-gradient(110% 80% at 50% 20%, color-mix(in srgb, var(--c-secondary) 70%, var(--c-bg)), var(--c-bg) 72%);
 }
 .intro--curtain .curtain {
@@ -492,8 +510,13 @@
 .intro .intro__to { color: var(--c-muted); }
 .intro__text { padding: 10px 28px; background: radial-gradient(closest-side, color-mix(in srgb, var(--c-bg) 72%, transparent), transparent); }
 .intro .intro__guest { color: var(--c-text); font-size: 21px; }
-.intro__open { animation: ms-open-pulse 2.4s ease-in-out infinite; }
-@keyframes ms-open-pulse { 0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--c-primary) 45%, transparent), 0 8px 26px -10px color-mix(in srgb, var(--c-primary) 70%, transparent); } 50% { box-shadow: 0 0 0 12px transparent, 0 8px 26px -10px color-mix(in srgb, var(--c-primary) 70%, transparent); } }
+.intro__open { position: relative; animation: none; }
+.intro__open::after {
+  content: ""; position: absolute; inset: -1px; border-radius: inherit; pointer-events: none;
+  border: 1px solid color-mix(in srgb, var(--c-primary) 85%, transparent);
+  animation: ms-open-ring 2.6s cubic-bezier(.2, .6, .3, 1) infinite;
+}
+@keyframes ms-open-ring { from { inset: -1px; opacity: .95; } to { inset: -15px; opacity: 0; } }
 
 /* other intro styles in the night palette */
 .envelope { --env: color-mix(in srgb, var(--c-secondary) 80%, var(--c-surface)); --env-dark: color-mix(in srgb, var(--c-bg) 80%, var(--c-secondary)); }
@@ -517,6 +540,7 @@
   .tpl .ms-hero--photo .ms-names { flex-direction: row; flex-wrap: wrap; justify-content: center; align-items: center; font-size: clamp(56px, 6.4vw, 84px); }
   .tpl .ms-hero--photo .ms-names .hero__amp { margin: 0 .2em; font-size: .42em; }
   .ms-hero--photo .ms-names .hero__amp::before, .ms-hero--photo .ms-names .hero__amp::after { display: none; }
+  .tpl .ms-hero--photo .ms-names--xl { font-size: clamp(44px, 4.8vw, 64px); }
   .events__list { gap: 34px; }
 }
 @media (min-width: 1000px) {

@@ -1,0 +1,105 @@
+{
+  "name": "Đông Dương",
+  "description": "Hoài cổ kiểu Đông Dương: khung cửa vòm thuộc địa, cửa chớp lá sách, viền gạch bông, lá chuối nhiệt đới và sắc xanh lục bảo – vàng nghệ.",
+  "version": "1.0.0",
+  "author": "Wedding Studio",
+  "tags": [
+    "hoài cổ",
+    "Đông Dương",
+    "gạch bông"
+  ],
+  "published": true,
+  "order": 12,
+  "preview": "preview.webp",
+  "entry": "index.njk",
+  "styles": [
+    "style.css"
+  ],
+  "scripts": [],
+  "defaults": {
+    "tone": "classic",
+    "theme": {
+      "colors": {
+        "primary": "#1f4b3d",
+        "secondary": "#ecdcb8",
+        "background": "#f5eedf",
+        "surface": "#fffaf0",
+        "text": "#22302a",
+        "accent": "#c08f2e"
+      },
+      "fonts": {
+        "heading": "Libre Bodoni",
+        "body": "Work Sans",
+        "script": "Carattere"
+      },
+      "effect": "leaves",
+      "effect2": "golddust",
+      "effectIntensity": "low",
+      "burst": "confetti",
+      "tap": "ripple",
+      "nameAnimation": "handwrite",
+      "intro": "doors"
+    },
+    "sections": [
+      "hero",
+      "quote",
+      "invitation",
+      "couple",
+      "calendar",
+      "countdown",
+      "events",
+      "story",
+      "gallery",
+      "rsvp",
+      "wishes",
+      "gift",
+      "thanks"
+    ]
+  },
+  "palettes": [
+    {
+      "name": "Lục bảo & vàng nghệ",
+      "colors": {
+        "primary": "#1f4b3d",
+        "secondary": "#ecdcb8",
+        "background": "#f5eedf",
+        "surface": "#fffaf0",
+        "text": "#22302a",
+        "accent": "#c08f2e"
+      }
+    },
+    {
+      "name": "Xanh cổ vịt",
+      "colors": {
+        "primary": "#1b5660",
+        "secondary": "#e5dbc3",
+        "background": "#f3eee2",
+        "surface": "#fffcf4",
+        "text": "#1d2b2f",
+        "accent": "#b98a3a"
+      }
+    },
+    {
+      "name": "Gạch nung & rêu",
+      "colors": {
+        "primary": "#94472b",
+        "secondary": "#efdcc4",
+        "background": "#f8f0e3",
+        "surface": "#fffaf2",
+        "text": "#33241d",
+        "accent": "#4f6b4a"
+      }
+    },
+    {
+      "name": "Sơn mài đỏ son",
+      "colors": {
+        "primary": "#7a2620",
+        "secondary": "#f0dcc0",
+        "background": "#f7efe2",
+        "surface": "#fffaf1",
+        "text": "#2d1f1a",
+        "accent": "#b8862c"
+      }
+    }
+  ]
+}

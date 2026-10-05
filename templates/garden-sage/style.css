@@ -18,8 +18,10 @@
   --gs-gold-soft: color-mix(in srgb, var(--c-accent) 60%, var(--c-bg));
   --gs-gold-ink: color-mix(in srgb, var(--c-accent) 66%, var(--c-text));
   --gs-paper: color-mix(in srgb, var(--c-surface) 92%, var(--c-secondary));
-  --shadow-sm: 0 6px 18px -10px color-mix(in srgb, var(--c-primary) 45%, transparent);
-  --shadow: 0 18px 40px -22px color-mix(in srgb, var(--c-text) 45%, transparent);
+  /* shadow ink: a deep sage that stays dark in every palette (no light glow on dark palettes) */
+  --gs-shade: color-mix(in srgb, var(--c-primary) 22%, #000);
+  --shadow-sm: 0 8px 20px -12px color-mix(in srgb, var(--gs-shade) 34%, transparent);
+  --shadow: 0 18px 40px -22px color-mix(in srgb, var(--gs-shade) 48%, transparent);
 }
 
 /* ---------- fixed garden backdrop ---------- */
@@ -50,6 +52,8 @@
 .gs-bot .gs-fruit path { fill: none; stroke: var(--gs-ink); stroke-width: .8; }
 
 /* the drawing sequence: stems first, leaves from base to tip, then the colour wash and gold fruits */
+/* a gap twice the (normalised) path length so no sliver of the next dash peeks out at a path's far end */
+.js svg.gs-bot[data-draw] :is(path, ellipse, circle) { stroke-dasharray: 1 2; }
 .js svg.gs-bot[data-draw] .st { transition-duration: 1.7s; }
 .js svg.gs-bot[data-draw] .lf { transition-duration: 1.3s; }
 .js svg.gs-bot[data-draw] .d1 { transition-delay: .3s; }
@@ -63,7 +67,7 @@
 /* the garden starts drawing itself the moment the gate (intro) begins to open */
 .intro.is-opening ~ .page .gs-hero svg.gs-bot[data-draw] :is(path, ellipse, circle) { stroke-dashoffset: 0; }
 .intro.is-opening ~ .page .gs-hero svg.gs-bot[data-draw] :is(.gs-wash, .gs-fruit) { opacity: 1; }
-.intro.is-opening ~ .page .gs-gate__post { scale: 1 1; }
+.intro.is-opening ~ .page .gs-gate__post { scale: 1 1; opacity: 1; }
 
 /* ---------- section separators: a hairline with a single gold leaf ---------- */
 .gs-sep { position: relative; z-index: 1; display: grid; place-items: center; height: 1px; }
@@ -112,8 +116,9 @@
 .gs-gate__post--l { left: 0; }
 .gs-gate__post--r { right: 0; transform: scaleX(-1); }
 .gs-gate__post::after { content: ""; position: absolute; left: -3px; right: -3px; bottom: 0; height: 1px; background: var(--gs-frame); opacity: .7; }
-.js .gs-gate__post { scale: 1 0; transition: scale 1.3s cubic-bezier(.5, 0, .3, 1) .9s; }
-.js .gs-gate__frame:has(.gs-gate__arch.is-drawn) .gs-gate__post { scale: 1 1; }
+/* the posts grow down from the arch's feet once the arch (1.8s) has nearly finished drawing */
+.js .gs-gate__post { scale: 1 0; opacity: 0; transition: scale 1.3s cubic-bezier(.5, 0, .3, 1) 1.5s, opacity .15s linear 1.5s; }
+.js .gs-gate__frame:has(.gs-gate__arch.is-drawn) .gs-gate__post { scale: 1 1; opacity: 1; }
 .gs-gate__base { position: absolute; left: 0; bottom: 0; width: 100%; height: auto; }
 .gs-gate__base .gs-ink path { stroke-width: 1.15; }
 
@@ -133,14 +138,15 @@
   font-size: clamp(50px, 16vw, 92px); font-size: clamp(48px, 18.5cqw, 96px); line-height: 1.1; margin: 2px 0 0;
 }
 .gs-hero .hero__name { padding: 0 .12em; }
-.js .gs-hero .names--handwrite.is-playing > * { animation-duration: 1.15s; animation-delay: calc(var(--i, 0) * .55s + .1s); }
+.js .gs-hero .names--handwrite.is-playing > * { animation-duration: 1.05s; animation-delay: calc(var(--i, 0) * .45s + .05s); }
 .gs-hero .hero__amp { font-family: var(--f-heading); font-style: italic; font-size: .38em; color: var(--gs-gold-ink); margin: -.05em 0 -.02em; }
 .gs-hero__divider { width: 150px; margin-top: -2px; }
 .gs-hero__date { display: grid; justify-items: center; gap: 4px; font-family: var(--f-heading); }
 .gs-hero__weekday { font-family: var(--f-body); font-size: 11.5px; font-weight: 700; letter-spacing: .32em; padding-left: .32em; text-transform: uppercase; color: var(--c-muted); }
 .gs-hero__dmy { display: flex; align-items: center; gap: 14px; font-size: clamp(28px, 8vw, 36px); font-weight: 500; line-height: 1.1; letter-spacing: .04em; font-variant-numeric: lining-nums; font-feature-settings: "lnum" 1; }
 .gs-hero__dmy i { width: 7px; height: 7px; border-radius: 0 80% 0 80%; background: var(--gs-gold); rotate: -45deg; flex: none; }
-.gs-hero__lunar { margin-top: 4px; font-style: italic; font-size: 16px; color: var(--c-muted); max-width: 26ch; line-height: 1.4; text-wrap: balance; }
+.gs-hero__lunar { margin-top: 4px; font-style: italic; font-size: 16px; color: var(--c-muted); line-height: 1.4; max-width: 240px; max-width: 72cqw; }
+.gs-hero__lunar > span { display: inline-block; }
 .gs-hero .hero__scroll { color: var(--gs-frame); bottom: 22px; }
 
 /* cover photo framed by the arch (a view through the gate) */
@@ -148,7 +154,7 @@
 .gs-hero__photo {
   width: 100%; width: 76cqw; aspect-ratio: 76 / 82; margin: 0 0 8px; overflow: hidden;
   border-radius: 999px 999px 10px 10px; background: var(--gs-wash2);
-  box-shadow: 0 20px 40px -26px color-mix(in srgb, var(--c-text) 60%, transparent);
+  box-shadow: 0 20px 40px -26px color-mix(in srgb, var(--gs-shade) 70%, transparent);
 }
 .gs-hero__img { width: 100%; height: 100%; object-fit: cover; }
 
@@ -207,7 +213,8 @@
 .invitation__day::after { content: ""; position: absolute; left: -10px; right: -10px; bottom: 0; height: 1px; background: var(--gs-line); }
 .invitation__weekday, .invitation__monthyear { border-color: var(--gs-line-soft); }
 .invitation__lunar, .invitation__address { color: var(--c-muted); }
-.invitation__lead, .invitation__address, .event__address span, .section-title__sub, .thanks__text, .person__bio { text-wrap: balance; }
+.invitation__lead, .invitation__address, .invitation__lunar, .invitation__venue, .invitation__name, .event__venue, .event__lunar,
+.event__address span, .section-title__sub, .thanks__text, .person__bio, .person__name, .timeline__title { text-wrap: balance; }
 
 /* ---------- couple: arched portraits with a sprig ---------- */
 .person { position: relative; }
@@ -242,7 +249,7 @@
 
 /* ---------- calendar: the day wrapped in a little wreath ---------- */
 .calendar__table {
-  border-collapse: separate; border-spacing: 0; padding: 40px 12px 16px; background: var(--c-surface);
+  border-collapse: separate; border-spacing: 0; table-layout: fixed; padding: 40px 12px 16px; background: var(--c-surface);
   border: 1px solid var(--gs-line); border-radius: 50% 50% 22px 22px / 70px 70px 22px 22px;
   box-shadow: inset 0 0 0 5px var(--c-surface), inset 0 0 0 6px var(--gs-line-soft), var(--shadow-sm);
 }
@@ -369,9 +376,9 @@
 
 /* opening card (doors / fade / curtain / circle) */
 .intro__card {
-  width: min(290px, 76vw); aspect-ratio: 5 / 6; padding: 78px 20px 46px; gap: 8px;
+  width: min(290px, 76vw); aspect-ratio: 5 / 6; padding: 96px 20px 40px; gap: 8px;
   background: var(--c-surface); border: 1px solid var(--gs-line); border-radius: 999px 999px 20px 20px;
-  box-shadow: inset 0 0 0 7px var(--c-surface), inset 0 0 0 8px var(--gs-line-soft), 0 26px 50px -24px color-mix(in srgb, var(--c-text) 60%, transparent);
+  box-shadow: inset 0 0 0 7px var(--c-surface), inset 0 0 0 8px var(--gs-line-soft), 0 26px 50px -24px color-mix(in srgb, var(--gs-shade) 62%, transparent);
 }
 .intro__monogram { font-size: 66px; color: var(--c-primary); }
 .intro__monogram i { color: var(--gs-gold-ink); }
@@ -384,7 +391,7 @@
 .gs-introdecor { position: absolute; top: 5%; left: 7%; width: 86%; height: auto; pointer-events: none; }
 .gs-introdecor--bottom { top: auto; bottom: 16px; left: 50%; width: 112px; translate: -50% 0; }
 .gs-introdecor--bottom .gs-fruit { animation-delay: 2.2s; }
-.gs-introdecor .gs-ink path { stroke-dasharray: 1; stroke-dashoffset: 1; animation: gs-draw 2.4s cubic-bezier(.5, .1, .3, 1) .4s forwards; }
+.gs-introdecor .gs-ink path { stroke-dasharray: 1 2; stroke-dashoffset: 1; animation: gs-draw 2.4s cubic-bezier(.5, .1, .3, 1) .4s forwards; }
 .gcard__cover .gs-introdecor--bottom { bottom: 22px; }
 .gs-introdecor :is(.gs-wash, .gs-fruit) { opacity: 0; animation: gs-fade 1.4s ease 2s forwards; }
 .gcard__cover .gs-introdecor:not(.gs-introdecor--bottom) { top: 4%; }
@@ -402,6 +409,9 @@
   .gs-hero__dmy { gap: 10px; }
   .gs-title .section-title__main { letter-spacing: .18em; padding-left: .18em; }
   .person::before { left: calc(50% - 132px); }
+  .invitation__date { gap: 10px; }
+  .invitation__day { font-size: 48px; min-width: 80px; padding: 22px 10px 8px; }
+  .invitation__weekday, .invitation__monthyear { font-size: 12.5px; letter-spacing: .08em; white-space: nowrap; }
 }
 @media (min-width: 760px) {
   .gs-hero { padding: 90px 0 110px; }
@@ -415,7 +425,7 @@
 @media (prefers-reduced-motion: reduce) {
   .js svg.gs-bot[data-draw] *, .js .gs-gate__post { transition-delay: 0s !important; }
   .gs-corner { animation: none; }
-  .js .gs-gate__post { scale: 1 1; }
+  .js .gs-gate__post { scale: 1 1; opacity: 1; }
   .gs-introdecor .gs-ink path { stroke-dashoffset: 0; }
   .gs-introdecor :is(.gs-wash, .gs-fruit) { opacity: 1; }
 }

@@ -1,0 +1,57 @@
+{#
+  Xuân Hỷ hero: a bright spring scene on cream paper — mai branch spilling from the top, đào branch
+  rising from the bottom, hanging firecracker garlands, the red 囍 lucky diamond, the names and a
+  Vietnamese tear-off calendar page (tờ lịch) with the solar and lunar dates.
+  Overrides _shared/sections/hero.njk (keeps [data-names] with first / & / second child spans).
+#}
+{% from "macros.njk" import photo %}
+{% from "partials/spring.njk" import mai, dao, phao, hy %}
+<section class="section hero tb-hero{% if cover.image %} tb-hero--photo{% endif %}" id="hero">
+  <div class="tb-hero__sky" aria-hidden="true">
+    <span class="tb-cloud tb-cloud--a"></span>
+    <span class="tb-cloud tb-cloud--b"></span>
+    <span class="tb-cloud tb-cloud--c"></span>
+  </div>
+  <div class="tb-hero__mai">{{ mai() }}</div>
+  <div class="tb-hero__dao">{{ dao() }}</div>
+  {{ phao('tb-hero__phao tb-hero__phao--right', 8) }}
+  {{ phao('tb-hero__phao tb-hero__phao--left', 6) }}
+  <div class="tb-couplet tb-couplet--left" aria-hidden="true"><span>Bách</span><span>Niên</span><span>Giai</span><span>Lão</span></div>
+  <div class="tb-couplet tb-couplet--right" aria-hidden="true"><span>Vĩnh</span><span>Kết</span><span>Đồng</span><span>Tâm</span></div>
+
+  <div class="hero__inner tb-hero__inner">
+    {% if cover.image %}
+    <figure class="tb-hero__photo" data-reveal="zoom">
+      {{ photo(cover.image, 'Ảnh cưới của ' + names, 'tb-hero__img hero__img--' + cover.position, '(max-width: 600px) 70vw, 360px', true) }}
+    </figure>
+    {% endif %}
+    {{ hy('tb-hero__hy') }}
+    {% if guest.name %}<p class="hero__guest tb-hero__guest" data-reveal="fade">Trân trọng kính mời <strong>{{ guest.name }}</strong></p>{% endif %}
+    <p class="hero__eyebrow tb-hero__eyebrow" data-reveal="fade">{{ content.headline or 'Lễ Thành Hôn' }}</p>
+    <h1 class="hero__names tb-hero__names" data-names data-reveal="zoom">
+      <span class="hero__name">{{ first.shortName }}</span>
+      <span class="hero__amp" aria-label="và">&amp;</span>
+      <span class="hero__name">{{ second.shortName }}</span>
+    </h1>
+    {% if wedding.display %}
+    <div class="tb-leaf" data-reveal="up">
+      <p class="tb-leaf__head"><span>Tháng {{ wedding.month }}</span><span class="tb-leaf__year">{{ wedding.year }}</span></p>
+      <p class="tb-leaf__body">
+        <span class="tb-leaf__day">{{ wedding.day }}</span>
+        <span class="tb-leaf__weekday">{{ wedding.weekday }}</span>
+      </p>
+      {% if wedding.lunar %}
+      <div class="tb-leaf__foot">
+        <p class="tb-leaf__lunar-text">
+          <span>Âm lịch</span>
+          <span>Tháng {{ wedding.lunar.monthName }}{% if wedding.lunar.leap %} nhuận{% endif %}</span>
+          <span>Năm {{ wedding.lunar.canChi }}</span>
+        </p>
+        <span class="tb-leaf__lunar-day"><span>{{ wedding.lunar.day | pad2 }}</span></span>
+      </div>
+      {% endif %}
+    </div>
+    {% endif %}
+  </div>
+  <a class="hero__scroll" href="#{{ sections[1] or 'thanks' }}" aria-label="Cuộn xuống"><span></span></a>
+</section>

@@ -1,0 +1,94 @@
+{#
+  Xuân Hỷ — spring ornaments (generated, hand-tuned). Every colour comes from the theme through
+  CSS custom properties (see style.css → "ornament colours"), so all palettes recolour them.
+  defs()   : the shared <defs> (flowers, buds, leaf, firecracker) — rendered once in index.njk
+  mai()    : yellow apricot-blossom branch      dao(): pink peach-blossom branch
+  phao()   : hanging firecracker garland        sprig(): small divider twig
+  hy()     : red lucky-paper diamond with a gold 囍
+#}
+{% macro defs() %}
+<svg class="tb-defs" width="0" height="0" aria-hidden="true" focusable="false">
+  <defs>
+    <path id="tb-mp" d="M0 0C-5.4-1.9-7.8-8.4-4-11.7c2-1.7 6-1.7 8 0C7.8-8.4 5.4-1.9 0 0Z"/>
+    <path id="tb-dp" d="M0 0C-6-1.5-9.4-8-5.4-11.8c1.7-1.5 3.8-1.3 5.4.7 1.6-2 3.7-2.2 5.4-.7C9.4-8 6-1.5 0 0Z"/>
+    <g id="tb-mai">
+      <g class="tb-mai__petals"><use href="#tb-mp"/><use href="#tb-mp" transform="rotate(72)"/><use href="#tb-mp" transform="rotate(144)"/><use href="#tb-mp" transform="rotate(216)"/><use href="#tb-mp" transform="rotate(288)"/></g>
+      <circle class="tb-mai__glow" r="5.2"/>
+      <path class="tb-mai__stamen" d="M0 0L1.5 -7.3M0 0L4.7 -3.8M0 0L7.4 0.2M0 0L4.5 4M0 0L1.1 7.3M0 0L-3.2 5.2M0 0L-7 2.4M0 0L-5.6 -2.2M0 0L-3.5 -6.5"/>
+      <g class="tb-mai__tip"><circle cx="1.5" cy="-7.3" r=".95"/><circle cx="4.7" cy="-3.8" r=".95"/><circle cx="7.4" cy="0.2" r=".95"/><circle cx="4.5" cy="4" r=".95"/><circle cx="1.1" cy="7.3" r=".95"/><circle cx="-3.2" cy="5.2" r=".95"/><circle cx="-7" cy="2.4" r=".95"/><circle cx="-5.6" cy="-2.2" r=".95"/><circle cx="-3.5" cy="-6.5" r=".95"/></g>
+      <circle class="tb-mai__eye" r="2.2"/>
+    </g>
+    <g id="tb-dao">
+      <g class="tb-dao__petals"><use href="#tb-dp" transform="rotate(36)"/><use href="#tb-dp" transform="rotate(108)"/><use href="#tb-dp" transform="rotate(180)"/><use href="#tb-dp" transform="rotate(252)"/><use href="#tb-dp" transform="rotate(324)"/></g>
+      <circle class="tb-dao__blush" r="5.6"/>
+      <path class="tb-dao__stamen" d="M0 0L1.3 -6.5M0 0L4.2 -3.4M0 0L6.6 0.2M0 0L4.1 3.6M0 0L1 6.5M0 0L-2.8 4.6M0 0L-6.3 2.1M0 0L-5 -2M0 0L-3.2 -5.8"/>
+      <g class="tb-dao__tip"><circle cx="1.3" cy="-6.5" r=".9"/><circle cx="4.2" cy="-3.4" r=".9"/><circle cx="6.6" cy="0.2" r=".9"/><circle cx="4.1" cy="3.6" r=".9"/><circle cx="1" cy="6.5" r=".9"/><circle cx="-2.8" cy="4.6" r=".9"/><circle cx="-6.3" cy="2.1" r=".9"/><circle cx="-5" cy="-2" r=".9"/><circle cx="-3.2" cy="-5.8" r=".9"/></g>
+    </g>
+    <g id="tb-mai-bud"><ellipse class="tb-mai__bud" cy="-4.6" rx="3.3" ry="4.8"/><path class="tb-sepal" d="M-3.2-1.6C-2 1.2 2 1.2 3.2-1.6L0 2.6Z"/></g>
+    <g id="tb-dao-bud"><ellipse class="tb-dao__bud" cy="-4.6" rx="3.4" ry="4.6"/><path class="tb-sepal" d="M-3.2-1.6C-2 1.2 2 1.2 3.2-1.6L0 2.6Z"/></g>
+    <path id="tb-leaf" class="tb-leaf" d="M0 0C3.6-4.2 10.4-5.6 15.4-2.8 10.8.8 4.6 1.8 0 0Z"/>
+    <g id="tb-cracker">
+      <path class="tb-wick" d="M0 0v4.4"/>
+      <rect class="tb-cracker__body" x="-4.3" y="3.6" width="8.6" height="19" rx="1.8"/>
+      <rect class="tb-cracker__band" x="-4.3" y="3.6" width="8.6" height="2.8" rx="1.2"/>
+      <rect class="tb-cracker__band" x="-4.3" y="19.8" width="8.6" height="2.8" rx="1.2"/>
+      <rect class="tb-cracker__shine" x="-2.7" y="7.4" width="1.5" height="11" rx=".75"/>
+    </g>
+  </defs>
+</svg>
+{% endmacro %}
+
+{% macro mai(cls='') %}
+<svg class="tb-branch tb-branch--mai {{ cls }}" viewBox="0 0 300 220" aria-hidden="true" focusable="false">
+  <g class="tb-bark"><path stroke-width="7" d="M-8 8C28 16 60 26 92 46"/><path stroke-width="5.5" d="M92 46c28 18 48 38 76 66"/><path stroke-width="4" d="M168 112c22 22 40 36 68 48"/><path stroke-width="2.6" d="M236 160c16 6 30 16 42 32"/><path stroke-width="3" d="M58 26C76 12 96 4 124 2"/><path stroke-width="3.2" d="M92 46c-6 24-8 46-2 72"/><path stroke-width="2" d="M87 86c-13 12-23 18-37 20"/><path stroke-width="3" d="M140 82c20-12 44-18 74-18"/><path stroke-width="2" d="M184 65c8-11 14-19 26-25"/><path stroke-width="2.4" d="M200 141c6 19 4 35-4 51"/></g>
+  <use href="#tb-leaf" transform="translate(60 25) rotate(-150) scale(1)"/><use href="#tb-leaf" transform="translate(88 92) rotate(160) scale(1)"/><use href="#tb-leaf" transform="translate(150 90) rotate(-70) scale(1)"/><use href="#tb-leaf" transform="translate(230 157) rotate(30) scale(0.9)"/><use href="#tb-leaf" transform="translate(118 60) rotate(20) scale(1)"/><use href="#tb-leaf" transform="translate(190 66) rotate(-100) scale(0.8)"/>
+  <use href="#tb-mai-bud" transform="translate(110 4) rotate(70) scale(1)"/><use href="#tb-mai-bud" transform="translate(62 104) rotate(-100) scale(1)"/><use href="#tb-mai-bud" transform="translate(228 60) rotate(90) scale(1)"/><use href="#tb-mai-bud" transform="translate(258 172) rotate(125) scale(1)"/><use href="#tb-mai-bud" transform="translate(202 176) rotate(200) scale(1)"/><use href="#tb-mai-bud" transform="translate(44 22) rotate(-40) scale(0.9)"/><use href="#tb-mai-bud" transform="translate(154 98) rotate(150) scale(0.9)"/>
+  <use href="#tb-mai" transform="translate(28 16) rotate(10) scale(1.25)"/><use href="#tb-mai" transform="translate(124 2) rotate(40) scale(1.1)"/><use href="#tb-mai" transform="translate(74 20) rotate(-20) scale(0.85)"/><use href="#tb-mai" transform="translate(92 47) rotate(15) scale(1.5)"/><use href="#tb-mai" transform="translate(90 118) rotate(-10) scale(1.2)"/><use href="#tb-mai" transform="translate(50 106) rotate(30) scale(0.95)"/><use href="#tb-mai" transform="translate(141 83) rotate(50) scale(1.05)"/><use href="#tb-mai" transform="translate(214 64) rotate(0) scale(1.25)"/><use href="#tb-mai" transform="translate(210 40) rotate(20) scale(0.8)"/><use href="#tb-mai" transform="translate(176 66) rotate(-30) scale(0.85)"/><use href="#tb-mai" transform="translate(168 112) rotate(25) scale(1.35)"/><use href="#tb-mai" transform="translate(236 160) rotate(-15) scale(1.1)"/><use href="#tb-mai" transform="translate(278 192) rotate(10) scale(0.9)"/><use href="#tb-mai" transform="translate(196 192) rotate(35) scale(1)"/><use href="#tb-mai" transform="translate(120 92) rotate(5) scale(0.7)"/>
+</svg>
+{% endmacro %}
+
+{% macro dao(cls='') %}
+<svg class="tb-branch tb-branch--dao {{ cls }}" viewBox="0 0 300 220" aria-hidden="true" focusable="false">
+  <g class="tb-bark"><path stroke-width="7" d="M308 216c-36-16-66-30-94-52"/><path stroke-width="5.5" d="M214 164c-26-20-44-42-62-68"/><path stroke-width="4" d="M152 96c-14-20-30-34-54-44"/><path stroke-width="2.6" d="M98 52c-16-6-32-8-50-6"/><path stroke-width="3" d="M248 192c-12-24-16-46-12-72"/><path stroke-width="2" d="M236 140c14-12 26-20 44-24"/><path stroke-width="3" d="M182 134c-20 6-40 16-62 34"/><path stroke-width="2" d="M142 151c-8 15-12 25-12 39"/><path stroke-width="2.4" d="M128 70c0-18 6-34 18-48"/></g>
+  <use href="#tb-leaf" transform="translate(226 160) rotate(200) scale(0.9)"/><use href="#tb-leaf" transform="translate(140 84) rotate(-120) scale(0.8)"/><use href="#tb-leaf" transform="translate(104 56) rotate(170) scale(0.8)"/>
+  <use href="#tb-dao-bud" transform="translate(262 120) rotate(60) scale(1)"/><use href="#tb-dao-bud" transform="translate(70 44) rotate(-80) scale(1)"/><use href="#tb-dao-bud" transform="translate(138 32) rotate(-20) scale(1)"/><use href="#tb-dao-bud" transform="translate(108 178) rotate(-130) scale(1)"/><use href="#tb-dao-bud" transform="translate(196 150) rotate(200) scale(0.9)"/><use href="#tb-dao-bud" transform="translate(30 48) rotate(-90) scale(0.9)"/>
+  <use href="#tb-dao" transform="translate(236 120) rotate(10) scale(1.3)"/><use href="#tb-dao" transform="translate(280 116) rotate(-20) scale(0.95)"/><use href="#tb-dao" transform="translate(214 165) rotate(30) scale(1.45)"/><use href="#tb-dao" transform="translate(250 193) rotate(0) scale(1.1)"/><use href="#tb-dao" transform="translate(120 167) rotate(-15) scale(1.2)"/><use href="#tb-dao" transform="translate(130 190) rotate(20) scale(0.9)"/><use href="#tb-dao" transform="translate(152 96) rotate(5) scale(1.4)"/><use href="#tb-dao" transform="translate(146 22) rotate(-30) scale(1.05)"/><use href="#tb-dao" transform="translate(98 52) rotate(25) scale(1.15)"/><use href="#tb-dao" transform="translate(48 46) rotate(0) scale(1)"/><use href="#tb-dao" transform="translate(182 134) rotate(40) scale(0.95)"/><use href="#tb-dao" transform="translate(128 70) rotate(-10) scale(0.8)"/><use href="#tb-dao" transform="translate(276 160) rotate(15) scale(0.75)"/>
+</svg>
+{% endmacro %}
+
+{% macro phao(cls='', pairs=8) %}
+{% set h = 62 + pairs * 12 %}
+<svg class="tb-phao {{ cls }}" viewBox="-30 0 60 {{ h + 44 }}" aria-hidden="true" focusable="false">
+  <path class="tb-cord" d="M0 0V{{ h + 8 }}"/>
+  <g transform="translate(0 30)">
+    <circle class="tb-knot__loop" cx="-13.5" r="3.6"/><circle class="tb-knot__loop" cx="13.5" r="3.6"/><circle class="tb-knot__loop" cy="-13.5" r="3.6"/>
+    <rect class="tb-knot" x="-9.5" y="-9.5" width="19" height="19" rx="2.6" transform="rotate(45)"/>
+    <rect class="tb-knot__inner" x="-5.2" y="-5.2" width="10.4" height="10.4" rx="1.4" transform="rotate(45)"/>
+  </g>
+  <g class="tb-phao__crackers">
+  {% for i in range(0, pairs) %}{% set y = 56 + i * 12 %}
+    <use href="#tb-cracker" transform="translate(0 {{ y }}) rotate({{ 60 - (i % 2) * 8 }})"/>
+    <use href="#tb-cracker" transform="translate(0 {{ y + 6 }}) rotate({{ -60 + (i % 2) * 8 }})"/>
+  {% endfor %}
+  </g>
+  <g transform="translate(0 {{ h + 10 }})">
+    <circle class="tb-knot" r="4.4"/>
+    <rect class="tb-cracker__band" x="-3.8" y="3.6" width="7.6" height="4.4" rx="1.2"/>
+    <path class="tb-tassel" d="M-3 8.4-5.6 31M-1.5 8.4-2.6 33M0 8.4V34M1.5 8.4 2.6 33M3 8.4 5.6 31"/>
+  </g>
+</svg>
+{% endmacro %}
+
+{% macro sprig(cls='') %}
+<svg class="tb-sprig {{ cls }}" viewBox="0 0 220 40" aria-hidden="true" focusable="false">
+  <path class="tb-sprig__line" d="M6 21H72M148 21h66"/>
+  <g class="tb-bark"><path stroke-width="2" d="M80 25c18-6 40-8 60-4"/><path stroke-width="1.4" d="M98 21c4-7 10-11 18-12"/></g>
+  <use href="#tb-leaf" transform="translate(86 23) rotate(160) scale(0.8)"/><use href="#tb-mai-bud" transform="translate(140 21) rotate(80) scale(0.9)"/><use href="#tb-dao-bud" transform="translate(116 9) rotate(60) scale(0.8)"/>
+  <use href="#tb-dao" transform="translate(92 22) rotate(10) scale(0.95)"/><use href="#tb-mai" transform="translate(118 20) rotate(20) scale(1.15)"/>
+  <circle class="tb-sprig__dot" cx="72" cy="21" r="1.8"/><circle class="tb-sprig__dot" cx="148" cy="21" r="1.8"/>
+</svg>
+{% endmacro %}
+
+{% macro hy(cls='') %}
+<span class="tb-hy {{ cls }}" aria-hidden="true"><span class="tb-hy__glyph">囍</span></span>
+{% endmacro %}
