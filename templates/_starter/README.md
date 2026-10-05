@@ -111,7 +111,7 @@ người dùng đổi màu được:
 
 | Thuộc tính | Tác dụng |
 |---|---|
-| `data-reveal="up|fade|zoom|left|right|rise|blur|flip|drop"` | Hiện dần khi cuộn tới |
+| `data-reveal="up\|fade\|zoom\|left\|right\|rise\|blur\|flip\|drop"` | Hiện dần khi cuộn tới |
 | `data-stagger` (trên thẻ cha) | Các con có `data-reveal` hiện lần lượt |
 | `data-names` (trên thẻ `<h1>` tên) | Bắt buộc ở hero — để áp dụng kiểu chữ chuyển động (viết tay, từng chữ…) |
 | `data-parallax="0.2"` | Hoạ tiết trôi chậm hơn khi cuộn (hiệu ứng chiều sâu) |

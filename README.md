@@ -7,7 +7,7 @@ studio có **xem trước trực tiếp**, rồi gửi link (mỗi khách một 
 
 Toàn bộ chạy bằng **Docker** (1 container + 1 volume dữ liệu), không cần dịch vụ bên ngoài.
 
-![4 mẫu thiệp có sẵn + mẫu gốc](docs/screenshots/templates.webp)
+![14 mẫu thiệp có sẵn](docs/screenshots/templates.webp)
 
 | Studio chỉnh sửa (xem trước trực tiếp) | Mở thiệp trên điện thoại |
 |---|---|
@@ -37,7 +37,9 @@ Toàn bộ chạy bằng **Docker** (1 container + 1 volume dữ liệu), không
 - **Tự viết nội dung** với 4 giọng văn (trang trọng, lãng mạn, hiện đại, truyền thống): tiêu đề, lời mời, trích dẫn, giới thiệu cặp đôi, câu chuyện tình yêu, lời cảm ơn, hashtag… Nút **✨ Gợi ý khác** cho từng mục.
 - **Lịch âm tự động** (“Nhằm ngày 12 tháng 11 năm Bính Ngọ”) theo thuật toán chuẩn cho múi giờ Việt Nam, có tháng nhuận.
 - 13 phần bật/tắt & sắp xếp được: ảnh bìa, trích dẫn, thư mời & gia đình hai bên, cô dâu chú rể, lịch tháng, đếm ngược, sự kiện (Ăn hỏi / Vu quy / Thành hôn / Tiệc cưới) + bản đồ + lưu vào lịch, chuyện tình yêu, album, xác nhận tham dự, sổ lưu bút, hộp mừng cưới, lời cảm ơn.
-- Tuỳ biến: đổi mẫu bất kỳ lúc nào (giữ nguyên nội dung), bảng màu gợi ý / màu tự chọn, 25 font hỗ trợ tiếng Việt, 6 hiệu ứng (hoa rơi, tim bay, lấp lánh, tuyết, pháo giấy), 3 kiểu mở thiệp (phong bì, kéo rèm, hiện dần), nhạc nền.
+- **14 mẫu thiệp** có sẵn (sang trọng, hoa pastel, tối giản, Song Hỷ, vườn xanh, đêm sao, sen Việt, anh đào, mộc mạc, biển, cẩm thạch, Đông Dương, xuân Tết, kẹo ngọt) — mỗi mẫu có 3–4 bảng màu phối sẵn.
+- Tuỳ biến: đổi mẫu bất kỳ lúc nào (giữ nguyên nội dung), bảng màu gợi ý / màu tự chọn, **70 font hỗ trợ đủ dấu tiếng Việt** (xem trước ngay trong ô chọn) + 12 cặp font phối sẵn, nhạc nền.
+- **Hiệu ứng** (xem mục [Hiệu ứng](#hiệu-ứng-có-sẵn)): 16 hiệu ứng nền chồng được 2 lớp, 8 kiểu mở thiệp, pháo hoa/pháo giấy khi mở, hiệu ứng khi chạm, 6 kiểu chữ tên cô dâu chú rể (viết tay, từng chữ, ánh kim…), cuộn trang có chuyển động & hoạ tiết tự vẽ nét.
 - Studio: **xem trước trực tiếp** điện thoại/máy tính, **tự lưu**, cảnh báo khi 2 tab cùng sửa, tự thử lại khi mất mạng, tải ảnh có nén sẵn trên trình duyệt.
 - Chia sẻ: link đẹp `/w/minh-ha`, **link riêng từng khách** (tạo hàng loạt, dán vào Excel), mã QR in thiệp giấy, xem trước đẹp khi gửi qua Zalo/Messenger.
 - Quản lý khách: thống kê RSVP, lọc, **xuất Excel (CSV UTF-8)**, ẩn/xoá lời chúc.
@@ -156,7 +158,7 @@ server/
 studio/                 # giao diện chỉnh sửa (Preact): pages/, panels/, components/
 templates/              # mẫu thiệp (xem mục 6)
 views/ + public/        # trang chủ, trang lỗi
-scripts/                # template:new, template:validate, template:preview, backup
+scripts/                # template:new, template:validate, template:preview, template:shot, backup
 tests/                  # node:test + e2e Playwright
 ```
 
@@ -183,6 +185,30 @@ npm run template:preview vuon-xanh                      # chụp ảnh preview.w
 
 Một mẫu tối thiểu chỉ gồm `template.json` + `index.njk` + `style.css`. Mẫu có thể **ghi đè** bất kỳ
 section nào bằng cách tạo file cùng tên (VD `sections/hero.njk`) — xem `floral-blush/` và `traditional-red/`.
+
+Khi thiết kế, dùng `template:shot` để chụp mọi trạng thái (màn mở thiệp, lúc mở, ảnh bìa, desktop, toàn trang)
+và kiểm tra lỗi console / tràn ngang ở 320px & 390px:
+
+```bash
+NODE_USE_ENV_PROXY=1 npm run template:shot -- vuon-xanh                       # ảnh nằm trong .shots/vuon-xanh/
+npm run template:shot -- vuon-xanh --query "intro=doors&effect=sakura"        # thử biến thể
+```
+
+### Hiệu ứng có sẵn
+
+| Nhóm | Lựa chọn | Trường trong `theme` |
+|---|---|---|
+| Hiệu ứng nền (chồng 2 lớp) | cánh hoa, anh đào, hoa mai, lá bay, tim, lấp lánh, bụi vàng, đom đóm, bokeh, bướm, sao, đèn trời, bong bóng, bóng bay, tuyết, pháo giấy | `effect`, `effect2`, `effectIntensity` (low/medium/high) |
+| Mở thiệp | phong bì, kéo rèm, cánh cửa, thiệp gập, cuộn thư, vòng tròn, hiện dần, không | `intro` |
+| Khi mở thiệp | pháo hoa, pháo giấy, tim, cánh hoa | `burst` |
+| Khi chạm màn hình | tim, lấp lánh, gợn sóng | `tap` |
+| Tên cô dâu chú rể | hiện dần, viết tay, từng chữ, ánh kim, phát sáng, bồng bềnh | `nameAnimation` |
+| Khi cuộn trang (trong mẫu) | `data-reveal="up\|rise\|blur\|flip\|drop\|zoom…"`, `data-stagger`, `<svg data-draw>`, `data-parallax` | — |
+
+Màu hạt hiệu ứng tự lấy theo bảng màu của thiệp; màu quá tối/nhạt/xám tự đổi sang màu tự nhiên của hiệu ứng.
+Trang demo nhận tham số để thử nhanh mà không cần tạo thiệp, VD
+`/templates/classic-gold?effect=sakura&effect2=butterflies&intro=doors&burst=fireworks&name=handwrite`
+(các khoá: `effect, effect2, intro, burst, tap, name, heading, body, script` — giá trị sai bị bỏ qua).
 
 Trên Docker, thư mục `templates/` được mount vào container: thêm/sửa mẫu rồi bấm **Admin → Tải lại mẫu**,
 không cần build lại image. Nếu một mẫu bị lỗi, nó bị bỏ qua (kèm thông báo trong Admin) chứ không làm sập site;
@@ -218,7 +244,7 @@ thiệp đang dùng mẫu bị xoá sẽ tự hiển thị bằng mẫu khác.
 - Form RSVP/lời chúc vẫn gửi được khi trình duyệt tắt JavaScript.
 
 **Bảo mật**
-- Mọi nội dung người dùng đều được escape (đã test XSS trên cả 5 mẫu); JSON nhúng trong trang được escape chống `</script>`.
+- Mọi nội dung người dùng đều được escape (đã test XSS trên mọi mẫu); JSON nhúng trong trang được escape chống `</script>`.
 - CSP chặt trên trang thiệp (không script bên thứ ba), `frame-ancestors 'none'`, chống clickjacking; HSTS khi chạy HTTPS.
 - Phiên admin ký HMAC, cookie `HttpOnly` + `SameSite=Strict`; đăng nhập giới hạn 5 lần/phút; so sánh chuỗi chống timing attack.
 - Container chạy bằng user không phải root; `npm ci --ignore-scripts` khi build.
@@ -227,7 +253,7 @@ thiệp đang dùng mẫu bị xoá sẽ tự hiển thị bằng mẫu khác.
 - Trang thiệp ~44KB HTML, nén Brotli còn ~7KB; JS phía khách ~7KB gzip, không framework.
 - Hiệu ứng canvas: dùng sprite dựng sẵn, giới hạn DPR, số hạt theo kích thước màn hình, **tạm dừng khi ẩn tab**.
 - Nhạc nền chỉ phát sau thao tác “Mở thiệp” (đúng chính sách autoplay của iOS/Android), tự dừng khi chuyển tab.
-- Không tràn ngang trên điện thoại (đã kiểm tra tự động ở 390px), bản đồ chỉ tải khi bấm (tiết kiệm ~1MB).
+- Không tràn ngang trên điện thoại (đã kiểm tra tự động ở 320px và 390px), bản đồ chỉ tải khi bấm (tiết kiệm ~1MB).
 
 ---
 
@@ -235,7 +261,7 @@ thiệp đang dùng mẫu bị xoá sẽ tự hiển thị bằng mẫu khác.
 
 | Lệnh | Phạm vi |
 |---|---|
-| `npm test` | **84 test**: lịch âm (Tết các năm, tháng nhuận, 1985), VietQR CRC, chuẩn hoá tiếng Việt, schema, bộ sinh nội dung, render + XSS trên mọi mẫu, toàn bộ API (token, 409, publish, RSVP, upload, GC, slug redirect, admin, rate limit) |
+| `npm test` | **110 test**: lịch âm (Tết các năm, tháng nhuận, 1985), VietQR CRC, chuẩn hoá tiếng Việt, schema, bộ sinh nội dung, render + XSS trên mọi mẫu, danh mục font/hiệu ứng, tham số demo, toàn bộ API (token, 409, publish, RSVP, upload, GC, slug redirect, admin, rate limit) |
 | `npm run template:validate` | Manifest, file thiếu, render thử mọi mẫu với dữ liệu đầy đủ & gần rỗng |
 | `npm run test:e2e` | Trình duyệt thật: mở thiệp + lightbox + đếm ngược trên mobile & desktop cho từng mẫu, khách gửi RSVP, luồng tạo → sửa → tự lưu → công bố, chế độ không JavaScript |
 | `make test` | Chạy test bên trong Docker |
