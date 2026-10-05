@@ -116,3 +116,35 @@ describe('Template mới & ghi đè partial', () => {
     assert.ok(html.includes('CUSTOM-THANKS Minh &amp; Hà'));
   });
 });
+
+describe('Hiệu ứng trong trang thiệp', () => {
+  it('runtime config lists layered effects without duplicates', async () => {
+    const t = registry.get('classic-gold');
+    const data = parseInvitationData({ groom: { fullName: 'A' }, bride: { fullName: 'B' }, theme: { effect: 'sakura', effect2: 'sakura', burst: 'fireworks', nameAnimation: 'letters' } });
+    const vm = await buildViewModel({ invitation: { id: 'x', slug: 'x', data }, template: t, registry });
+    const cfg = JSON.parse(vm.configJson);
+    assert.deepEqual(cfg.effects.map((e) => e.type), ['sakura']);
+    assert.equal(cfg.burst, 'fireworks');
+    assert.equal(cfg.nameAnimation, 'letters');
+    const html = await registry.render(t, vm);
+    assert.match(html, /effects\.js\?v=/);
+    assert.match(html, /data-names/);
+  });
+
+  for (const intro of ['envelope', 'curtain', 'doors', 'card', 'scroll', 'circle', 'fade']) {
+    it(`intro "${intro}" renders its markup`, async () => {
+      const t = registry.get('minimal-modern');
+      const data = parseInvitationData({ groom: { fullName: 'A' }, bride: { fullName: 'B' }, theme: { intro } });
+      const html = await registry.render(t, await buildViewModel({ invitation: { id: 'x', slug: 'x', data }, template: t, registry }));
+      assert.match(html, new RegExp(`intro--${intro}`));
+      assert.match(html, /data-intro-open/);
+    });
+  }
+
+  it('every bundled template tags its hero names for animation', async () => {
+    for (const t of registry.list({ includeHidden: true })) {
+      const html = await render(t, { ...demoInvitation(t), slug: 'demo' });
+      assert.match(html, /data-names/, t.id);
+    }
+  });
+});

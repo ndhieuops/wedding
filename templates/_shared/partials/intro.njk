@@ -1,9 +1,19 @@
-{# Opening overlay. The click on "Mở thiệp" is also the user gesture that lets music autoplay on mobile. #}
+{#
+  Opening overlay. The click on "Mở thiệp" is also the user gesture that lets music autoplay on mobile.
+  Styles: envelope · curtain · doors · card · scroll · circle · fade (see base.css → "Intro overlay").
+  A template can add decoration inside the overlay by creating partials/intro-decor.njk
+  (rendered inside the centre card / cover) — no need to copy this whole file.
+#}
 {% if theme.intro != 'none' and not skipIntro %}
 <div class="intro intro--{{ theme.intro }}" data-intro>
   {% if theme.intro == 'curtain' %}
   <div class="curtain curtain--left" aria-hidden="true"></div>
   <div class="curtain curtain--right" aria-hidden="true"></div>
+  {% elif theme.intro == 'doors' %}
+  <div class="doors" aria-hidden="true">
+    <div class="door door--left"><span class="door__panel"></span><span class="door__panel"></span><span class="door__knob"></span></div>
+    <div class="door door--right"><span class="door__panel"></span><span class="door__panel"></span><span class="door__knob"></span></div>
+  </div>
   {% endif %}
   <div class="intro__stage">
     {% if theme.intro == 'envelope' %}
@@ -18,8 +28,36 @@
       <div class="envelope__flap"></div>
       <span class="envelope__seal">{{ monogram }}</span>
     </div>
+    {% elif theme.intro == 'card' %}
+    <div class="gcard" aria-hidden="true">
+      <div class="gcard__inside">
+        <span class="gcard__eyebrow">Trân trọng kính mời</span>
+        <span class="gcard__guest">{{ guest.name or 'Quý khách' }}</span>
+        <span class="gcard__line">tới dự lễ thành hôn của</span>
+        <span class="gcard__names">{{ first.shortName }} &amp; {{ second.shortName }}</span>
+      </div>
+      <div class="gcard__cover">
+        <span class="gcard__monogram">{{ first.initial }}<i>&amp;</i>{{ second.initial }}</span>
+        <span class="gcard__title">{{ content.headline or 'Thiệp mời' }}</span>
+        {% if wedding.display %}<span class="gcard__date">{{ wedding.display }}</span>{% endif %}
+        {% include "partials/intro-decor.njk" ignore missing %}
+      </div>
+    </div>
+    {% elif theme.intro == 'scroll' %}
+    <div class="scrollpaper" aria-hidden="true">
+      <span class="scrollpaper__rod scrollpaper__rod--top"></span>
+      <div class="scrollpaper__paper">
+        <div class="scrollpaper__content">
+          <span class="scrollpaper__eyebrow">{{ content.headline or 'Thiệp mời' }}</span>
+          <span class="scrollpaper__names">{{ first.shortName }}<i>&amp;</i>{{ second.shortName }}</span>
+          {% if wedding.display %}<span class="scrollpaper__date">{{ wedding.display }}</span>{% endif %}
+        </div>
+      </div>
+      <span class="scrollpaper__rod scrollpaper__rod--bottom"></span>
+    </div>
     {% else %}
     <div class="intro__card">
+      {% include "partials/intro-decor.njk" ignore missing %}
       <span class="intro__monogram">{{ first.initial }}<i>&amp;</i>{{ second.initial }}</span>
       <span class="intro__names">{{ first.shortName }} &amp; {{ second.shortName }}</span>
       {% if wedding.display %}<span class="intro__date">{{ wedding.display }}</span>{% endif %}

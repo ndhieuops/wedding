@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { generateInvitation } from '../lib/content-generator.js';
-import { isoDate, hhmm, parseInvitationData, publishProblems, TONES } from '../lib/schema.js';
+import { isoDate, hhmm, parseInvitationData, publishProblems, themeSchema, TONES } from '../lib/schema.js';
 import { hashToken, newEditToken, randomId } from '../lib/security.js';
 import { cleanLine, isValidSlug, shortName, slugify } from '../lib/text.js';
 import { buildViewModel } from '../templates/view-model.js';
@@ -71,8 +71,23 @@ export function createInvitationService({ config, repo, registry, previews, bran
     return registry.render(template, vm);
   }
 
-  async function renderDemo(template, { guestName = '' } = {}) {
+  /**
+   * Demo of a template. `query` may override theme options so visitors (and template authors)
+   * can try effects: /templates/classic-gold?effect=butterflies&intro=doors&burst=fireworks
+   */
+  async function renderDemo(template, { guestName = '', query = {} } = {}) {
     const invitation = demoInvitation(template);
+    const picked = {};
+    for (const key of ['effect', 'effect2', 'effectIntensity', 'burst', 'tap', 'nameAnimation', 'intro']) {
+      const raw = key === 'nameAnimation' ? query.name ?? query.nameAnimation : query[key];
+      if (typeof raw === 'string' && raw) picked[key] = raw;
+    }
+    const fonts = {};
+    for (const key of ['heading', 'body', 'script']) if (typeof query[key] === 'string' && query[key]) fonts[key] = query[key];
+    const overrides = themeSchema.safeParse({ ...picked, fonts });
+    if (overrides.success) {
+      invitation.data.theme = { ...invitation.data.theme, ...Object.fromEntries(Object.entries(overrides.data).filter(([k, v]) => v !== undefined && k !== 'colors' && k !== 'fonts')), fonts: overrides.data.fonts };
+    }
     const vm = await buildViewModel({
       invitation,
       template,

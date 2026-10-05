@@ -3,11 +3,17 @@
   "description": "Sang trọng, cổ điển với khung viền ánh kim, phong bì niêm phong sáp và hiệu ứng lấp lánh.",
   "version": "1.0.0",
   "author": "Wedding Studio",
-  "tags": ["sang trọng", "cổ điển", "ánh kim"],
+  "tags": [
+    "sang trọng",
+    "cổ điển",
+    "ánh kim"
+  ],
   "published": true,
   "order": 1,
   "preview": "preview.webp",
-  "styles": ["style.css"],
+  "styles": [
+    "style.css"
+  ],
   "defaults": {
     "tone": "classic",
     "theme": {
@@ -19,16 +25,68 @@
         "text": "#3a2f25",
         "accent": "#b8893f"
       },
-      "fonts": { "heading": "Cormorant Garamond", "body": "Lora", "script": "Great Vibes" },
+      "fonts": {
+        "heading": "Cormorant Garamond",
+        "body": "Lora",
+        "script": "Pinyon Script"
+      },
       "effect": "sparkles",
+      "effect2": "golddust",
       "effectIntensity": "medium",
+      "burst": "fireworks",
+      "tap": "sparkles",
+      "nameAnimation": "handwrite",
       "intro": "envelope"
     },
-    "sections": ["hero", "quote", "invitation", "couple", "calendar", "countdown", "events", "story", "gallery", "rsvp", "wishes", "gift", "thanks"]
+    "sections": [
+      "hero",
+      "quote",
+      "invitation",
+      "couple",
+      "calendar",
+      "countdown",
+      "events",
+      "story",
+      "gallery",
+      "rsvp",
+      "wishes",
+      "gift",
+      "thanks"
+    ]
   },
   "palettes": [
-    { "name": "Vàng ánh kim", "colors": { "primary": "#a07a3c", "secondary": "#efe2c4", "background": "#fbf7ef", "surface": "#fffdf8", "text": "#3a2f25", "accent": "#b8893f" } },
-    { "name": "Xanh navy & vàng", "colors": { "primary": "#9a7b45", "secondary": "#dfe3ec", "background": "#f6f4ef", "surface": "#ffffff", "text": "#1f2a44", "accent": "#1f2a44" } },
-    { "name": "Rượu vang", "colors": { "primary": "#8c3b4a", "secondary": "#f1dfd9", "background": "#fbf6f2", "surface": "#fffdfb", "text": "#3b2328", "accent": "#b48a4b" } }
+    {
+      "name": "Vàng ánh kim",
+      "colors": {
+        "primary": "#a07a3c",
+        "secondary": "#efe2c4",
+        "background": "#fbf7ef",
+        "surface": "#fffdf8",
+        "text": "#3a2f25",
+        "accent": "#b8893f"
+      }
+    },
+    {
+      "name": "Xanh navy & vàng",
+      "colors": {
+        "primary": "#9a7b45",
+        "secondary": "#dfe3ec",
+        "background": "#f6f4ef",
+        "surface": "#ffffff",
+        "text": "#1f2a44",
+        "accent": "#1f2a44"
+      }
+    },
+    {
+      "name": "Rượu vang",
+      "colors": {
+        "primary": "#8c3b4a",
+        "secondary": "#f1dfd9",
+        "background": "#fbf6f2",
+        "surface": "#fffdfb",
+        "text": "#3b2328",
+        "accent": "#b48a4b"
+      }
+    }
   ]
 }

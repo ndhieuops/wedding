@@ -131,7 +131,11 @@ export async function buildViewModel({ invitation, template, registry, mode = 'l
     colors: { ...defaults.theme.colors, ...data.theme.colors },
     fonts: { ...defaults.theme.fonts, ...data.theme.fonts },
     effect: data.theme.effect || defaults.theme.effect,
+    effect2: data.theme.effect2 || defaults.theme.effect2 || 'none',
     effectIntensity: data.theme.effectIntensity || defaults.theme.effectIntensity,
+    burst: data.theme.burst || defaults.theme.burst || 'none',
+    tap: data.theme.tap || defaults.theme.tap || 'none',
+    nameAnimation: data.theme.nameAnimation || defaults.theme.nameAnimation || 'fade',
     intro: data.theme.intro || defaults.theme.intro,
   };
   theme.fontsHref = fontsHref(theme.fonts);
@@ -223,6 +227,10 @@ export async function buildViewModel({ invitation, template, registry, mode = 'l
     countdownTarget: wedding.countdownTarget,
     effect: theme.effect,
     effectIntensity: theme.effectIntensity,
+    effects: [theme.effect, theme.effect2].filter((e, i, all) => e && e !== 'none' && all.indexOf(e) === i).map((type) => ({ type, intensity: theme.effectIntensity })),
+    burst: theme.burst,
+    tap: theme.tap,
+    nameAnimation: theme.nameAnimation,
     intro: theme.intro,
     colors: theme.colors,
     music: musicSrc ? { src: musicSrc, title: data.music.title || '' } : null,

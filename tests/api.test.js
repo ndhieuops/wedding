@@ -306,3 +306,24 @@ describe('Cấu hình', () => {
     }
   });
 });
+
+describe('Xem thử hiệu ứng qua URL', () => {
+  it('demo pages accept safe theme overrides and ignore invalid ones', async () => {
+    const t = await createTestApp();
+    try {
+      const ok = await t.app.inject('/templates/classic-gold?effect=butterflies&intro=doors&burst=fireworks&name=letters&script=Moon%20Dance');
+      assert.equal(ok.statusCode, 200);
+      assert.match(ok.body, /"effects":\[\{"type":"butterflies"/);
+      assert.match(ok.body, /intro--doors/);
+      assert.match(ok.body, /Moon\+Dance/);
+      const bad = await t.app.inject('/templates/classic-gold?effect=%3Cscript%3E&intro=nope');
+      assert.equal(bad.statusCode, 200);
+      assert.ok(!bad.body.includes('<script>"'));
+      assert.match(bad.body, /intro--envelope/, 'falls back to template defaults');
+      const meta = (await t.app.inject('/api/meta')).json();
+      assert.ok(meta.fontPairs.length >= 10 && meta.bursts.length && meta.taps.length && meta.nameAnimations.length);
+    } finally {
+      await t.close();
+    }
+  });
+});

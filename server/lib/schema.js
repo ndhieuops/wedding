@@ -5,50 +5,162 @@ import { cleanLine, cleanText } from './text.js';
 /* Catalogues shared by the server, the templates and the studio UI.  */
 /* ------------------------------------------------------------------ */
 
-/** Google Fonts that ship a Vietnamese subset (verified). `axes` follows the css2 API syntax. */
+/**
+ * Google Fonts with a Vietnamese subset — each one was rendered with Vietnamese names and
+ * checked by eye (fonts that mangle diacritics were left out). `axes` follows the css2 API
+ * and only lists weights that exist, so the combined stylesheet URL never 400s.
+ */
 export const FONTS = [
-  { family: 'Playfair Display', category: 'serif', axes: 'ital,wght@0,400;0,600;0,700;1,400' },
-  { family: 'Cormorant Garamond', category: 'serif', axes: 'ital,wght@0,400;0,500;0,600;0,700;1,400;1,500' },
-  { family: 'Lora', category: 'serif', axes: 'ital,wght@0,400;0,600;1,400' },
-  { family: 'Prata', category: 'serif', axes: '' },
-  { family: 'Noto Serif Display', category: 'serif', axes: 'ital,wght@0,400;0,600;1,400' },
-  { family: 'EB Garamond', category: 'serif', axes: 'ital,wght@0,400;0,600;1,400' },
-  { family: 'Cormorant Upright', category: 'serif', axes: 'wght@400;600' },
-  { family: 'Be Vietnam Pro', category: 'sans', axes: 'wght@300;400;500;600' },
-  { family: 'Montserrat', category: 'sans', axes: 'wght@300;400;500;600' },
-  { family: 'Quicksand', category: 'sans', axes: 'wght@400;500;600' },
-  { family: 'Josefin Sans', category: 'sans', axes: 'wght@300;400;600' },
-  { family: 'Nunito', category: 'sans', axes: 'wght@400;600' },
-  { family: 'Raleway', category: 'sans', axes: 'wght@300;400;600' },
-  { family: 'Great Vibes', category: 'script', axes: '' },
-  { family: 'Dancing Script', category: 'script', axes: 'wght@400;600' },
-  { family: 'Allura', category: 'script', axes: '' },
-  { family: 'Alex Brush', category: 'script', axes: '' },
-  { family: 'Imperial Script', category: 'script', axes: '' },
-  { family: 'Pinyon Script', category: 'script', axes: '' },
-  { family: 'Corinthia', category: 'script', axes: '' },
-  { family: 'Charm', category: 'script', axes: 'wght@400;700' },
-  { family: 'Italianno', category: 'script', axes: '' },
-  { family: 'Birthstone', category: 'script', axes: '' },
-  { family: 'Mea Culpa', category: 'script', axes: '' },
-  { family: 'Ephesis', category: 'script', axes: '' },
+  { family: 'Cormorant Garamond', category: 'serif', axes: 'ital,wght@0,400;0,500;0,600;0,700;1,400;1,500', note: 'Cổ điển, thanh mảnh' },
+  { family: 'Cormorant', category: 'serif', axes: 'ital,wght@0,400;0,500;0,600;0,700;1,400;1,500', note: 'Cổ điển' },
+  { family: 'Cormorant Infant', category: 'serif', axes: 'ital,wght@0,400;0,500;0,600;0,700;1,400;1,500', note: 'Cổ điển, số dễ đọc' },
+  { family: 'Cormorant SC', category: 'serif', axes: 'wght@400;500;600;700', note: 'Chữ hoa nhỏ sang trọng' },
+  { family: 'Cormorant Upright', category: 'serif', axes: 'wght@400;500;600;700', note: 'Nghiêng thư pháp' },
+  { family: 'Playfair Display', category: 'serif', axes: 'ital,wght@0,400;0,500;0,600;0,700;1,400;1,500', note: 'Sang trọng, tương phản cao' },
+  { family: 'Playfair Display SC', category: 'serif', axes: 'ital,wght@0,400;0,700;1,400', note: 'Chữ hoa nhỏ tạp chí' },
+  { family: 'Libre Bodoni', category: 'serif', axes: 'ital,wght@0,400;0,500;0,600;0,700;1,400;1,500', note: 'Bodoni kiểu tạp chí' },
+  { family: 'Prata', category: 'serif', axes: '', note: 'Didone thanh lịch' },
+  { family: 'Bona Nova', category: 'serif', axes: 'ital,wght@0,400;0,700;1,400', note: 'Cổ điển châu Âu' },
+  { family: 'Bona Nova SC', category: 'serif', axes: 'ital,wght@0,400;0,700;1,400', note: 'Chữ hoa nhỏ cổ điển' },
+  { family: 'Fraunces', category: 'serif', axes: 'ital,wght@0,400;0,500;0,600;0,700;1,400;1,500', note: 'Mềm mại, ấm áp' },
+  { family: 'Literata', category: 'serif', axes: 'ital,wght@0,400;0,500;0,600;0,700;1,400;1,500', note: 'Dễ đọc, sách' },
+  { family: 'Newsreader', category: 'serif', axes: 'ital,wght@0,400;0,500;0,600;0,700;1,400;1,500', note: 'Báo chí tinh tế' },
+  { family: 'Lora', category: 'serif', axes: 'ital,wght@0,400;0,500;0,600;0,700;1,400;1,500', note: 'Ấm áp, dễ đọc' },
+  { family: 'EB Garamond', category: 'serif', axes: 'ital,wght@0,400;0,500;0,600;0,700;1,400;1,500', note: 'Garamond kinh điển' },
+  { family: 'Spectral', category: 'serif', axes: 'ital,wght@0,400;0,500;0,600;0,700;1,400;1,500', note: 'Thanh lịch hiện đại' },
+  { family: 'Spectral SC', category: 'serif', axes: 'ital,wght@0,400;0,500;0,600;0,700;1,400;1,500', note: 'Chữ hoa nhỏ thanh lịch' },
+  { family: 'Crimson Pro', category: 'serif', axes: 'ital,wght@0,400;0,500;0,600;0,700;1,400;1,500', note: 'Sách cổ điển' },
+  { family: 'Old Standard TT', category: 'serif', axes: 'ital,wght@0,400;0,700;1,400', note: 'Cổ điển thế kỷ 19' },
+  { family: 'Gideon Roman', category: 'serif', axes: '', note: 'La Mã thanh mảnh' },
+  { family: 'Taviraj', category: 'serif', axes: 'ital,wght@0,400;0,500;0,600;0,700;1,400;1,500', note: 'Đường nét mềm' },
+  { family: 'Trirong', category: 'serif', axes: 'ital,wght@0,400;0,500;0,600;0,700;1,400;1,500', note: 'Trang nhã' },
+  { family: 'Petrona', category: 'serif', axes: 'ital,wght@0,400;0,500;0,600;0,700;1,400;1,500', note: 'Hiện đại có chân' },
+  { family: 'Be Vietnam Pro', category: 'sans', axes: 'wght@300;400;500;600;700', note: 'Thiết kế cho tiếng Việt' },
+  { family: 'Montserrat', category: 'sans', axes: 'wght@300;400;500;600;700', note: 'Hình học hiện đại' },
+  { family: 'Josefin Sans', category: 'sans', axes: 'wght@300;400;500;600;700', note: 'Hình học, cổ điển' },
+  { family: 'Quicksand', category: 'sans', axes: 'wght@300;400;500;600;700', note: 'Bo tròn, nhẹ nhàng' },
+  { family: 'Raleway', category: 'sans', axes: 'wght@300;400;500;600;700', note: 'Thanh lịch' },
+  { family: 'Nunito', category: 'sans', axes: 'wght@300;400;500;600;700', note: 'Bo tròn, thân thiện' },
+  { family: 'Lexend', category: 'sans', axes: 'wght@300;400;500;600;700', note: 'Rất dễ đọc' },
+  { family: 'Inter', category: 'sans', axes: 'wght@300;400;500;600;700', note: 'Trung tính, hiện đại' },
+  { family: 'Manrope', category: 'sans', axes: 'wght@300;400;500;600;700', note: 'Hiện đại tinh tế' },
+  { family: 'Plus Jakarta Sans', category: 'sans', axes: 'wght@300;400;500;600;700', note: 'Trẻ trung' },
+  { family: 'Mulish', category: 'sans', axes: 'wght@300;400;500;600;700', note: 'Tối giản' },
+  { family: 'Work Sans', category: 'sans', axes: 'wght@300;400;500;600;700', note: 'Gọn gàng' },
+  { family: 'Hanken Grotesk', category: 'sans', axes: 'wght@300;400;500;600;700', note: 'Grotesk tinh tế' },
+  { family: 'Afacad', category: 'sans', axes: 'wght@400;500;600;700', note: 'Mềm mại hiện đại' },
+  { family: 'Comfortaa', category: 'sans', axes: 'wght@300;400;500;600;700', note: 'Tròn, đáng yêu' },
+  { family: 'Dosis', category: 'sans', axes: 'wght@300;400;500;600;700', note: 'Hẹp, bo tròn' },
+  { family: 'Arima', category: 'sans', axes: 'wght@300;400;500;600;700', note: 'Mềm, nghệ thuật' },
+  { family: 'Varela Round', category: 'sans', axes: '', note: 'Bo tròn' },
+  { family: 'Great Vibes', category: 'script', axes: '', note: 'Thư pháp kinh điển' },
+  { family: 'Pinyon Script', category: 'script', axes: '', note: 'Copperplate trang trọng' },
+  { family: 'Alex Brush', category: 'script', axes: '', note: 'Nét cọ mềm' },
+  { family: 'Allura', category: 'script', axes: '', note: 'Uyển chuyển' },
+  { family: 'Ephesis', category: 'script', axes: '', note: 'Bay bổng' },
+  { family: 'Send Flowers', category: 'script', axes: '', note: 'Lãng mạn, dễ đọc' },
+  { family: 'Moon Dance', category: 'script', axes: '', note: 'Hiện đại, dễ đọc' },
+  { family: 'Whisper', category: 'script', axes: '', note: 'Thanh thoát' },
+  { family: 'Ms Madi', category: 'script', axes: '', note: 'Nhẹ nhàng bay bổng' },
+  { family: 'Beau Rivage', category: 'script', axes: '', note: 'Sang trọng Pháp' },
+  { family: 'Bonheur Royale', category: 'script', axes: '', note: 'Hoàng gia' },
+  { family: 'MonteCarlo', category: 'script', axes: '', note: 'Xa hoa' },
+  { family: 'Carattere', category: 'script', axes: '', note: 'Cổ điển Ý' },
+  { family: 'Waterfall', category: 'script', axes: '', note: 'Mảnh mai' },
+  { family: 'Hurricane', category: 'script', axes: '', note: 'Nét cọ mạnh' },
+  { family: 'Corinthia', category: 'script', axes: 'wght@400;700', note: 'Thanh mảnh' },
+  { family: 'Italianno', category: 'script', axes: '', note: 'Ý cổ điển' },
+  { family: 'Imperial Script', category: 'script', axes: '', note: 'Đế vương' },
+  { family: 'Dancing Script', category: 'script', axes: 'wght@400;500;600;700', note: 'Tươi vui' },
+  { family: 'Charm', category: 'script', axes: 'wght@400;700', note: 'Thư pháp Á Đông' },
+  { family: 'Charmonman', category: 'script', axes: 'wght@400;700', note: 'Thư pháp mềm' },
+  { family: 'Bad Script', category: 'script', axes: '', note: 'Viết tay tự nhiên' },
+  { family: 'Oooh Baby', category: 'script', axes: '', note: 'Viết tay nhẹ' },
+  { family: 'Birthstone', category: 'script', axes: '', note: 'Gọn gàng' },
+  { family: 'Vujahday Script', category: 'script', axes: '', note: 'Đậm, rõ nét' },
+  { family: 'Mea Culpa', category: 'script', axes: '', note: 'Hoa mỹ' },
+  { family: 'Smooch', category: 'script', axes: '', note: 'Cọ đậm vui' },
+  { family: 'Pacifico', category: 'script', axes: '', note: 'Retro vui nhộn' },
 ];
 const FONT_FAMILIES = FONTS.map((f) => f.family);
 
+/** Fonts removed from the catalogue → closest replacement (keeps old invitations valid). */
+export const LEGACY_FONTS = { 'Noto Serif Display': 'Playfair Display' };
+
+/** Hand-picked heading / body / script combinations shown as one-click presets in the studio. */
+export const FONT_PAIRS = [
+  { id: 'classic', name: 'Cổ điển sang trọng', heading: 'Cormorant Garamond', body: 'Lora', script: 'Pinyon Script' },
+  { id: 'romantic', name: 'Lãng mạn', heading: 'Playfair Display', body: 'Quicksand', script: 'Send Flowers' },
+  { id: 'royal', name: 'Hoàng gia', heading: 'Playfair Display SC', body: 'EB Garamond', script: 'MonteCarlo' },
+  { id: 'french', name: 'Thanh lịch kiểu Pháp', heading: 'Bona Nova', body: 'Manrope', script: 'Beau Rivage' },
+  { id: 'editorial', name: 'Tạp chí', heading: 'Libre Bodoni', body: 'Inter', script: 'Whisper' },
+  { id: 'minimal', name: 'Tối giản', heading: 'Josefin Sans', body: 'Manrope', script: 'Cormorant Garamond' },
+  { id: 'soft', name: 'Mềm mại', heading: 'Fraunces', body: 'Nunito', script: 'Ms Madi' },
+  { id: 'traditional', name: 'Truyền thống Việt', heading: 'Prata', body: 'EB Garamond', script: 'Charmonman' },
+  { id: 'vintage', name: 'Hoài cổ', heading: 'Old Standard TT', body: 'Spectral', script: 'Carattere' },
+  { id: 'young', name: 'Trẻ trung', heading: 'Lexend', body: 'Plus Jakarta Sans', script: 'Moon Dance' },
+  { id: 'sweet', name: 'Ngọt ngào', heading: 'Arima', body: 'Quicksand', script: 'Dancing Script' },
+  { id: 'calligraphy', name: 'Thư pháp', heading: 'Cormorant Upright', body: 'Literata', script: 'Imperial Script' },
+];
+
+/** Ambient particle effects (runtime.js → EFFECTS). Two can be layered (effect + effect2). */
 export const EFFECTS = [
-  { id: 'none', label: 'Không hiệu ứng' },
-  { id: 'petals', label: 'Cánh hoa rơi' },
-  { id: 'hearts', label: 'Trái tim bay' },
-  { id: 'sparkles', label: 'Lấp lánh' },
-  { id: 'snow', label: 'Tuyết rơi' },
-  { id: 'confetti', label: 'Pháo giấy' },
+  { id: 'none', label: 'Không hiệu ứng', icon: '∅' },
+  { id: 'petals', label: 'Cánh hoa hồng rơi', icon: '🌹' },
+  { id: 'sakura', label: 'Hoa anh đào', icon: '🌸' },
+  { id: 'plum', label: 'Hoa mai vàng', icon: '🌼' },
+  { id: 'leaves', label: 'Lá xanh bay', icon: '🍃' },
+  { id: 'hearts', label: 'Trái tim bay lên', icon: '💗' },
+  { id: 'sparkles', label: 'Lấp lánh', icon: '✨' },
+  { id: 'golddust', label: 'Bụi vàng', icon: '🌟' },
+  { id: 'fireflies', label: 'Đom đóm', icon: '🪲' },
+  { id: 'bokeh', label: 'Đốm sáng mờ', icon: '🔆' },
+  { id: 'butterflies', label: 'Bướm bay', icon: '🦋' },
+  { id: 'stars', label: 'Sao đêm & sao băng', icon: '🌠' },
+  { id: 'lanterns', label: 'Đèn trời', icon: '🏮' },
+  { id: 'bubbles', label: 'Bong bóng', icon: '🫧' },
+  { id: 'balloons', label: 'Bóng bay', icon: '🎈' },
+  { id: 'snow', label: 'Tuyết rơi', icon: '❄️' },
+  { id: 'confetti', label: 'Pháo giấy', icon: '🎊' },
+];
+
+/** One-shot celebration played right after the guest opens the invitation. */
+export const BURSTS = [
+  { id: 'none', label: 'Không', icon: '∅' },
+  { id: 'fireworks', label: 'Pháo hoa', icon: '🎆' },
+  { id: 'confetti', label: 'Tung pháo giấy', icon: '🎉' },
+  { id: 'hearts', label: 'Mưa tim', icon: '💕' },
+  { id: 'petals', label: 'Mưa cánh hoa', icon: '🌸' },
+];
+
+/** Small effect where the guest taps/clicks. */
+export const TAPS = [
+  { id: 'none', label: 'Không', icon: '∅' },
+  { id: 'hearts', label: 'Tim nhỏ', icon: '💗' },
+  { id: 'sparkles', label: 'Lấp lánh', icon: '✨' },
+  { id: 'ripple', label: 'Gợn sóng', icon: '◎' },
+];
+
+/** How the couple's names appear in the hero. */
+export const NAME_ANIMATIONS = [
+  { id: 'none', label: 'Đứng yên' },
+  { id: 'fade', label: 'Hiện dần' },
+  { id: 'handwrite', label: 'Viết tay' },
+  { id: 'letters', label: 'Từng chữ cái' },
+  { id: 'shimmer', label: 'Ánh kim lướt qua' },
+  { id: 'glow', label: 'Toả sáng' },
+  { id: 'float', label: 'Bồng bềnh' },
 ];
 
 export const INTROS = [
-  { id: 'envelope', label: 'Mở phong bì' },
-  { id: 'curtain', label: 'Kéo rèm' },
-  { id: 'fade', label: 'Hiện dần' },
-  { id: 'none', label: 'Không có' },
+  { id: 'envelope', label: 'Mở phong bì', icon: '💌' },
+  { id: 'curtain', label: 'Kéo rèm', icon: '🎭' },
+  { id: 'doors', label: 'Mở cổng', icon: '🚪' },
+  { id: 'card', label: 'Mở thiệp gập', icon: '📖' },
+  { id: 'scroll', label: 'Cuộn thư', icon: '📜' },
+  { id: 'circle', label: 'Vòng tròn mở', icon: '⭕' },
+  { id: 'fade', label: 'Hiện dần', icon: '🌫️' },
+  { id: 'none', label: 'Không có', icon: '∅' },
 ];
 
 export const TONES = [
@@ -192,6 +304,8 @@ const bankAccount = z.object({
 
 const sectionEntry = z.object({ key: z.enum(SECTION_KEYS), enabled: z.boolean() });
 
+const fontField = z.preprocess((v) => (typeof v === 'string' && LEGACY_FONTS[v]) || v, z.enum(FONT_FAMILIES)).optional();
+
 export const themeSchema = z
   .object({
     colors: z
@@ -206,13 +320,17 @@ export const themeSchema = z
       .prefault({}),
     fonts: z
       .object({
-        heading: z.enum(FONT_FAMILIES).optional(),
-        body: z.enum(FONT_FAMILIES).optional(),
-        script: z.enum(FONT_FAMILIES).optional(),
+        heading: fontField,
+        body: fontField,
+        script: fontField,
       })
       .prefault({}),
     effect: z.enum(EFFECTS.map((e) => e.id)).optional(),
+    effect2: z.enum(EFFECTS.map((e) => e.id)).optional(),
     effectIntensity: z.enum(['low', 'medium', 'high']).optional(),
+    burst: z.enum(BURSTS.map((e) => e.id)).optional(),
+    tap: z.enum(TAPS.map((e) => e.id)).optional(),
+    nameAnimation: z.enum(NAME_ANIMATIONS.map((e) => e.id)).optional(),
     intro: z.enum(INTROS.map((i) => i.id)).optional(),
   })
   .prefault({});

@@ -12,7 +12,7 @@
     {% if cover.image %}
     <figure class="sh-hero__photo" data-reveal="zoom">{{ photo(cover.image, 'Ảnh cưới của ' + names, 'hero__img--' + cover.position, '(max-width: 600px) 70vw, 320px', true) }}</figure>
     {% endif %}
-    <h1 class="sh-hero__names" data-reveal="up">
+    <h1 class="sh-hero__names" data-names data-reveal="up">
       <span>{{ first.shortName }}</span>
       <span class="sh-hero__amp">&amp;</span>
       <span>{{ second.shortName }}</span>

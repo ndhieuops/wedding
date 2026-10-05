@@ -7,7 +7,7 @@
     {% if cover.image %}
     <figure class="mm-hero__photo" data-reveal="zoom">{{ photo(cover.image, 'Ảnh cưới của ' + names, 'mm-hero__img hero__img--' + cover.position, '(max-width: 700px) 92vw, 640px', true) }}</figure>
     {% endif %}
-    <h1 class="mm-hero__names" data-reveal="up">
+    <h1 class="mm-hero__names" data-names data-reveal="up">
       <span>{{ first.shortName }}</span>
       <span class="mm-hero__amp">&amp;</span>
       <span>{{ second.shortName }}</span>

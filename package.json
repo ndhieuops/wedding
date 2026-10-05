@@ -20,7 +20,8 @@
     "template:validate": "node scripts/validate-templates.js",
     "template:preview": "node scripts/generate-previews.js",
     "demo:assets": "node scripts/generate-demo-assets.js",
-    "backup": "node scripts/backup.js"
+    "backup": "node scripts/backup.js",
+    "template:shot": "node scripts/shoot-template.js"
   },
   "dependencies": {
     "@fastify/compress": "^9.2.0",

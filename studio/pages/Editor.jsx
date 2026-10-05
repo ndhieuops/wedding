@@ -260,7 +260,8 @@ export function Editor({ id, meta, navigate }) {
   function switchTemplate(nextId) {
     setTemplateId(nextId);
     templateRef.current = nextId;
-    update('theme', (t) => ({ ...t, colors: {}, fonts: {}, effect: undefined, effectIntensity: undefined, intro: undefined }));
+    update('theme', (t) => ({ ...t, colors: {}, fonts: {}, effect: undefined, effect2: undefined, effectIntensity: undefined, burst: undefined, tap: undefined, nameAnimation: undefined, intro: undefined }));
+    setReplayKey((k) => k + 1);
     const name = meta.templates.find((t) => t.id === nextId)?.name;
     toast(`Đã chuyển sang mẫu “${name}” — màu, font & hiệu ứng theo mặc định của mẫu.`);
   }
@@ -338,7 +339,7 @@ export function Editor({ id, meta, navigate }) {
           {tab === 'photos' && <PhotosPanel {...panelProps} />}
           {tab === 'story' && <StoryPanel {...panelProps} />}
           {tab === 'gift' && <GiftPanel {...panelProps} sectionEnabled={sectionEnabled} setSectionEnabled={setSectionEnabled} />}
-          {tab === 'design' && <DesignPanel {...panelProps} templateId={templateId} switchTemplate={switchTemplate} />}
+          {tab === 'design' && <DesignPanel {...panelProps} templateId={templateId} switchTemplate={switchTemplate} replay={() => setReplayKey((k) => k + 1)} />}
           {tab === 'sections' && <SectionsPanel {...panelProps} sections={sections} setSections={setSections} />}
           {tab === 'share' && (
             <SharePanel

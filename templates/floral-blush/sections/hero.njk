@@ -10,7 +10,7 @@
     <div class="hero__inner">
       {% if guest.name %}<p class="hero__guest" data-reveal="fade">Trân trọng kính mời <strong>{{ guest.name }}</strong></p>{% endif %}
       {% if content.headline %}<p class="hero__eyebrow" data-reveal="fade">{{ content.headline }}</p>{% endif %}
-      <h1 class="hero__names" data-reveal="zoom">
+      <h1 class="hero__names" data-names data-reveal="zoom">
         <span class="hero__name">{{ first.shortName }}</span>
         <span class="hero__amp" aria-label="và">&amp;</span>
         <span class="hero__name">{{ second.shortName }}</span>

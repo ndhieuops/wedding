@@ -102,3 +102,36 @@ describe('Schema dữ liệu thiệp', () => {
     assert.deepEqual([...referencedAssetIds(d)].sort(), ['c1', 'g1', 'p1', 's1']);
   });
 });
+
+describe('Danh mục font & hiệu ứng v2', async () => {
+  const schema = await import('../server/lib/schema.js');
+
+  it('every font has a category, a note and well-formed axes', () => {
+    assert.ok(schema.FONTS.length >= 60);
+    const families = new Set();
+    for (const f of schema.FONTS) {
+      assert.ok(['serif', 'sans', 'script'].includes(f.category), f.family);
+      assert.match(f.axes, /^$|^(ital,wght@[01],\d{3}(;[01],\d{3})*|wght@\d{3}(;\d{3})*)$/, f.family);
+      assert.ok(!families.has(f.family), `duplicate ${f.family}`);
+      families.add(f.family);
+    }
+  });
+
+  it('font pairs only reference catalogue fonts', () => {
+    const families = new Set(schema.FONTS.map((f) => f.family));
+    for (const p of schema.FONT_PAIRS) for (const k of ['heading', 'body', 'script']) assert.ok(families.has(p[k]), `${p.id}.${k}=${p[k]}`);
+  });
+
+  it('maps removed fonts to replacements so old invitations stay valid', () => {
+    const d = schema.parseInvitationData({ theme: { fonts: { heading: 'Noto Serif Display' } } });
+    assert.equal(d.theme.fonts.heading, 'Playfair Display');
+  });
+
+  it('accepts every new effect option and rejects unknown ones', () => {
+    const d = schema.parseInvitationData({ theme: { effect: 'butterflies', effect2: 'golddust', burst: 'fireworks', tap: 'hearts', nameAnimation: 'handwrite', intro: 'scroll' } });
+    assert.equal(d.theme.effect2, 'golddust');
+    for (const bad of [{ effect: 'rain' }, { burst: 'boom' }, { tap: 'x' }, { nameAnimation: 'spin' }, { intro: 'portal' }]) {
+      assert.throws(() => schema.parseInvitationData({ theme: bad }), JSON.stringify(bad));
+    }
+  });
+});

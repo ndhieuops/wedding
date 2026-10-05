@@ -4,7 +4,7 @@ import { GENERATABLE_FIELDS, generateField } from '../lib/content-generator.js';
 import { HttpError } from '../lib/errors.js';
 import { MediaError } from '../lib/media.js';
 import {
-  EFFECTS, EVENT_TYPES, FONTS, INTROS, SECTIONS, TONES, isoDate, parseInvitationData, publishProblems,
+  BURSTS, EFFECTS, EVENT_TYPES, FONT_PAIRS, FONTS, INTROS, NAME_ANIMATIONS, SECTIONS, TAPS, TONES, isoDate, parseInvitationData, publishProblems,
 } from '../lib/schema.js';
 import { isValidSlug } from '../lib/text.js';
 import { removeInvitationFiles, storeUpload } from '../services/assets.js';
@@ -61,8 +61,12 @@ export function registerInvitationApi(app) {
         defaults: t.defaults,
         palettes: t.palettes,
       })),
-      fonts: FONTS.map(({ family, category }) => ({ family, category })),
+      fonts: FONTS.map(({ family, category, note }) => ({ family, category, note })),
+      fontPairs: FONT_PAIRS,
       effects: EFFECTS,
+      bursts: BURSTS,
+      taps: TAPS,
+      nameAnimations: NAME_ANIMATIONS,
       intros: INTROS,
       tones: TONES,
       sections: SECTIONS,

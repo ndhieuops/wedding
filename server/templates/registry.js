@@ -4,7 +4,7 @@ import path from 'node:path';
 import nunjucks from 'nunjucks';
 import { z } from 'zod';
 import { BOOT_SCRIPT } from '../lib/csp.js';
-import { EFFECTS, FONTS, INTROS, SECTION_KEYS, TONES } from '../lib/schema.js';
+import { BURSTS, EFFECTS, FONTS, INTROS, NAME_ANIMATIONS, SECTION_KEYS, TAPS, TONES } from '../lib/schema.js';
 
 const color = z.string().regex(/^#[0-9a-fA-F]{6}$/, 'màu phải ở dạng #RRGGBB');
 const colors = z.object({
@@ -40,7 +40,11 @@ export const manifestSchema = z.object({
       colors,
       fonts: z.object({ heading: fontFamily, body: fontFamily, script: fontFamily }),
       effect: z.enum(EFFECTS.map((e) => e.id)).default('petals'),
+      effect2: z.enum(EFFECTS.map((e) => e.id)).default('none'),
       effectIntensity: z.enum(['low', 'medium', 'high']).default('medium'),
+      burst: z.enum(BURSTS.map((e) => e.id)).default('none'),
+      tap: z.enum(TAPS.map((e) => e.id)).default('none'),
+      nameAnimation: z.enum(NAME_ANIMATIONS.map((e) => e.id)).default('fade'),
       intro: z.enum(INTROS.map((i) => i.id)).default('envelope'),
     }),
     sections: z

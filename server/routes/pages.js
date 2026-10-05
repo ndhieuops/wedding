@@ -23,7 +23,7 @@ export function registerPageRoutes(app) {
   app.get('/templates/:id', async (request, reply) => {
     const template = registry.get(request.params.id);
     if (!template || (!template.published && !request.isAdmin())) throw new HttpError(404, 'Mẫu thiệp không tồn tại.');
-    const html = await invitations.renderDemo(template, { guestName: guestFromQuery(request.query) });
+    const html = await invitations.renderDemo(template, { guestName: guestFromQuery(request.query), query: request.query || {} });
     return reply.header('content-security-policy', invitationCsp({ allowFraming: true })).type('text/html; charset=utf-8').send(html);
   });
 

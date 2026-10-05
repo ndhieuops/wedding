@@ -2,11 +2,12 @@
  * Wedding invitation runtime — shared by every template.
  * Vanilla JS, no dependencies, progressive enhancement: the page is fully readable without it.
  *
- * Features: intro overlay, background music, particle effects (canvas), scroll reveal,
- * countdown, gallery lightbox, RSVP & wishes forms, copy-to-clipboard, lazy Google Map,
- * and a postMessage bridge used by the live preview in the editor.
+ * Features: intro overlay (8 styles), background music, particle effects (effects.js),
+ * opening bursts & tap effects, animated names, scroll reveal / stagger / parallax / line
+ * drawing, countdown, gallery lightbox, RSVP & wishes forms, copy-to-clipboard, lazy Google
+ * Map, and a postMessage bridge used by the live preview in the editor.
  */
-(function () {
+(function (global) {
   'use strict';
 
   var html = document.documentElement;
@@ -20,12 +21,11 @@
   var reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var isPreview = cfg.mode === 'preview';
   var canSubmit = cfg.mode === 'live' && !!cfg.endpoints;
+  var fxApi = null;
 
   /* ------------------------------------------------------------------ utils */
   function $(sel, root) { return (root || document).querySelector(sel); }
   function $$(sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); }
-  function rand(min, max) { return min + Math.random() * (max - min); }
-  function clamp(v, min, max) { return Math.max(min, Math.min(max, v)); }
 
   var toastTimer;
   function toast(message) {
@@ -100,153 +100,115 @@
     return { play: play };
   }
 
-  /* ------------------------------------------------------------------ effects */
-  function makeSprite(type, color) {
-    var size = 64;
-    var c = document.createElement('canvas');
-    c.width = c.height = size;
-    var g = c.getContext('2d');
-    g.translate(size / 2, size / 2);
-    if (type === 'petals') {
-      var grad = g.createLinearGradient(-20, -20, 20, 20);
-      grad.addColorStop(0, '#ffffff');
-      grad.addColorStop(0.35, color);
-      grad.addColorStop(1, color);
-      g.fillStyle = grad;
-      g.globalAlpha = 0.9;
-      g.beginPath();
-      g.moveTo(0, -26);
-      g.bezierCurveTo(22, -18, 18, 14, 0, 26);
-      g.bezierCurveTo(-18, 14, -22, -18, 0, -26);
-      g.fill();
-    } else if (type === 'hearts') {
-      g.fillStyle = color;
-      g.globalAlpha = 0.85;
-      g.beginPath();
-      g.moveTo(0, 20);
-      g.bezierCurveTo(-30, 0, -18, -26, 0, -10);
-      g.bezierCurveTo(18, -26, 30, 0, 0, 20);
-      g.fill();
-    } else if (type === 'sparkles') {
-      var glow = g.createRadialGradient(0, 0, 0, 0, 0, 28);
-      glow.addColorStop(0, '#ffffff');
-      glow.addColorStop(0.25, color);
-      glow.addColorStop(1, 'rgba(255,255,255,0)');
-      g.fillStyle = glow;
-      g.beginPath();
-      g.moveTo(0, -30); g.quadraticCurveTo(3, -3, 30, 0); g.quadraticCurveTo(3, 3, 0, 30);
-      g.quadraticCurveTo(-3, 3, -30, 0); g.quadraticCurveTo(-3, -3, 0, -30);
-      g.fill();
-    } else if (type === 'snow') {
-      var flake = g.createRadialGradient(0, 0, 0, 0, 0, 24);
-      flake.addColorStop(0, 'rgba(255,255,255,1)');
-      flake.addColorStop(0.5, 'rgba(255,255,255,.8)');
-      flake.addColorStop(1, 'rgba(255,255,255,0)');
-      g.shadowColor = color;
-      g.shadowBlur = 8;
-      g.fillStyle = flake;
-      g.beginPath(); g.arc(0, 0, 22, 0, Math.PI * 2); g.fill();
-    } else if (type === 'confetti') {
-      g.fillStyle = color;
-      g.fillRect(-10, -18, 20, 36);
+  /* ------------------------------------------------------------------ effects (see effects.js) */
+  function initEffects() {
+    var canvas = $('.fx-canvas');
+    var noop = { start: function () {}, burst: function () {}, tap: function () {} };
+    if (!canvas || reducedMotion || !global.WeddingFX || !canvas.getContext) return noop;
+    var fx = null;
+    function engine() {
+      if (!fx) fx = global.WeddingFX.create(canvas, { colors: cfg.colors || {} });
+      return fx;
     }
-    return c;
+    var layers = cfg.effects || (cfg.effect && cfg.effect !== 'none' ? [{ type: cfg.effect, intensity: cfg.effectIntensity }] : []);
+    var lastTap = 0;
+    return {
+      start: function () {
+        if (!layers.length) return;
+        var e = engine();
+        layers.forEach(function (l) { e.ambient(l.type, l.intensity); });
+      },
+      burst: function (type, small) {
+        if (type && type !== 'none') engine().burst(type, small);
+      },
+      tap: function (x, y) {
+        if (!cfg.tap || cfg.tap === 'none') return;
+        var now = Date.now();
+        if (now - lastTap < 120) return;
+        lastTap = now;
+        engine().tap(cfg.tap, x, y);
+      },
+    };
   }
 
-  function initEffects() {
-    var type = cfg.effect;
-    var canvas = $('.fx-canvas');
-    if (!canvas || !type || type === 'none' || reducedMotion || !canvas.getContext) return { start: function () {} };
-    var ctx = canvas.getContext('2d');
-    var colors = cfg.colors || {};
-    var palette = [colors.primary, colors.secondary, colors.accent].filter(Boolean);
-    if (!palette.length) palette = ['#e8a0b4'];
-    var sprites = palette.map(function (c) { return makeSprite(type, c); });
-    var base = { low: 12, medium: 22, high: 36 }[cfg.effectIntensity] || 22;
-    var dpr = Math.min(window.devicePixelRatio || 1, 2);
-    var W = 0, H = 0, particles = [], raf = 0, running = false, last = 0;
-
-    function spawn(initial) {
-      var p = {
-        sprite: sprites[(Math.random() * sprites.length) | 0],
-        x: rand(0, W),
-        y: 0, size: 0, vx: rand(-0.3, 0.3), vy: 0,
-        rot: rand(0, Math.PI * 2), vr: rand(-0.02, 0.02),
-        phase: rand(0, Math.PI * 2), alpha: 1, life: 0, ttl: 0,
-      };
-      if (type === 'petals') { p.size = rand(12, 22); p.vy = rand(0.5, 1.2); p.y = initial ? rand(-H, H) : -30; }
-      else if (type === 'hearts') { p.size = rand(10, 20); p.vy = -rand(0.35, 0.9); p.y = initial ? rand(0, H * 1.5) : H + 30; p.vr = 0; p.rot = rand(-0.3, 0.3); }
-      else if (type === 'sparkles') { p.size = rand(8, 20); p.vy = rand(-0.12, 0.12); p.y = rand(0, H); p.ttl = rand(120, 280); p.life = initial ? rand(0, p.ttl) : 0; p.vr = 0.004; }
-      else if (type === 'snow') { p.size = rand(5, 12); p.vy = rand(0.4, 1); p.y = initial ? rand(-H, H) : -20; p.vr = 0; }
-      else if (type === 'confetti') { p.size = rand(6, 11); p.vy = rand(1, 2.1); p.y = initial ? rand(-H, H) : -20; p.vr = rand(-0.08, 0.08); }
-      return p;
+  /* ------------------------------------------------------------------ name animations */
+  function graphemes(text) {
+    if (global.Intl && Intl.Segmenter) {
+      return Array.from(new Intl.Segmenter('vi', { granularity: 'grapheme' }).segment(text), function (s) { return s.segment; });
     }
+    return Array.from(text);
+  }
 
-    function resize() {
-      W = window.innerWidth;
-      H = window.innerHeight;
-      canvas.width = Math.round(W * dpr);
-      canvas.height = Math.round(H * dpr);
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      var target = Math.round(base * clamp((W * H) / (390 * 844), 0.7, 1.8));
-      while (particles.length < target) particles.push(spawn(true));
-      if (particles.length > target) particles.length = target;
+  /** Prepare [data-names] before the intro closes so nothing flashes. */
+  function prepareNames(type) {
+    var el = $('[data-names]');
+    if (!el || !type || type === 'fade' || reducedMotion) return function () {};
+    el.removeAttribute('data-reveal');
+    el.classList.add('names--' + type);
+    // Gradient text (background-clip: text) on the wrapper does not paint animated children —
+    // let every child (and letter) carry its own copy of the gradient instead.
+    var cs = global.getComputedStyle(el);
+    if ((cs.backgroundClip || cs.webkitBackgroundClip) === 'text' || cs.webkitBackgroundClip === 'text') el.classList.add('names--clip');
+    var parts = $$(':scope > *', el);
+    parts.forEach(function (part, i) { part.style.setProperty('--i', i); });
+    if (type === 'letters') {
+      var n = 0;
+      parts.forEach(function (part) {
+        var text = part.textContent;
+        part.setAttribute('aria-label', text);
+        part.textContent = '';
+        graphemes(text).forEach(function (ch) {
+          var span = document.createElement('span');
+          span.className = 'ch';
+          span.setAttribute('aria-hidden', 'true');
+          span.style.setProperty('--c', n++);
+          span.textContent = ch;
+          part.appendChild(span);
+        });
+      });
     }
+    return function play() { el.classList.add('is-playing'); };
+  }
 
-    function frame(t) {
-      if (!running) return;
-      var dt = last ? Math.min(3, (t - last) / 16.67) : 1;
-      last = t;
-      ctx.clearRect(0, 0, W, H);
-      for (var i = 0; i < particles.length; i++) {
-        var p = particles[i];
-        p.phase += 0.02 * dt;
-        p.x += (p.vx + Math.sin(p.phase) * (type === 'snow' ? 0.3 : 0.6)) * dt;
-        p.y += p.vy * dt;
-        p.rot += p.vr * dt;
-        var alpha = 1, scaleY = 1;
-        if (type === 'sparkles') {
-          p.life += dt;
-          alpha = Math.sin((p.life / p.ttl) * Math.PI);
-          if (p.life >= p.ttl) { particles[i] = spawn(false); continue; }
-        } else if (type === 'hearts') {
-          alpha = clamp(p.y / (H * 0.5), 0, 1);
-          if (p.y < -30) { particles[i] = spawn(false); continue; }
-        } else {
-          if (p.y > H + 30) { particles[i] = spawn(false); continue; }
-          if (type === 'confetti' || type === 'petals') scaleY = Math.cos(p.phase * 1.5);
-        }
-        if (p.x < -40) p.x = W + 30; else if (p.x > W + 40) p.x = -30;
-        ctx.save();
-        ctx.globalAlpha = alpha;
-        ctx.translate(p.x, p.y);
-        ctx.rotate(p.rot);
-        ctx.scale(1, scaleY || 0.05);
-        ctx.drawImage(p.sprite, -p.size / 2, -p.size / 2, p.size, p.size);
-        ctx.restore();
-      }
-      raf = requestAnimationFrame(frame);
-    }
-
-    function start() {
-      if (running || document.hidden) return;
-      running = true;
-      last = 0;
-      raf = requestAnimationFrame(frame);
-    }
-    function stop() {
-      running = false;
-      cancelAnimationFrame(raf);
-    }
-
-    resize();
-    var resizeTimer;
-    window.addEventListener('resize', function () { clearTimeout(resizeTimer); resizeTimer = setTimeout(resize, 150); });
-    var started = false;
-    document.addEventListener('visibilitychange', function () {
-      if (document.hidden) stop(); else if (started) start();
+  /* ------------------------------------------------------------------ scroll extras */
+  function initScrollExtras(instant) {
+    // Stagger children: <div data-stagger> children with data-reveal get increasing delays.
+    $$('[data-stagger]').forEach(function (group) {
+      $$('[data-reveal]', group).forEach(function (el, i) { el.style.setProperty('--reveal-delay', Math.min(i, 10) * 110 + 'ms'); });
     });
-    return { start: function () { started = true; start(); } };
+    // Line drawings: <svg data-draw> paths are stroked progressively when visible.
+    var draws = $$('svg[data-draw]');
+    draws.forEach(function (svg) {
+      $$('path, line, polyline, circle, ellipse, rect', svg).forEach(function (el) { el.setAttribute('pathLength', '1'); });
+      if (instant || reducedMotion) svg.classList.add('is-drawn');
+    });
+    if (!instant && !reducedMotion && 'IntersectionObserver' in window && draws.length) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) { e.target.classList.add('is-drawn'); io.unobserve(e.target); }
+        });
+      }, { threshold: 0.3 });
+      draws.forEach(function (svg) { io.observe(svg); });
+    }
+    // Parallax: data-parallax="0.2" moves the element at a fraction of the scroll speed.
+    var items = $$('[data-parallax]');
+    if (!items.length || reducedMotion) return;
+    var ticking = false;
+    function update() {
+      ticking = false;
+      var vh = window.innerHeight;
+      items.forEach(function (el) {
+        var rect = el.getBoundingClientRect();
+        if (rect.bottom < -200 || rect.top > vh + 200) return;
+        var factor = parseFloat(el.getAttribute('data-parallax')) || 0.2;
+        var offset = (rect.top + rect.height / 2 - vh / 2) * -factor;
+        el.style.transform = 'translate3d(0,' + offset.toFixed(1) + 'px,0)';
+      });
+    }
+    window.addEventListener('scroll', function () {
+      if (!ticking) { ticking = true; requestAnimationFrame(update); }
+    }, { passive: true });
+    update();
   }
 
   /* ------------------------------------------------------------------ countdown */
@@ -426,6 +388,7 @@
             if (kind === 'rsvp') {
               form.classList.add('is-done');
               setStatus(RSVP_DONE[payload.attending] || 'Cảm ơn bạn!', 'success');
+              if (payload.attending === 'yes' && fxApi) fxApi.burst('confetti', true);
             } else {
               setStatus('Cảm ơn lời chúc của bạn ♥', 'success');
               form.message.value = '';
@@ -515,12 +478,13 @@
   }
 
   /* ------------------------------------------------------------------ intro + boot */
+  var INTRO_MS = { envelope: 1700, curtain: 1500, doors: 1600, card: 1700, scroll: 1100, circle: 1050, fade: 800 };
+
   function initIntro(onOpen, music) {
     var intro = $('[data-intro]');
-    if (!intro) { onOpen(); return; }
+    if (!intro) { onOpen(false); return; }
     html.classList.add('intro-lock');
     var opened = false;
-    var durations = { envelope: 1700, curtain: 1500, fade: 800 };
     function open() {
       if (opened) return;
       opened = true;
@@ -530,22 +494,34 @@
         intro.classList.add('is-closed');
         html.classList.remove('intro-lock');
         window.scrollTo({ top: 0, behavior: 'instant' });
-        onOpen();
+        onOpen(true);
         setTimeout(function () { if (intro.parentNode) intro.parentNode.removeChild(intro); }, 900);
-      }, reducedMotion ? 0 : durations[cfg.intro] || 900);
+      }, reducedMotion ? 0 : INTRO_MS[cfg.intro] || 900);
     }
-    $$('[data-intro-open], .envelope, .intro__card', intro).forEach(function (el) { el.addEventListener('click', open); });
+    $$('[data-intro-open], .envelope, .intro__card, .doors, .gcard, .scrollpaper', intro).forEach(function (el) { el.addEventListener('click', open); });
     intro.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); } });
   }
 
   function boot() {
     var music = initMusic();
     var effects = initEffects();
+    fxApi = effects;
     var restoring = isPreview && cfg.preview && cfg.preview.skipIntro;
     if (restoring && cfg.preview.scrollY) window.scrollTo({ top: cfg.preview.scrollY, behavior: 'instant' });
-    initIntro(function () {
+    var playNames = restoring ? function () {} : prepareNames(cfg.nameAnimation);
+    if (restoring) { var names = $('[data-names]'); if (names) names.removeAttribute('data-reveal'); }
+    initIntro(function (fromIntro) {
       initReveal(restoring);
+      initScrollExtras(restoring);
+      playNames();
       effects.start();
+      if (!restoring) setTimeout(function () { effects.burst(cfg.burst); }, fromIntro ? 150 : 600);
+      if (cfg.tap && cfg.tap !== 'none') {
+        document.addEventListener('pointerdown', function (e) {
+          if (e.target.closest('input, textarea, select, button, a, label, .lightbox')) return;
+          effects.tap(e.clientX, e.clientY);
+        }, { passive: true });
+      }
     }, music);
     initCountdown();
     initLightbox();
@@ -556,4 +532,4 @@
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
   else boot();
-})();
+})(window);

@@ -1,6 +1,7 @@
 import { useRef, useState } from 'preact/hooks';
 import { upload } from '../api.js';
-import { ColorField, Group, Segmented, Select, TextField, Toggle } from '../components/fields.jsx';
+import { ChoiceGrid, FontPairs, FontPicker, useFontPreviews } from '../components/design.jsx';
+import { ColorField, Group, Segmented, TextField, Toggle } from '../components/fields.jsx';
 import { toast } from '../components/toast.jsx';
 
 const COLOR_LABELS = [
@@ -12,7 +13,7 @@ const COLOR_LABELS = [
   ['text', 'Chữ'],
 ];
 
-export function DesignPanel({ data, update, meta, ctx, templateId, switchTemplate }) {
+export function DesignPanel({ data, update, meta, ctx, templateId, switchTemplate, replay }) {
   const template = meta.templates.find((t) => t.id === templateId) || meta.templates[0];
   const defaults = template?.defaults.theme || { colors: {}, fonts: {} };
   const colors = { ...defaults.colors, ...data.theme.colors };
@@ -20,10 +21,13 @@ export function DesignPanel({ data, update, meta, ctx, templateId, switchTemplat
   const audioInput = useRef();
   const [uploading, setUploading] = useState(false);
 
-  const fontOptions = ['serif', 'sans', 'script'].map((cat) => ({
-    group: { serif: 'Có chân (serif)', sans: 'Không chân (sans)', script: 'Viết tay (script)' }[cat],
-    options: meta.fonts.filter((f) => f.category === cat).map((f) => ({ value: f.family, label: f.family })),
-  }));
+  useFontPreviews(meta.fonts);
+  const fx = (key, fallback) => data.theme[key] || defaults[key] || fallback;
+  /** Opening effects only show when the invitation is (re)opened → replay the intro in the preview. */
+  const setAndReplay = (key, value) => {
+    update(`theme.${key}`, value);
+    replay?.();
+  };
 
   async function uploadAudio(file) {
     if (!file) return;
@@ -80,21 +84,44 @@ export function DesignPanel({ data, update, meta, ctx, templateId, switchTemplat
         </div>
       </Group>
 
-      <Group title="Font chữ" description="Mọi font đều hỗ trợ đầy đủ tiếng Việt." actions={Object.keys(data.theme.fonts || {}).length > 0 && <button type="button" class="link-btn" onClick={() => update('theme.fonts', {})}>Khôi phục mặc định</button>}>
-        <Select label="Tên cô dâu chú rể (chữ nghệ thuật)" value={fonts.script} onChange={(v) => update('theme.fonts.script', v)} options={fontOptions} />
-        <Select label="Tiêu đề" value={fonts.heading} onChange={(v) => update('theme.fonts.heading', v)} options={fontOptions} />
-        <Select label="Nội dung" value={fonts.body} onChange={(v) => update('theme.fonts.body', v)} options={fontOptions} />
+      <Group
+        title="Font chữ"
+        description="Đã chọn lọc các font hiển thị dấu tiếng Việt đẹp nhất."
+        actions={Object.keys(data.theme.fonts || {}).length > 0 && <button type="button" class="link-btn" onClick={() => update('theme.fonts', {})}>Khôi phục mặc định</button>}
+      >
+        <span class="field__label">Bộ font gợi ý</span>
+        <FontPairs pairs={meta.fontPairs || []} current={fonts} onPick={(p) => update('theme.fonts', { heading: p.heading, body: p.body, script: p.script })} />
+        <FontPicker label="Tên cô dâu chú rể (chữ nghệ thuật)" value={fonts.script} fonts={meta.fonts} sample="Anh & Hà" onChange={(v) => update('theme.fonts.script', v)} />
+        <FontPicker label="Tiêu đề" value={fonts.heading} fonts={meta.fonts} sample="Lễ Thành Hôn" onChange={(v) => update('theme.fonts.heading', v)} />
+        <FontPicker label="Nội dung" value={fonts.body} fonts={meta.fonts} sample="Trân trọng kính mời" onChange={(v) => update('theme.fonts.body', v)} />
       </Group>
 
-      <Group title="Hiệu ứng">
-        <Select label="Hiệu ứng nền" value={data.theme.effect || defaults.effect} onChange={(v) => update('theme.effect', v)} options={meta.effects.map((e) => ({ value: e.id, label: e.label }))} />
+      <Group title="Hiệu ứng nền" description="Có thể kết hợp 2 lớp, ví dụ: hoa anh đào + bụi vàng.">
+        <ChoiceGrid options={meta.effects} value={fx('effect', 'none')} onChange={(v) => update('theme.effect', v)} />
+        <ChoiceGrid label="Lớp hiệu ứng thứ hai" compact options={meta.effects} value={fx('effect2', 'none')} onChange={(v) => update('theme.effect2', v)} />
         <Segmented
           label="Mật độ"
-          value={data.theme.effectIntensity || defaults.effectIntensity}
+          value={fx('effectIntensity', 'medium')}
           onChange={(v) => update('theme.effectIntensity', v)}
           options={[{ value: 'low', label: 'Nhẹ' }, { value: 'medium', label: 'Vừa' }, { value: 'high', label: 'Nhiều' }]}
         />
-        <Select label="Hiệu ứng mở thiệp" value={data.theme.intro || defaults.intro} onChange={(v) => update('theme.intro', v)} options={meta.intros.map((e) => ({ value: e.id, label: e.label }))} />
+      </Group>
+
+      <Group
+        title="Hiệu ứng mở thiệp"
+        description="Khách bấm “Mở thiệp” để xem. Thay đổi ở đây sẽ tự phát lại trong khung xem trước."
+        actions={replay && <button type="button" class="link-btn" onClick={replay}>▶ Xem lại</button>}
+      >
+        <ChoiceGrid label="Kiểu mở thiệp" options={meta.intros} value={fx('intro', 'envelope')} onChange={(v) => setAndReplay('intro', v)} />
+        <ChoiceGrid label="Ngay khi mở" compact options={meta.bursts || []} value={fx('burst', 'none')} onChange={(v) => setAndReplay('burst', v)} />
+        <ChoiceGrid
+          label="Tên cô dâu chú rể xuất hiện"
+          compact
+          options={(meta.nameAnimations || []).map((n) => ({ ...n, icon: { none: '—', fade: '◐', handwrite: '✍️', letters: '🔠', shimmer: '✨', glow: '💡', float: '☁️' }[n.id] }))}
+          value={fx('nameAnimation', 'fade')}
+          onChange={(v) => setAndReplay('nameAnimation', v)}
+        />
+        <ChoiceGrid label="Khi khách chạm vào thiệp" compact options={meta.taps || []} value={fx('tap', 'none')} onChange={(v) => update('theme.tap', v)} />
       </Group>
 
       <Group title="Nhạc nền" description="Nhạc phát khi khách bấm “Mở thiệp”. Hãy dùng bài hát bạn có quyền sử dụng.">

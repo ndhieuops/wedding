@@ -11,6 +11,7 @@ npm run template:new -- vuon-xanh --name "Vườn Xanh" --description "Mẫu tô
 
 npm run template:validate          # kiểm tra mọi template.json
 npm run dev                         # mở http://localhost:3000/templates/vuon-xanh (đăng nhập admin)
+npm run template:shot -- vuon-xanh  # chụp intro / lúc mở / hero / toàn trang + tự kiểm tra lỗi → .shots/vuon-xanh/
 npm run template:preview vuon-xanh  # chụp ảnh preview.webp cho trang chọn mẫu
 ```
 
@@ -53,8 +54,12 @@ Muốn đổi HTML phần nào → tạo file cùng đường dẫn, ví dụ `s
 | `defaults.tone` | Giọng văn tự sinh: `classic` · `romantic` · `modern` · `traditional` |
 | `defaults.theme.colors` | 6 màu: `primary`, `secondary`, `background`, `surface`, `text`, `accent` |
 | `defaults.theme.fonts` | `heading`, `body`, `script` — phải nằm trong danh sách `FONTS` (`server/lib/schema.js`, đều hỗ trợ tiếng Việt) |
-| `defaults.theme.effect` | `none` · `petals` · `hearts` · `sparkles` · `snow` · `confetti` |
-| `defaults.theme.intro` | `envelope` · `curtain` · `fade` · `none` |
+| `defaults.theme.effect`, `effect2` | Hiệu ứng nền, có thể chồng 2 lớp: `petals` · `sakura` · `plum` (hoa mai) · `leaves` · `hearts` · `sparkles` · `golddust` · `fireflies` · `bokeh` · `butterflies` · `stars` · `lanterns` · `bubbles` · `balloons` · `snow` · `confetti` · `none` |
+| `defaults.theme.effectIntensity` | `low` · `medium` · `high` |
+| `defaults.theme.burst` | Hiệu ứng ngay khi mở thiệp: `fireworks` · `confetti` · `hearts` · `petals` · `none` |
+| `defaults.theme.tap` | Hiệu ứng khi khách chạm màn hình: `hearts` · `sparkles` · `ripple` · `none` |
+| `defaults.theme.nameAnimation` | Tên cô dâu chú rể xuất hiện: `fade` · `handwrite` · `letters` · `shimmer` · `glow` · `float` · `none` |
+| `defaults.theme.intro` | `envelope` · `curtain` · `doors` · `card` · `scroll` · `circle` · `fade` · `none` |
 | `defaults.sections` | Các section bật sẵn + thứ tự mặc định |
 | `palettes` | Bảng màu gợi ý cho người dùng chọn nhanh trong editor |
 
@@ -96,19 +101,37 @@ người dùng đổi màu được:
 - Hoạ tiết SVG đổi màu theo theme: dùng `mask: url(corner.svg)` + `background: var(--c-primary)`
   (xem `classic-gold/style.css`).
 - Chỉ CSS của **một** mẫu được nạp mỗi trang, nên selector `.tpl ...` là đủ.
+- Chữ ánh kim (`background-clip: text`) cho tên cô dâu chú rể: đặt lên **các span con** (`.hero__name`)
+  chứ không đặt lên thẻ `[data-names]` — runtime tự xử lý, nhưng đặt trên span con luôn an toàn nhất.
+- Hình dạng phong bì, cổng, thiệp gập, cuộn thư… lấy màu từ `--c-primary`/`--c-accent`/`--c-surface`;
+  có thể tinh chỉnh bằng class `.intro--<kiểu>`, `.envelope`, `.door`, `.gcard__cover`, `.scrollpaper__paper`.
+- Trang trí bên trong thẻ mở thiệp: tạo `partials/intro-decor.njk` (không cần chép lại cả intro).
 
 ## 6. Hook của runtime (không cần viết JS)
 
 | Thuộc tính | Tác dụng |
 |---|---|
-| `data-reveal="up|fade|zoom|left|right"` | Hiện dần khi cuộn tới |
+| `data-reveal="up|fade|zoom|left|right|rise|blur|flip|drop"` | Hiện dần khi cuộn tới |
+| `data-stagger` (trên thẻ cha) | Các con có `data-reveal` hiện lần lượt |
+| `data-names` (trên thẻ `<h1>` tên) | Bắt buộc ở hero — để áp dụng kiểu chữ chuyển động (viết tay, từng chữ…) |
+| `data-parallax="0.2"` | Hoạ tiết trôi chậm hơn khi cuộn (hiệu ứng chiều sâu) |
+| `<svg data-draw>` | Các nét SVG tự vẽ khi cuộn tới (đường viền, hoa văn) |
 | `data-countdown="2026-12-20T10:00:00+07:00"` | Đồng hồ đếm ngược (kèm `[data-unit=days|hours|minutes|seconds]`) |
 | `data-lightbox` trên thẻ `<a href="ảnh-lớn">` | Mở ảnh toàn màn hình, vuốt qua lại |
 | `data-copy="nội dung"` | Nút sao chép |
 | `data-form="rsvp|wishes"` | Gửi form không reload trang |
 | `data-intro-open` | Nút mở thiệp |
 
-## 7. Checklist trước khi `published: true`
+## 7. Xem thử nhanh mọi hiệu ứng
+
+Trang demo nhận tham số để thử kết hợp mà không phải sửa `template.json`:
+
+```
+/templates/vuon-xanh?effect=butterflies&effect2=golddust&intro=doors&burst=fireworks&name=handwrite&tap=hearts
+/templates/vuon-xanh?script=Send%20Flowers&heading=Bona%20Nova&body=Manrope
+```
+
+## 8. Checklist trước khi `published: true`
 
 - [ ] Màn hình 320px, 390px và desktop 1366px đều đẹp, không tràn ngang.
 - [ ] Tên rất dài ("Nguyễn Hoàng Bảo Ngọc Anh Thư") vẫn xuống dòng gọn gàng.
