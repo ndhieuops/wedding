@@ -15,8 +15,14 @@
   --ob-on-deep: color-mix(in srgb, var(--c-surface) 92%, var(--c-secondary));
   --ob-ink: color-mix(in srgb, var(--c-primary) 55%, var(--c-text));
   --ob-accent-ink: color-mix(in srgb, var(--c-accent) 64%, var(--c-text));
+  --ob-accent-script: color-mix(in srgb, var(--c-accent) 88%, var(--c-text));
   --c-muted: color-mix(in srgb, var(--c-text) 76%, var(--c-bg));
   --ob-leaf: color-mix(in srgb, var(--c-primary) 62%, var(--c-text));
+  /* water tints come from primary + white only: mixing primary with a warm secondary (peach, sand)
+     turns the sea grey, so every palette and user colour keeps clean water */
+  --ob-water-1: color-mix(in srgb, var(--c-primary) 18%, #fff);
+  --ob-water-2: color-mix(in srgb, var(--c-primary) 34%, #fff);
+  --ob-water-3: color-mix(in srgb, var(--c-primary) 60%, #fff);
   --ob-sea-grad: linear-gradient(135deg, color-mix(in srgb, var(--c-primary) 82%, #fff), var(--c-primary) 55%, color-mix(in srgb, var(--c-primary) 80%, var(--c-text)));
   --radius: 22px;
   --radius-sm: 12px;
@@ -53,15 +59,19 @@
 .ob-wave--to-foam { --to: var(--ob-foam); }
 .ob-wave--to-deep { --to: var(--ob-deep); }
 .ob-wave--to-sky { --to: var(--ob-sky); }
-/* off-screen wave bands skip rendering (and their animations) entirely */
-.ob-wave__sea { position: absolute; inset: 0; overflow: hidden; content-visibility: auto; }
-.ob-wave__layer--back { --tile: 560px; --amp: 30px; --h: 100%; --speed: 34s; --shape: url(wave-b.svg); --fill: color-mix(in srgb, var(--c-primary) 30%, var(--to)); }
-.ob-wave__layer--mid { --tile: 420px; --amp: 26px; --h: 74%; --speed: 24s; --fill: color-mix(in srgb, var(--c-primary) 13%, var(--to)); animation-direction: reverse; }
+.ob-wave__sea { position: absolute; inset: 0; overflow: hidden; }
+/* off-screen animated bands skip rendering (and their animations) — only when they move at all,
+   so frozen (reduced-motion) pages and full-page captures always paint every wave */
+@media (prefers-reduced-motion: no-preference) {
+  .ob-wave__sea, .ob-thanks__scene { content-visibility: auto; }
+}
+.ob-wave__layer--back { --tile: 560px; --amp: 30px; --h: 100%; --speed: 34s; --shape: url(wave-b.svg); --fill: color-mix(in srgb, var(--ob-water-2) 80%, var(--to)); }
+.ob-wave__layer--mid { --tile: 420px; --amp: 26px; --h: 74%; --speed: 24s; --fill: color-mix(in srgb, var(--ob-water-1) 70%, var(--to)); animation-direction: reverse; }
 .ob-wave__layer--front { --tile: 320px; --amp: 22px; --h: 48%; --speed: 16s; --fill: var(--to); }
-.ob-wave--to-deep .ob-wave__layer--back { --fill: color-mix(in srgb, var(--c-primary) 35%, var(--c-secondary)); }
-.ob-wave--to-deep .ob-wave__layer--mid { --fill: color-mix(in srgb, var(--c-primary) 80%, var(--c-secondary)); }
-.ob-wave--from-deep .ob-wave__layer--back { --fill: color-mix(in srgb, var(--c-primary) 70%, var(--c-secondary)); }
-.ob-wave--from-deep .ob-wave__layer--mid { --fill: color-mix(in srgb, var(--c-primary) 30%, var(--c-secondary)); }
+.ob-wave--to-deep .ob-wave__layer--back { --fill: var(--ob-water-2); }
+.ob-wave--to-deep .ob-wave__layer--mid { --fill: color-mix(in srgb, var(--c-primary) 82%, #fff); }
+.ob-wave--from-deep .ob-wave__layer--back { --fill: color-mix(in srgb, var(--c-primary) 72%, #fff); }
+.ob-wave--from-deep .ob-wave__layer--mid { --fill: var(--ob-water-2); }
 .ob-wave__deco { position: absolute; top: -26px; width: clamp(44px, 11vw, 64px); aspect-ratio: 1; z-index: 3; }
 .ob-wave__deco--left { left: max(8px, calc(50% - 440px)); }
 .ob-wave__deco--right { right: max(8px, calc(50% - 440px)); }
@@ -126,6 +136,7 @@
 .ob-hero .hero__names { font-size: clamp(66px, 19vw, 132px); line-height: 1.12; color: var(--ob-ink); margin: 2px 0 4px; max-width: 100%; }
 .ob-hero .hero__name { display: block; max-width: 100%; padding: 0 .12em; }
 .ob-hero .hero__amp { font-size: .34em; color: var(--c-accent); margin: -.06em 0 -.02em; }
+.ob-hero--long .hero__names { font-size: clamp(50px, 14.5vw, 96px); line-height: 1.16; }
 .ob-hero__date { display: grid; justify-items: center; gap: 4px; }
 .ob-hero .hero__weekday { font-size: 12px; letter-spacing: .28em; color: var(--c-muted); font-weight: 600; opacity: 1; padding-left: .28em; }
 .ob-hero .hero__weekday i { font-style: normal; color: var(--c-accent); }
@@ -135,8 +146,8 @@
 
 /* the sea */
 .ob-sea { position: absolute; left: 0; right: 0; bottom: 0; height: var(--sea-h); z-index: 1; overflow: hidden; pointer-events: none; }
-.ob-sea__layer--far { --tile: 760px; --amp: 12px; --h: 100%; --speed: 60s; --shape: url(wave-b.svg); --fill: linear-gradient(180deg, color-mix(in srgb, var(--c-primary) 30%, var(--c-secondary)), color-mix(in srgb, var(--c-primary) 48%, var(--c-secondary)) 60%); }
-.ob-sea__layer--back { --tile: 560px; --amp: 30px; --h: 80%; --speed: 32s; --shape: url(wave-b.svg); --fill: color-mix(in srgb, var(--c-primary) 62%, var(--c-secondary)); animation-direction: reverse; }
+.ob-sea__layer--far { --tile: 760px; --amp: 12px; --h: 100%; --speed: 60s; --shape: url(wave-b.svg); --fill: linear-gradient(180deg, var(--ob-water-2), color-mix(in srgb, var(--c-primary) 48%, #fff) 60%); }
+.ob-sea__layer--back { --tile: 560px; --amp: 30px; --h: 80%; --speed: 32s; --shape: url(wave-b.svg); --fill: var(--ob-water-3); animation-direction: reverse; }
 .ob-sea__layer--mid { --tile: 420px; --amp: 30px; --h: 56%; --speed: 22s; --fill: var(--c-primary); }
 .ob-sea__layer--front { --tile: 330px; --amp: 26px; --h: 30%; --speed: 15s; --fill: var(--next); }
 .ob-sea__layer--deep { --tile: 330px; --amp: 24px; --h: 34%; --speed: 15s; --fill: var(--ob-deep); }
@@ -152,7 +163,7 @@
 /* hero with a cover photo: the photo dips into the sea, palms turn to light silhouettes */
 .ob-hero.hero--photo { background: var(--ob-deep); }
 .ob-hero.hero--photo .ob-hero__sky, .ob-hero.hero--photo .ob-sea__layer--far, .ob-hero.hero--photo .ob-sea__glint { display: none; }
-.ob-hero.hero--photo .hero__media::after { background: linear-gradient(180deg, rgb(0 0 0 / .32) 0%, rgb(0 0 0 / .08) 34%, rgb(0 0 0 / .18) 62%, rgb(0 0 0 / .5) 100%); }
+.ob-hero.hero--photo .hero__media::after { background: linear-gradient(180deg, rgb(0 0 0 / .3) 0%, rgb(0 0 0 / .08) 26%, rgb(0 0 0 / .3) 52%, rgb(0 0 0 / .42) 78%, rgb(0 0 0 / .55) 100%); }
 .ob-hero.hero--photo .ob-palm span::before { background: #fff; opacity: .5; }
 .ob-hero.hero--photo .hero__guest { background: rgb(0 0 0 / .25); color: #fff; box-shadow: none; }
 .ob-hero.hero--photo .hero__guest strong, .ob-hero.hero--photo .hero__names, .ob-hero.hero--photo .ob-hero__dmy,
@@ -160,7 +171,7 @@
 .ob-hero.hero--photo .hero__date, .ob-hero.hero--photo .hero__eyebrow { text-shadow: 0 1px 12px rgb(0 0 0 / .45); }
 .ob-hero.hero--photo .ob-sea__layer--back { opacity: .55; }
 .ob-hero.hero--photo { place-items: end center; }
-.ob-hero.hero--photo .ob-hero__inner { padding-bottom: calc(var(--sea-h) * .62 + 18px); }
+.ob-hero.hero--photo .ob-hero__inner { padding-bottom: calc(var(--sea-h) * .82 + 18px); }
 .ob-hero.hero--photo .hero__amp { color: color-mix(in srgb, var(--c-accent) 45%, #fff); }
 .ob-hero.hero--photo .hero__names { text-shadow: 0 2px 22px rgb(0 0 0 / .4); }
 .ob-hero.hero--photo .ob-sea__layer--mid { opacity: .85; }
@@ -169,10 +180,13 @@
    Section titles: coral script word floating behind a spaced serif title,
    then a wave · shell · wave ornament
    -------------------------------------------------------------------------- */
-.section-title__script { position: relative; z-index: 0; font-size: clamp(46px, 12.5vw, 68px); line-height: 1; color: var(--c-accent); opacity: .92; margin-bottom: -.1em; padding: 0 .15em; }
+.section-title__script { position: relative; z-index: 0; font-size: clamp(46px, 12.5vw, 68px); line-height: 1; color: var(--ob-accent-script); margin-bottom: -.02em; padding: 0 .15em; }
 .section { --ob-here: var(--c-bg); }
 .ob-wave--to-foam + .section { --ob-here: var(--ob-foam); }
-.section-title__main { text-shadow: 0 0 2px var(--ob-here), 0 0 6px var(--ob-here), 0 0 12px var(--ob-here); position: relative; z-index: 1; font-weight: 500; font-size: clamp(21px, 5.4vw, 30px); letter-spacing: .16em; color: var(--c-text); padding-left: .16em; }
+.section-title__main {
+  --k: var(--ob-here);
+  text-shadow: 2px 0 var(--k), -2px 0 var(--k), 0 2px var(--k), 0 -2px var(--k), 1.5px 1.5px var(--k), -1.5px 1.5px var(--k), 1.5px -1.5px var(--k), -1.5px -1.5px var(--k), 0 0 8px var(--k);
+  position: relative; z-index: 1; font-weight: 500; font-size: clamp(21px, 5.4vw, 30px); letter-spacing: .16em; color: var(--c-text); padding-left: .16em; }
 .section-title__sub { font-size: 15px; }
 .section-title__divider { margin-top: 14px; }
 .section-title__divider svg { display: none; }
@@ -185,7 +199,7 @@
 .event, .card, .bank { position: relative; isolation: isolate; overflow: hidden; }
 .event::before, .card::before, .bank::before {
   content: ""; position: absolute; left: 0; right: 0; top: 0; height: 9px; z-index: -1;
-  background: color-mix(in srgb, var(--c-primary) 20%, var(--c-secondary));
+  background: var(--ob-water-2);
   -webkit-mask: url(wave-edge.svg) 0 0 / 34px 9px repeat-x; mask: url(wave-edge.svg) 0 0 / 34px 9px repeat-x;
   transform: scaleY(-1);
 }
@@ -197,7 +211,7 @@
   background: radial-gradient(48% 42% at 50% 50%, color-mix(in srgb, var(--c-primary) 45%, transparent), transparent), var(--ob-deep);
   color: var(--ob-on-deep); padding-block: clamp(48px, 10vw, 84px);
 }
-.quote__mark { color: var(--c-accent); opacity: 1; font-size: 88px; }
+.quote__mark { font-family: var(--f-script); color: var(--c-accent); opacity: 1; font-size: 104px; line-height: .5; margin-bottom: -.1em; }
 .quote__text { font-size: clamp(20px, 5vw, 27px); color: var(--ob-on-deep); }
 .quote__author { color: color-mix(in srgb, var(--ob-on-deep) 72%, transparent); }
 
@@ -220,7 +234,7 @@
 .person { position: relative; }
 .person__photo {
   width: min(100%, 210px); border-radius: 999px 999px 0 0; box-shadow: none;
-  background: linear-gradient(180deg, var(--ob-sky), color-mix(in srgb, var(--c-primary) 30%, var(--c-secondary)));
+  background: linear-gradient(180deg, var(--ob-sky), var(--ob-water-2));
   -webkit-mask: linear-gradient(#000 0 0) 0 0 / 100% calc(100% - 13px) no-repeat, url(wave-sill.svg) 0 100% / 58px 14px repeat-x;
   mask: linear-gradient(#000 0 0) 0 0 / 100% calc(100% - 13px) no-repeat, url(wave-sill.svg) 0 100% / 58px 14px repeat-x;
 }
@@ -248,18 +262,18 @@
 }
 .countdown__item::before, .countdown__item::after {
   content: ""; position: absolute; left: 0; bottom: 0; z-index: -1; width: calc(100% + 64px); height: 40%;
-  background: color-mix(in srgb, var(--c-secondary) 70%, var(--c-surface));
+  background: var(--ob-water-1);
   -webkit-mask: url(wave-a.svg) 0 0 / 64px 10px repeat-x, linear-gradient(#000 0 0) 0 9px / 100% 100% no-repeat;
   mask: url(wave-a.svg) 0 0 / 64px 10px repeat-x, linear-gradient(#000 0 0) 0 9px / 100% 100% no-repeat;
   animation: ob-slosh 4.5s linear infinite;
 }
-.countdown__item::after { height: 30%; background: color-mix(in srgb, var(--c-primary) 22%, var(--c-secondary)); opacity: .55; animation-duration: 3.2s; animation-direction: reverse; }
+.countdown__item::after { height: 30%; background: var(--ob-water-2); opacity: .6; animation-duration: 3.2s; animation-direction: reverse; }
 .countdown__item:nth-child(2)::before { animation-delay: -1.1s; }
 .countdown__item:nth-child(3)::before { animation-delay: -2.3s; }
 .countdown__item:nth-child(4)::before { animation-delay: -3.4s; }
 @keyframes ob-slosh { to { transform: translateX(-64px); } }
 .countdown__value { font-size: clamp(24px, 7.6vw, 42px); color: var(--c-primary); font-weight: 500; line-height: 1.05; }
-.countdown__label { font-size: clamp(9.5px, 2.6vw, 12px); letter-spacing: .16em; color: var(--c-text); opacity: .75; padding-left: .16em; }
+.countdown__label { position: relative; font-size: clamp(10px, 2.7vw, 12px); font-weight: 700; letter-spacing: .14em; color: var(--ob-ink); opacity: 1; padding-left: .14em; margin-top: 2px; }
 .countdown__done { color: var(--c-primary); }
 
 /* ---------- events: postcards with a faint coral postmark ---------- */
@@ -309,11 +323,11 @@
   background: linear-gradient(180deg, var(--c-bg) 0%, var(--ob-glow) 58%, color-mix(in srgb, var(--c-accent) 42%, var(--c-bg)) 100%);
 }
 .ob-thanks .container { position: relative; z-index: 2; }
-.thanks__script { color: var(--c-accent); font-size: clamp(60px, 16vw, 92px); }
+.thanks__script { color: var(--ob-accent-script); font-size: clamp(60px, 16vw, 92px); }
 .thanks__names { font-family: var(--f-heading); color: var(--ob-ink); flex-wrap: wrap; justify-content: center; }
 .thanks__heart { color: var(--c-accent); }
 .thanks__hashtag { color: var(--c-primary); }
-.ob-thanks__scene { content-visibility: auto; position: absolute; left: 0; right: 0; bottom: 0; height: calc(var(--sea-h) + var(--sun) * .5 + 80px); z-index: 0; overflow: hidden; pointer-events: none; }
+.ob-thanks__scene { position: absolute; left: 0; right: 0; bottom: 0; height: calc(var(--sea-h) + var(--sun) * .5 + 80px); z-index: 0; overflow: hidden; pointer-events: none; }
 .ob-thanks__sun-wrap { position: absolute; left: 50%; bottom: calc(var(--sea-h) - var(--sun) * .5 - 8px); width: var(--sun); aspect-ratio: 1; margin-left: calc(var(--sun) / -2); }
 .ob-thanks .ob-sea__layer--back { --h: var(--sea-h); }
 .ob-thanks .ob-sea__layer--mid { --h: calc(var(--sea-h) * .66); }
@@ -345,13 +359,28 @@
 .intro__guest { font-size: 23px; color: var(--c-text); }
 .ob-porthole { position: absolute; inset: 0; z-index: -1; pointer-events: none; }
 .ob-porthole__sun { position: absolute; left: 50%; bottom: 9%; width: 34%; aspect-ratio: 1; translate: -50% 0; border-radius: 50%; background: radial-gradient(circle at 50% 35%, var(--ob-sun-1), var(--ob-sun-2)); box-shadow: 0 0 30px 6px color-mix(in srgb, var(--c-accent) 30%, transparent); }
-.ob-porthole__wave--1 { --tile: 150px; --amp: 12px; --h: 24%; --speed: 9s; --fill: color-mix(in srgb, var(--c-primary) 55%, var(--c-secondary)); animation-direction: reverse; }
+.ob-porthole__wave--1 { --tile: 150px; --amp: 12px; --h: 24%; --speed: 9s; --fill: var(--ob-water-3); animation-direction: reverse; }
 .ob-porthole__wave--2 { --tile: 110px; --amp: 11px; --h: 15%; --speed: 6s; --fill: var(--c-primary); }
 .ob-intro-sea { position: fixed; left: 0; right: 0; bottom: 0; height: clamp(90px, 15svh, 150px); z-index: -1; overflow: hidden; pointer-events: none; }
-.ob-intro-sea__layer--1 { --tile: 520px; --amp: 26px; --h: 100%; --speed: 26s; --shape: url(wave-b.svg); --fill: color-mix(in srgb, var(--c-primary) 40%, var(--c-secondary)); }
+.ob-intro-sea__layer--1 { --tile: 520px; --amp: 26px; --h: 100%; --speed: 26s; --shape: url(wave-b.svg); --fill: color-mix(in srgb, var(--c-primary) 42%, #fff); }
 .ob-intro-sea__layer--2 { --tile: 400px; --amp: 24px; --h: 70%; --speed: 18s; --fill: var(--c-primary); animation-direction: reverse; }
 .ob-intro-sea__layer--3 { --tile: 300px; --amp: 20px; --h: 38%; --speed: 12s; --fill: var(--ob-deep); }
 .gcard__cover .ob-porthole, .gcard__cover .ob-intro-sea { display: none; }
+/* the same strip of sea for the other card-style intros: .intro__stage is never transformed, so its
+   fixed pseudo-elements sit on the viewport (curtain/doors keep their full-screen panels instead) */
+:is(.intro--envelope, .intro--card, .intro--fade, .intro--scroll) .intro__stage::before,
+:is(.intro--envelope, .intro--card, .intro--fade, .intro--scroll) .intro__stage::after {
+  --tile: 520px; --amp: 26px; --shape: url(wave-b.svg);
+  content: ""; position: fixed; z-index: -1; left: calc(-1 * var(--tile)); bottom: -1px; width: calc(100% + var(--tile)); height: clamp(84px, 13svh, 130px);
+  background: color-mix(in srgb, var(--c-primary) 42%, #fff); pointer-events: none;
+  -webkit-mask: var(--shape) 0 0 / var(--tile) var(--amp) repeat-x, linear-gradient(#000 0 0) 0 calc(var(--amp) - 1px) / 100% 100% no-repeat;
+  mask: var(--shape) 0 0 / var(--tile) var(--amp) repeat-x, linear-gradient(#000 0 0) 0 calc(var(--amp) - 1px) / 100% 100% no-repeat;
+  animation: ob-drift 26s linear infinite;
+}
+:is(.intro--envelope, .intro--card, .intro--fade, .intro--scroll) .intro__stage::after {
+  --tile: 380px; --amp: 22px; --shape: url(wave-a.svg); height: clamp(52px, 7.5svh, 80px);
+  background: linear-gradient(180deg, var(--c-primary), var(--ob-deep)); animation-duration: 16s; animation-direction: reverse;
+}
 .intro--curtain .intro__to, .intro--curtain .intro__guest, .intro--doors .intro__to, .intro--doors .intro__guest { color: #fff; }
 
 /* ---------- floating controls ---------- */
@@ -378,5 +407,5 @@
 /* ---------- reduced motion: freeze the sea, sway and gulls ---------- */
 @media (prefers-reduced-motion: reduce) {
   .ob-wave__layer, .ob-sea__layer, .ob-intro-sea__layer, .ob-porthole__wave, .countdown__item::before, .countdown__item::after,
-  .ob-palm span::before, .ob-gull, .ob-gulls-wrap, .ob-sun, .ob-sea__glint i { animation: none !important; }
+  .ob-palm span::before, .ob-gull, .ob-gulls-wrap, .ob-sun, .ob-sea__glint i, .intro__stage::before, .intro__stage::after { animation: none !important; }
 }

@@ -5,6 +5,12 @@
 {# Only the 囍 glyph (≈2 KB) so the Song Hỷ symbol renders the same on every device. #}
 {% block head %}
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@700&text=%E5%9B%8D&display=block">
+{% if theme.fonts.heading == 'Prata' %}
+{# Prata draws "1" like a lowercase "l" ("11" reads "ll"), so dates and counters borrow only the
+   digits of Libre Bodoni, a matching Didone (≈3 KB). Letters keep falling back to the heading font. #}
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Bodoni:wght@400&text=0123456789&display=swap">
+<style>.tpl{--tb-num:"Libre Bodoni",var(--f-heading),serif}</style>
+{% endif %}
 {% endblock %}
 
 {# Shared SVG <defs> (flowers, buds, firecracker) used by every ornament, then the warm paper layer. #}

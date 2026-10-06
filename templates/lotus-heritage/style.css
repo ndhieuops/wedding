@@ -29,7 +29,7 @@
 /* script faces (Charmonman…) have a very narrow word space — open it up so names don't run together */
 .tpl .hero__name, .tpl .invitation__name, .tpl .section-title__script, .tpl .thanks__script, .tpl .scrollpaper__names { word-spacing: .16em; }
 /* balanced wrapping for venues, addresses and short leads */
-.tpl .invitation__venue, .tpl .event__venue, .tpl .section-title__sub, .tpl .person__bio, .tpl .thanks__text, .tpl .quote__text, .tpl .lh-hero__lunar { text-wrap: balance; }
+.tpl .invitation__venue, .tpl .event__venue, .tpl .section-title__sub, .tpl .person__bio, .tpl .thanks__text, .tpl .quote__text, .tpl .lh-hero__lunar, .tpl .event__lunar, .tpl .invitation__lunar { text-wrap: balance; }
 .tpl .invitation__address, .tpl .event__address span, .tpl .family__address { text-wrap: pretty; }
 
 /* ---------- inline lotus art (partials/lotus.njk) ---------- */
@@ -103,6 +103,7 @@
   max-width: 100%; padding: 0 4px;
 }
 .lh-hero.lh-hero--long .lh-hero__names { font-size: clamp(40px, 11.5vw, 76px); line-height: 1.36; }
+.lh-hero--long .lh-hero__names .hero__amp { margin-block: -.1em -.04em; }
 .lh-hero__names .hero__name {
   /* generous paint box so background-clip:text never crops script descenders or stacked diacritics */
   max-width: 100%; padding: .22em .14em .26em; margin: -.22em 0 -.26em; text-wrap: balance; overflow-wrap: break-word;
@@ -110,8 +111,11 @@
   -webkit-background-clip: text; background-clip: text; color: transparent;
 }
 .lh-hero__names .hero__amp {
-  font-family: var(--f-heading); font-style: italic; font-size: .34em; color: var(--lh-gold-ink); margin: .05em 0 .1em;
+  font-family: var(--f-heading); font-style: italic; font-size: .34em; color: var(--lh-gold-ink);
   display: inline-flex; align-items: center; gap: .6em;
+  /* a small silk seal at the sun of the bronze drum, so the "&" reads crisply over the rays */
+  padding: .56em 0; margin: -.3em 0 -.24em;
+  background: radial-gradient(circle at 50% 50%, color-mix(in srgb, var(--c-surface) 94%, transparent) 0 .92em, var(--lh-hair) calc(.92em + .5px) calc(.92em + 1.5px), transparent calc(.92em + 2px));
 }
 .lh-hero__names .hero__amp::before, .lh-hero__names .hero__amp::after { content: ""; width: 1.6em; height: 1px; background: var(--lh-hair); }
 
@@ -149,7 +153,8 @@
 .lh-pond__bloom { left: 50%; bottom: 17%; width: clamp(150px, 38vw, 260px); translate: -50% 0; filter: drop-shadow(0 10px 14px color-mix(in srgb, var(--c-primary) 22%, transparent)); }
 .lh-pond__bloom { animation: lh-bob 7s ease-in-out infinite; }
 @keyframes lh-bob { 50% { transform: translateY(-4px); } }
-.lh-pond__ring { left: 50%; bottom: 13%; width: clamp(190px, 50vw, 360px); height: clamp(22px, 5vw, 38px); translate: -50% 0; border-radius: 50%; border: 1px solid color-mix(in srgb, var(--lh-leaf-deep) 45%, transparent); box-shadow: 0 0 0 9px color-mix(in srgb, var(--c-surface) 0%, transparent), 0 0 0 10px color-mix(in srgb, var(--lh-leaf-deep) 18%, transparent); }
+/* two thin ripple rings (an outline, not a spread shadow, so the outer ring stays a 1px line) */
+.lh-pond__ring { left: 50%; bottom: 13%; width: clamp(190px, 50vw, 360px); height: clamp(22px, 5vw, 38px); translate: -50% 0; border-radius: 50%; border: 1px solid color-mix(in srgb, var(--lh-leaf-deep) 40%, transparent); outline: 1px solid color-mix(in srgb, var(--lh-leaf-deep) 22%, transparent); outline-offset: 8px; }
 .lh-pond__leaf--l { left: -11%; bottom: -6%; width: clamp(170px, 46vw, 400px); transform: rotate(-4deg); transform-origin: 50% 100%; animation: lh-sway 9s ease-in-out infinite; }
 .lh-pond__leaf--r { right: -14%; bottom: 4%; width: clamp(150px, 40vw, 340px); transform: scaleX(-1) rotate(-6deg); transform-origin: 50% 100%; animation: lh-sway-r 11s ease-in-out infinite; }
 .lh-pond__bud--l { left: 21%; bottom: 0; width: clamp(26px, 7vw, 50px); transform: rotate(-8deg); transform-origin: 50% 100%; animation: lh-sway 8s ease-in-out -2s infinite; }
@@ -189,6 +194,11 @@
 }
 .section-title__main::before { left: -3.5px; }
 .section-title__main::after { right: -3.5px; }
+.section-title__main { text-wrap: balance; }
+/* narrow phones: keep long caps titles ("XÁC NHẬN THAM DỰ", "CHUYỆN TÌNH YÊU") on one line */
+@media (max-width: 380px) {
+  .section-title__main { font-size: 18px; letter-spacing: .11em; padding: 8px 14px 8px calc(14px + .11em); }
+}
 .section-title__sub { margin-top: 14px; font-size: 14.5px; }
 .section-title__divider { margin-top: 14px; color: var(--c-accent); }
 .section-title__divider svg { width: 150px; height: auto; }
@@ -377,6 +387,11 @@
    Thanks + closing pond
    ========================================================================== */
 .thanks { padding-bottom: 36px; }
+/* a line-drawn lotus crowns the farewell, echoing the seal above every section title */
+.thanks .container::before {
+  content: ""; display: block; width: 74px; height: 58px; margin: 0 auto 24px; background: var(--c-primary);
+  -webkit-mask: url(lotus-line.svg) center / contain no-repeat; mask: url(lotus-line.svg) center / contain no-repeat;
+}
 .thanks__script { color: var(--c-primary); font-size: clamp(46px, 12vw, 70px); }
 .thanks__names { font-weight: 400; letter-spacing: .18em; color: var(--c-text); gap: 14px; }
 .thanks__heart { color: transparent; display: inline-grid; place-items: center; }
@@ -490,8 +505,14 @@
   .lh-hero { padding: clamp(24px, 5svh, 56px) 0 clamp(170px, 25svh, 240px); }
   .lh-hero__inner { gap: 8px; }
   .lh-hero__medallion { width: min(100%, 450px, 45svh); }
-  .lh-hero--photo .lh-hero__medallion { width: min(100%, 400px, 40svh); }
   .lh-hero__names { font-size: clamp(64px, 9svh, 96px); }
+  /* long names may spread across the drum instead of stacking 4 lines inside the medallion */
+  .lh-hero--long .lh-hero__names { width: min(88vw, 760px); max-width: none; margin-inline: calc((100% - min(88vw, 760px)) / 2); }
+  .lh-hero.lh-hero--long .lh-hero__names { font-size: clamp(54px, 8.4svh, 76px); }
+  /* with a cover photo the names sit on one line under the moon window, so the pond stays on screen */
+  .lh-hero--photo .lh-hero__medallion { width: min(100%, 360px, 36svh); }
+  .lh-hero--photo:not(.lh-hero--long) .lh-hero__names { flex-direction: row; flex-wrap: wrap; justify-content: center; align-items: center; column-gap: .22em; font-size: clamp(56px, 8.4svh, 82px); margin-top: 0; }
+  .lh-hero--photo:not(.lh-hero--long) .lh-hero__names .hero__amp { margin: 0; }
   .lh-pond { height: clamp(230px, 36svh, 330px); }
   .lh-pond__bloom { width: clamp(160px, 24svh, 220px); }
   .lh-pond__ring { width: clamp(220px, 32svh, 300px); }

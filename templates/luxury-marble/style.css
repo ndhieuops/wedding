@@ -4,7 +4,7 @@
    Every colour comes from the theme variables, so the 4 palettes (and any
    colour the couple picks) re-tint the marble veins, the metal and the lines.
    Ornaments are lean SVG masks painted with var(--c-*):
-     marble.svg  veining (feTurbulence contours)   fan.svg   sunburst fan
+     marble.svg  vector veining (no filters)       fan.svg   sunburst fan
      rule.svg    double rule + diamond             scales.svg fan-scale tile
      corner.svg  hero frame corner (rotated)       dc-*.svg  card corners 22px
    ========================================================================== */
@@ -90,7 +90,8 @@
 }
 .tpl .section-title__main::before { left: -14px; }
 .tpl .section-title__main::after { right: -14px; }
-.tpl .section-title__sub { margin-top: 14px; font-size: 14px; letter-spacing: .04em; }
+.tpl .section-title__sub { margin-top: 14px; font-size: 14px; letter-spacing: .04em; text-wrap: balance; }
+.tpl :where(.invitation__message, .invitation__lead, .person__bio, .timeline__text) { text-wrap: pretty; }
 
 /* separator between sections */
 .lm-sep { position: relative; z-index: 1; display: flex; justify-content: center; }
@@ -126,11 +127,16 @@
 .lm-hero__pillar--left { left: max(8px, 4vw); }
 .lm-hero__pillar--right { right: max(8px, 4vw); }
 .lm-hero__pillar::before, .lm-hero__pillar::after {
-  content: ""; position: absolute; left: -6px; right: -6px; height: 10px;
-  border-block: 3px double var(--c-primary);
+  /* stepped (ziggurat) capital: wide metal abacus narrowing into the shaft */
+  content: ""; position: absolute; left: -6px; right: -6px; height: 11px;
+  background:
+    linear-gradient(var(--c-primary), var(--c-primary)) 50% 0 / 100% 3px no-repeat,
+    linear-gradient(var(--c-primary), var(--c-primary)) 50% 5px / calc(100% - 6px) 2px no-repeat,
+    linear-gradient(var(--lm-line), var(--lm-line)) 50% 9px / calc(100% - 12px) 1px no-repeat,
+    linear-gradient(color-mix(in srgb, var(--c-bg) 70%, transparent), color-mix(in srgb, var(--c-bg) 70%, transparent)) 50% 0 / calc(100% - 6px) 100% no-repeat;
 }
-.lm-hero__pillar::before { top: 16%; box-shadow: 0 -10px 0 -3px var(--lm-line-soft); }
-.lm-hero__pillar::after { bottom: 12%; }
+.lm-hero__pillar::before { top: 16%; }
+.lm-hero__pillar::after { bottom: 12%; scale: 1 -1; }
 
 .lm-hero__portal { position: relative; width: min(560px, calc(100vw - 2 * (max(8px, 4vw) + 25px))); display: grid; justify-items: center; }
 .lm-hero__crown {
@@ -183,18 +189,20 @@
 .lm-rule { display: block; width: min(250px, 78%); height: 18px; background: var(--c-primary); opacity: .8; -webkit-mask: url(rule.svg) center / contain no-repeat; mask: url(rule.svg) center / contain no-repeat; }
 
 .lm-hero__date {
-  display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: clamp(12px, 4vw, 22px); width: min(100%, 360px);
+  display: grid; grid-template-columns: 1fr auto 1fr; align-items: stretch; gap: clamp(12px, 4vw, 22px); width: min(100%, 360px);
   font-family: var(--f-heading); font-variant-numeric: lining-nums; font-feature-settings: "lnum" 1;
 }
-.lm-hero__weekday, .lm-hero__my { padding: 9px 0; border-block: 3px double var(--lm-line); font-size: 12.5px; letter-spacing: .16em; text-transform: uppercase; line-height: 1.45; }
+.lm-hero__weekday, .lm-hero__my { display: flex; flex-direction: column; justify-content: center; padding: 9px 0; border-block: 3px double var(--lm-line); font-size: 12.5px; letter-spacing: .16em; text-transform: uppercase; line-height: 1.45; }
 .lm-hero__weekday { text-align: right; }
 .lm-hero__my { text-align: left; }
 .lm-hero__day {
-  font-size: clamp(52px, 15vw, 72px); line-height: 1; padding: 0 .04em;
+  align-self: center; font-size: clamp(52px, 15vw, 72px); line-height: 1; padding: 0 .04em;
   background: var(--lm-metal-text); -webkit-background-clip: text; background-clip: text; color: transparent;
 }
 .lm-hero__lunar { font-size: 12.5px; font-style: italic; color: var(--c-muted); max-width: 30ch; margin-top: -2px; }
-.lm-hero .hero__scroll { color: var(--c-primary); border-radius: 0; width: 22px; height: 38px; }
+.lm-hero .hero__scroll { color: var(--c-primary); border: 0; border-radius: 0; width: 16px; height: 46px; opacity: .85; }
+.lm-hero .hero__scroll::before { content: ""; position: absolute; left: 50%; top: 0; bottom: 0; width: 3px; translate: -50% 0; border-inline: 1px solid var(--lm-line); -webkit-mask: linear-gradient(#000 40%, transparent); mask: linear-gradient(#000 40%, transparent); }
+.lm-hero .hero__scroll span { top: 0; width: 9px; height: 9px; margin-left: -4.5px; border-radius: 0; background: var(--c-primary); clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%); }
 
 /* optional cover photo: arched Deco window inside the frame */
 .lm-hero__photo {
@@ -228,7 +236,7 @@
   background: linear-gradient(120deg, var(--c-accent), var(--lm-hi), var(--c-accent));
   -webkit-mask: url(fan.svg) center bottom / contain no-repeat; mask: url(fan.svg) center bottom / contain no-repeat;
 }
-.tpl .quote__text { font-family: var(--f-heading); font-style: normal; font-size: clamp(19px, 4.8vw, 25px); line-height: 1.6; letter-spacing: .02em; max-width: 30em; margin-inline: auto; }
+.tpl .quote__text { text-wrap: balance; font-family: var(--f-heading); font-style: normal; font-size: clamp(19px, 4.8vw, 25px); line-height: 1.6; letter-spacing: .02em; max-width: 30em; margin-inline: auto; }
 .tpl .quote__author { color: var(--c-accent); letter-spacing: .3em; text-transform: uppercase; font-size: 11.5px; margin-top: 20px; }
 
 /* invitation — a printed card resting on the marble */
@@ -237,6 +245,7 @@
 .tpl .family__title { font-size: 15px; letter-spacing: .26em; padding-left: .26em; margin-bottom: 10px; }
 .tpl .family__title::after { content: ""; display: block; width: 26px; height: 3px; margin: 8px auto 0; border-block: 1px solid var(--lm-line); }
 .tpl .family__parent { font-size: 14px; }
+.tpl .family__parent strong { font-weight: 600; }
 .tpl .family__address { font-size: 12.5px; }
 .tpl .invitation__lead { font-size: 14px; letter-spacing: .02em; }
 .tpl .invitation__role { font-size: 10.5px; letter-spacing: .34em; padding-left: .34em; }
@@ -247,8 +256,9 @@
 .tpl .invitation__amp { font-style: italic; color: var(--c-primary); }
 .tpl .invitation__message { font-size: 14.5px; }
 .tpl .invitation__time { letter-spacing: .04em; }
-.tpl .invitation__weekday, .tpl .invitation__monthyear { border-block: 3px double var(--lm-line); font-size: 12.5px; letter-spacing: .16em; }
-.tpl .invitation__day { background: var(--lm-metal-text); -webkit-background-clip: text; background-clip: text; color: transparent; padding: 0 .04em; }
+.tpl .invitation__date { align-items: stretch; }
+.tpl .invitation__weekday, .tpl .invitation__monthyear { display: flex; flex-direction: column; justify-content: center; border-block: 3px double var(--lm-line); font-size: 12.5px; letter-spacing: .16em; }
+.tpl .invitation__day { align-self: center; background: var(--lm-metal-text); -webkit-background-clip: text; background-clip: text; color: transparent; padding: 0 .04em; }
 .tpl .invitation__venue strong { font-family: var(--f-heading); font-weight: 400; font-size: 1.12em; letter-spacing: .03em; }
 
 /* couple — elongated octagon portraits in a metal bezel */
@@ -308,8 +318,14 @@
 .tpl .event__date { font-weight: 600; font-size: 14px; letter-spacing: .08em; text-transform: uppercase; }
 .tpl .event__venue { font-size: 19px; letter-spacing: .02em; padding-top: 12px; margin-top: 4px; position: relative; }
 .tpl .event__venue::before { content: ""; position: absolute; top: 0; left: 50%; width: 7px; height: 7px; background: var(--c-primary); rotate: 45deg; translate: -50% 0; }
-.tpl .event__address { font-size: 13.5px; }
-.tpl .event__map-load { border-radius: 0; letter-spacing: .1em; font-size: 13px; }
+.tpl .event__address { display: block; font-size: 13.5px; text-align: center; text-wrap: balance; }
+.tpl .event__address svg { display: inline-block; vertical-align: -3px; margin: 0 5px 0 0; }
+.tpl :where(.event__venue, .invitation__venue, .event__title) { text-wrap: balance; }
+.tpl .event__actions { flex-direction: column; align-items: stretch; width: min(100%, 236px); margin-inline: auto; }
+.tpl .event__map-load {
+  width: min(100%, 236px); min-height: 44px; justify-content: center; border: 1px solid var(--lm-line-soft); border-radius: 0;
+  font-size: 12px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase;
+}
 .tpl .event__map { border-radius: 0; }
 
 /* story — double rail with diamond markers */
@@ -349,9 +365,10 @@
 /* thanks — a sunburst rising behind the closing words */
 .tpl .thanks { isolation: isolate; }
 .tpl .thanks .container::before {
-  content: ""; display: block; width: min(300px, 80vw); aspect-ratio: 2 / 1; margin: 0 auto -38px; position: relative; z-index: -1;
-  background: var(--c-primary); opacity: .22; -webkit-mask: url(fan.svg) center bottom / contain no-repeat; mask: url(fan.svg) center bottom / contain no-repeat;
+  content: ""; display: block; width: min(240px, 66vw); aspect-ratio: 2 / 1; margin: 0 auto 4px; position: relative; z-index: -1;
+  background: var(--lm-metal); opacity: .5; -webkit-mask: url(fan.svg) center bottom / contain no-repeat; mask: url(fan.svg) center bottom / contain no-repeat;
 }
+.tpl .thanks__text { text-wrap: pretty; }
 .tpl .thanks__script { background: var(--lm-metal-text); -webkit-background-clip: text; background-clip: text; color: transparent; padding: 0 .2em; }
 .tpl .thanks__names { font-weight: 400; font-size: clamp(18px, 5vw, 24px); letter-spacing: .16em; gap: 14px; }
 .tpl .thanks__heart { width: 8px; height: 8px; background: var(--c-primary); rotate: 45deg; }
@@ -429,7 +446,7 @@
 
 /* guest nameplate + button */
 .tpl .intro__text {
-  min-width: min(250px, 66vw); padding: 10px 18px 12px; background: color-mix(in srgb, var(--c-surface) 94%, transparent);
+  position: relative; z-index: 1; min-width: min(250px, 66vw); padding: 10px 18px 12px; background: var(--c-surface);
   border: 1px solid var(--lm-line); outline: 1px solid color-mix(in srgb, var(--c-accent) 60%, transparent); outline-offset: 3px;
   box-shadow: 0 16px 30px -16px rgb(0 0 0 / .5);
 }
@@ -444,7 +461,27 @@
 /* other intro styles, tuned to the palette */
 .tpl .envelope { --env: color-mix(in srgb, var(--c-secondary) 70%, var(--c-surface)); --env-dark: color-mix(in srgb, var(--c-primary) 55%, var(--c-secondary)); }
 .tpl .envelope__seal { background: var(--lm-metal); font-family: var(--f-heading); font-size: 20px; }
-.tpl .gcard__cover { background: linear-gradient(180deg, color-mix(in srgb, var(--c-primary) 74%, #1d130f), color-mix(in srgb, var(--c-primary) 50%, #120b08)); }
+.tpl .envelope__front { background: linear-gradient(160deg, var(--env), color-mix(in srgb, var(--env) 86%, var(--c-primary))); }
+.tpl .envelope__flap { background: linear-gradient(180deg, color-mix(in srgb, var(--env) 80%, var(--c-surface)), color-mix(in srgb, var(--env) 92%, var(--c-primary))); }
+/* card cover: bronze leaf with the same Deco double frame + stepped corners as the page cards */
+.tpl .gcard__cover {
+  --g: color-mix(in srgb, var(--c-accent) 72%, transparent);
+  border: 1px solid var(--g); box-shadow: var(--shadow);
+  background:
+    linear-gradient(var(--g), var(--g)) 50% 9px / calc(100% - 62px) 1px no-repeat,
+    linear-gradient(var(--g), var(--g)) 50% calc(100% - 9px) / calc(100% - 62px) 1px no-repeat,
+    linear-gradient(var(--g), var(--g)) 9px 50% / 1px calc(100% - 62px) no-repeat,
+    linear-gradient(var(--g), var(--g)) calc(100% - 9px) 50% / 1px calc(100% - 62px) no-repeat,
+    radial-gradient(90% 55% at 50% 0%, rgb(255 255 255 / .12), transparent 65%),
+    linear-gradient(180deg, color-mix(in srgb, var(--c-primary) 74%, #1d130f), color-mix(in srgb, var(--c-primary) 50%, #120b08));
+}
+.tpl .gcard__cover::after {
+  content: ""; position: absolute; inset: 9px; pointer-events: none; background: var(--g);
+  -webkit-mask: url(dc-tl.svg) 0 0 / 22px 22px no-repeat, url(dc-tr.svg) 100% 0 / 22px 22px no-repeat, url(dc-bl.svg) 0 100% / 22px 22px no-repeat, url(dc-br.svg) 100% 100% / 22px 22px no-repeat;
+  mask: url(dc-tl.svg) 0 0 / 22px 22px no-repeat, url(dc-tr.svg) 100% 0 / 22px 22px no-repeat, url(dc-bl.svg) 0 100% / 22px 22px no-repeat, url(dc-br.svg) 100% 100% / 22px 22px no-repeat;
+}
+.tpl .gcard__monogram { font-family: var(--f-heading); font-size: 54px; color: var(--lm-hi); }
+.tpl .gcard__monogram i { font-size: .56em; margin: 0 .12em; }
 .tpl .gcard__cover .lm-plaque__crown { position: relative !important; translate: none; left: auto; top: auto; justify-self: center; order: -1; background: var(--c-accent); }
 .tpl .gcard__cover .lm-plaque__label { display: none; }
 .tpl .gcard, .tpl .gcard__inside, .tpl .gcard__cover { border-radius: 0; }
@@ -453,8 +490,9 @@
    Responsive
    ========================================================================== */
 @media (max-width: 420px) {
-  .tpl .families { grid-template-columns: 1fr 1fr; gap: 10px; }
-  .tpl .family__parent { font-size: 13px; }
+  .tpl .invitation > .container { padding-inline: 14px; }
+  .tpl .families { grid-template-columns: 1fr 1fr; gap: 6px; }
+  .tpl .family__parent { font-size: 13px; text-wrap: balance; }
   .lm-hero__pillar { width: 13px; opacity: .55; }
   .lm-hero__pillar::before, .lm-hero__pillar::after { left: -4px; right: -4px; }
 }
@@ -468,7 +506,9 @@
 @media (min-width: 900px) {
   .lm-hero { padding-block: 84px 80px; }
   .lm-hero__names { font-size: clamp(40px, 7vw, 86px); }
-  .lm-marble__veins { opacity: .8; }
+  /* the marble is scaled ~1.5x to cover a desktop screen: keep the enlarged veins quiet */
+  .lm-marble__veins { opacity: .62; }
+  .lm-marble__gold { opacity: .32; }
   .lm-hero__frame { padding: 64px 56px 56px; }
   .tpl .events__list { gap: 28px; }
 }

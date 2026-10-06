@@ -54,10 +54,16 @@
         </span>
         {% if wedding.display %}
         <svg class="rk-postmark rk-hero__postmark" viewBox="0 0 120 120" aria-hidden="true" focusable="false">
-          <defs><path id="rk-ring" d="M60 60m-41 0a41 41 0 1 1 82 0a41 41 0 1 1-82 0"/></defs>
+          <defs>
+            <path id="rk-arc-top" d="M23 60a37 37 0 0 1 74 0"/>
+            <path id="rk-arc-bot" d="M12 60a48 48 0 0 0 96 0"/>
+          </defs>
           <circle class="rk-postmark__ring" cx="60" cy="60" r="55"/>
           <circle class="rk-postmark__ring rk-postmark__ring--thin" cx="60" cy="60" r="31"/>
-          <text class="rk-postmark__arc"><textPath href="#rk-ring" textLength="252" lengthAdjust="spacing">{{ wedding.weekday }} ✦ Lễ thành hôn ✦</textPath></text>
+          <text class="rk-postmark__arc"><textPath href="#rk-arc-top" startOffset="50%" text-anchor="middle">Lễ thành hôn</textPath></text>
+          <text class="rk-postmark__arc"><textPath href="#rk-arc-bot" startOffset="50%" text-anchor="middle">{{ wedding.weekday }}</textPath></text>
+          <circle class="rk-postmark__dot" cx="15" cy="60" r="2.2"/>
+          <circle class="rk-postmark__dot" cx="105" cy="60" r="2.2"/>
           <text class="rk-postmark__day" x="60" y="62" text-anchor="middle">{{ wedding.day }}.{{ wedding.month }}</text>
           <text class="rk-postmark__year" x="60" y="78" text-anchor="middle">{{ wedding.year }}</text>
         </svg>

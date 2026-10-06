@@ -6,6 +6,7 @@
    ========================================================================== */
 .tpl {
   --hy-font: "Noto Serif SC", "Songti SC", "SimSun", serif;
+  --tb-num: var(--f-heading);   /* dates & counters; index.njk swaps in clearer digits when the heading is Prata */
   --tb-red-light: color-mix(in srgb, var(--c-primary) 84%, #fff);
   --tb-red-deep: color-mix(in srgb, var(--c-primary) 76%, #000);
   --tb-red-grad: linear-gradient(170deg, var(--tb-red-light), var(--c-primary) 48%, var(--tb-red-deep));
@@ -173,6 +174,8 @@
   content: ""; position: absolute; left: 0; right: 0; top: 100%; height: 6px;
   background: linear-gradient(135deg, var(--c-surface) 3px, transparent 0) 0 0 / 7px 6px repeat-x, linear-gradient(225deg, var(--c-surface) 3px, transparent 0) 0 0 / 7px 6px repeat-x;
 }
+/* numbers (dates, counters, calendar) use the numeral stack */
+.tb-leaf__head, .tb-leaf__day, .tb-leaf__lunar-day, .invitation__date, .event__time, .calendar__day, .countdown__value { font-family: var(--tb-num); }
 .tb-hero .hero__scroll { color: var(--c-primary); opacity: .55; z-index: 3; }
 
 /* optional cover photo: a round "moon window" with the 囍 diamond as a badge */
@@ -200,15 +203,15 @@
   .tb-leaf__body { padding-bottom: 6px; }
   .tb-hero__mai { width: 560px; left: -40px; top: -30px; }
   .tb-hero__dao { width: 430px; right: -36px; bottom: -36px; }
-  .tb-hero__phao--left { left: calc(50% - 330px); width: 44px; }
+  .tb-hero__phao--left { left: calc(50% - 250px); width: 40px; }
   .tb-hero__phao--right { right: calc(50% - 330px); width: 52px; }
   .tb-hero__hy::after { height: 110px; }
   .tb-couplet {
     position: absolute; top: 47%; z-index: 2; translate: 0 -50%; display: grid; gap: 6px; justify-items: center;
-    width: 86px; padding: 30px 0; border-radius: 4px;
+    width: 98px; padding: 30px 0; border-radius: 4px;
     background: var(--tb-lattice), var(--tb-red-grad);
     box-shadow: inset 0 0 0 5px var(--c-primary), inset 0 0 0 6px var(--c-accent), 0 22px 40px -22px var(--tb-red-deep);
-    font-family: var(--f-script); font-size: 37px; line-height: 1.28; color: var(--tb-gold-light);
+    font-family: var(--f-script); font-size: 33px; line-height: 1.36; color: var(--tb-gold-light);
   }
   .tb-couplet::before, .tb-couplet::after { content: ""; width: 9px; height: 9px; rotate: 45deg; background: var(--c-accent); }
   .tb-couplet::before { margin-bottom: 6px; }
@@ -260,24 +263,24 @@
 .quote::before { top: 14px; left: -24px; background: var(--c-accent); }
 .quote::after { bottom: 14px; right: -24px; background: var(--tb-dao); -webkit-mask-image: url(dao-branch.svg); mask-image: url(dao-branch.svg); }
 .quote__inner { position: relative; z-index: 1; max-width: 560px; }
-.quote__mark { font-size: 84px; color: var(--c-accent); opacity: .9; }
-.quote__text { color: var(--c-text); font-style: normal; text-wrap: balance; }
+.quote__mark { font-size: 84px; line-height: .5; color: var(--c-accent); opacity: .9; }
+.quote__text { margin-top: 4px; color: var(--c-text); font-style: normal; text-wrap: balance; }
 .quote__author { color: var(--tb-ochre); }
 
 /* invitation — a cream card with gold frame */
 .invitation .container {
-  position: relative; width: calc(100% - 28px); padding: 48px 20px 44px; background: var(--c-surface);
+  position: relative; width: calc(100% - 28px); padding: 48px 20px 76px; background: var(--c-surface);
   border-radius: 22px; border: 1px solid var(--tb-gold-line);
   box-shadow: inset 0 0 0 6px var(--c-surface), inset 0 0 0 7px color-mix(in srgb, var(--c-accent) 30%, transparent), var(--shadow);
 }
 .invitation .container::before, .invitation .container::after {
-  content: ""; position: absolute; width: 130px; aspect-ratio: 300 / 220; pointer-events: none; opacity: .55;
+  content: ""; position: absolute; z-index: 0; width: 130px; aspect-ratio: 300 / 220; pointer-events: none; opacity: .5;
   -webkit-mask: url(mai-branch.svg) center / contain no-repeat; mask: url(mai-branch.svg) center / contain no-repeat;
 }
 .invitation .container::before { top: 10px; left: 10px; background: var(--c-accent); }
 .invitation .container::after { bottom: 10px; right: 10px; background: var(--tb-dao); -webkit-mask-image: url(dao-branch.svg); mask-image: url(dao-branch.svg); }
-.invitation .section-title { position: relative; z-index: 1; }
-.families { position: relative; gap: 14px; }
+.invitation .container > * { position: relative; z-index: 1; }   /* text always above the blossoms */
+.families { gap: 14px; }
 .family__title { color: var(--c-primary); font-size: 15px; letter-spacing: .24em; }
 .invitation__lead { color: var(--c-muted); }
 .invitation__name { color: var(--c-primary); font-size: clamp(38px, 10vw, 54px); }
@@ -302,7 +305,7 @@
   box-shadow: 0 2px 0 var(--c-accent), 0 10px 18px -12px var(--tb-red-deep);
 }
 .event::after {
-  content: "囍"; position: absolute; top: 44px; left: 50%; translate: -50% 0; width: 50px; height: 50px; border-radius: 50%;
+  content: "囍"; content: "囍" / ""; position: absolute; top: 44px; left: 50%; translate: -50% 0; width: 50px; height: 50px; border-radius: 50%;
   display: grid; place-items: center; font-family: var(--hy-font); font-weight: 700; font-size: 22px; color: var(--c-primary);
   background: var(--tb-gold-grad); box-shadow: 0 0 0 3px var(--c-surface), 0 8px 16px -6px var(--tb-red-deep);
 }
@@ -344,7 +347,7 @@
 /* couple — moon-window portraits with a gold ring */
 .couple__heart { color: var(--c-primary); }
 .couple__heart svg { display: none; }
-.couple__heart::before { content: "囍"; font-family: var(--hy-font); font-weight: 700; font-size: 30px; line-height: 1; }
+.couple__heart::before { content: "囍"; content: "囍" / ""; font-family: var(--hy-font); font-weight: 700; font-size: 30px; line-height: 1; }
 .person__photo {
   border-radius: 50%; aspect-ratio: 1; width: min(100%, 210px); border: 5px solid var(--c-surface);
   box-shadow: 0 0 0 1.5px var(--c-accent), 0 0 0 7px color-mix(in srgb, var(--c-accent) 14%, transparent), var(--shadow);
@@ -357,10 +360,11 @@
 /* story — a mai branch with blossoms for dots */
 .timeline::before { width: 2.5px; left: 8px; background: linear-gradient(var(--tb-bark), color-mix(in srgb, var(--tb-bark) 50%, transparent)); border-radius: 2px; }
 .timeline__dot {
-  left: -33px; top: 14px; width: 26px; height: 26px; border: 0; border-radius: 0; background: var(--tb-mai-edge);
+  left: -33px; top: 14px; width: 26px; height: 26px; border: 0; border-radius: 0;
+  background: radial-gradient(circle, var(--tb-stamen) 0 11%, var(--tb-mai-glow) 13% 24%, var(--tb-mai) 30% 62%, var(--tb-mai-edge) 70%);
   -webkit-mask: url(mai.svg) center / contain no-repeat; mask: url(mai.svg) center / contain no-repeat;
 }
-.timeline__item:nth-child(even) .timeline__dot { background: var(--tb-dao); }
+.timeline__item:nth-child(even) .timeline__dot { background: radial-gradient(circle, var(--c-accent) 0 9%, var(--tb-dao-deep) 11% 24%, var(--tb-dao) 32%); }
 .timeline__card { border-radius: 18px; box-shadow: var(--shadow-sm); }
 .timeline__date { color: var(--c-primary); }
 .timeline__title { color: var(--c-text); }
@@ -385,7 +389,7 @@
 /* buttons */
 .btn { border-color: color-mix(in srgb, var(--c-primary) 70%, transparent); }
 .btn--primary, .intro__open {
-  background: var(--tb-red-grad); color: #fff; border: 0;
+  background: var(--tb-red-grad); color: var(--c-on-primary); border: 0;
   box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--c-accent) 70%, transparent), inset 0 0 0 3px color-mix(in srgb, var(--c-primary) 90%, transparent), var(--shadow-sm);
 }
 .music-toggle { background: var(--tb-red-grad); color: var(--tb-gold-light); box-shadow: 0 0 0 2px var(--c-accent), var(--shadow); }
@@ -393,7 +397,7 @@
 /* gift — every account is a red lì xì envelope */
 .bank {
   position: relative; overflow: hidden; padding: 92px 22px 26px; border: 0; border-radius: 16px;
-  background: var(--tb-lattice), var(--tb-red-grad); color: #fff;
+  background: var(--tb-lattice), var(--tb-red-grad); color: var(--c-on-primary);
   box-shadow: inset 0 0 0 6px color-mix(in srgb, var(--c-primary) 90%, #000), inset 0 0 0 7px var(--c-accent), var(--shadow);
 }
 .bank::before {
@@ -402,16 +406,16 @@
   border-radius: 0 0 50% 50% / 0 0 80% 80%; box-shadow: 0 2px 0 var(--c-accent), 0 12px 18px -10px rgb(0 0 0 / .35);
 }
 .bank::after {
-  content: "囍"; position: absolute; top: 38px; left: 50%; translate: -50% 0; width: 52px; height: 52px; border-radius: 50%;
+  content: "囍"; content: "囍" / ""; position: absolute; top: 38px; left: 50%; translate: -50% 0; width: 52px; height: 52px; border-radius: 50%;
   display: grid; place-items: center; font-family: var(--hy-font); font-weight: 700; font-size: 23px; color: var(--c-primary);
   background: var(--tb-gold-grad); box-shadow: 0 0 0 3px color-mix(in srgb, var(--c-primary) 85%, #000), 0 8px 16px -6px rgb(0 0 0 / .4);
 }
 .bank__owner { color: var(--tb-gold-light); }
 .bank__qr { border: 3px solid var(--c-accent); }
-.bank__name { color: #fff; }
+.bank__name { color: var(--c-on-primary); }
 .bank__number { background: var(--c-surface); color: var(--c-text); border-radius: 999px; padding: 4px 4px 4px 16px; font-size: 17px; }
-.bank__copy { background: var(--c-primary); color: #fff; border-radius: 50%; }
-.bank__holder { color: color-mix(in srgb, #fff 82%, var(--c-accent)); }
+.bank__copy { background: var(--c-primary); color: var(--c-on-primary); border-radius: 50%; }
+.bank__holder { color: color-mix(in srgb, var(--c-on-primary) 82%, var(--c-accent)); }
 
 /* thanks — a canopy of blossoms and firecrackers */
 .tb-thanks { overflow: visible; overflow-x: clip; padding-top: 12px; }
@@ -429,6 +433,17 @@
   .tb-thanks__dao { width: 35vw; max-width: 520px; }
   .tb-thanks__phao--left { left: 21vw; width: 46px; }
   .tb-thanks__phao--right { right: 19vw; width: 50px; }
+}
+/* desktop: the canopy becomes a frame around the thanks — mai top-left, đào bottom-right (echoing the hero) */
+@media (min-width: 1024px) {
+  .tb-thanks { padding-block: 165px 160px; }
+  .tb-thanks__canopy { position: absolute; inset: 0; height: auto; margin: 0; }
+  .tb-thanks__mai { width: min(34vw, 470px); left: -30px; top: -6px; }
+  .tb-thanks__dao { width: min(32vw, 440px); top: auto; bottom: 0; right: -30px; }
+  .tb-thanks__dao svg { transform: none; }
+  .tb-thanks__phao { top: 0; }
+  .tb-thanks__phao--left { left: calc(50% - 300px); width: 40px; }
+  .tb-thanks__phao--right { right: calc(50% - 370px); width: 50px; }
 }
 .tb-thanks .container { position: relative; z-index: 1; }
 .thanks__script { color: var(--c-primary); }
@@ -477,12 +492,15 @@
   background: var(--tb-gold-grad); box-shadow: 0 0 0 4px color-mix(in srgb, var(--c-primary) 80%, #000), 0 0 0 5.5px var(--c-accent), 0 12px 22px -8px rgb(0 0 0 / .5);
 }
 .tb-lixi__sprig { position: absolute; z-index: 1; left: -30px; top: -16px; width: 172px; rotate: -8deg; }
-.gcard__inside { background: var(--c-surface); border-color: var(--tb-gold-line); }
+.gcard__inside {
+  background: var(--c-surface); border-color: var(--tb-gold-line);
+  box-shadow: inset 0 0 0 9px var(--c-surface), inset 0 0 0 10px color-mix(in srgb, var(--c-accent) 45%, transparent), var(--shadow);
+}
 .gcard__inside::before {
   content: ""; position: absolute; right: 10px; bottom: 10px; width: 120px; aspect-ratio: 300 / 220; opacity: .5;
   background: var(--tb-dao); -webkit-mask: url(dao-branch.svg) center / contain no-repeat; mask: url(dao-branch.svg) center / contain no-repeat;
 }
-.gcard__inside::after { content: "囍"; position: absolute; top: 26px; left: 50%; translate: -50% 0; font-family: var(--hy-font); font-weight: 700; font-size: 30px; line-height: 1; color: var(--c-primary); }
+.gcard__inside::after { content: "囍"; content: "囍" / ""; position: absolute; top: 26px; left: 50%; translate: -50% 0; font-family: var(--hy-font); font-weight: 700; font-size: 30px; line-height: 1; color: var(--c-primary); }
 .gcard__names { color: var(--c-primary); }
 .gcard__guest { color: var(--c-text); }
 
@@ -491,6 +509,19 @@
   .tb-hero__phao--right { right: 2%; width: 42px; }
   .tb-leaf__day { font-size: 72px; }
   .countdown__label { letter-spacing: .1em; }
+}
+
+/* envelope intro — the same red lì xì: lattice print, gold edge, gold seal */
+.envelope { --env: var(--c-primary); --env-dark: var(--tb-red-deep); }
+.envelope__front { background: var(--tb-lattice), linear-gradient(160deg, var(--tb-red-light), var(--tb-red-deep)); }
+.envelope__flap {
+  background: var(--tb-lattice), linear-gradient(180deg, color-mix(in srgb, var(--c-primary) 90%, #fff), var(--c-primary));
+  filter: drop-shadow(0 1.5px 0 var(--c-accent)) drop-shadow(0 4px 4px rgb(0 0 0 / .22));
+}
+.envelope__letter { box-shadow: inset 0 0 0 6px var(--c-surface), inset 0 0 0 7px var(--tb-gold-line), 0 2px 8px rgb(0 0 0 / .12); }
+.envelope__seal {
+  background: var(--tb-gold-grad); color: var(--c-primary);
+  box-shadow: 0 0 0 3px var(--tb-red-deep), 0 0 0 4.5px var(--c-accent), 0 8px 16px -6px rgb(0 0 0 / .5);
 }
 
 /* on red doors / curtains the open button turns gold so it still stands out */

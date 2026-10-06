@@ -6,7 +6,7 @@
 {% from "macros.njk" import photo, hanko, branch %}
 {% set longest = [first.shortName | length, second.shortName | length] | sort | last %}
 {% set namesBlock %}
-    <h1 class="hero__names sk-hero__names{% if longest > 9 %} sk-names--xl{% elif longest > 5 %} sk-names--long{% endif %}" data-names data-reveal="zoom">
+    <h1 class="hero__names sk-hero__names{% if longest > 14 %} sk-names--xl sk-names--xxl{% elif longest > 10 %} sk-names--xl{% elif longest > 5 %} sk-names--long{% endif %}" data-names data-reveal="zoom">
       <span class="hero__name">{{ first.shortName }}</span>
       <span class="hero__amp" aria-label="và">&amp;</span>
       <span class="hero__name">{{ second.shortName }}</span>
@@ -14,8 +14,10 @@
 {% endset %}
 <section class="section hero sk-hero{% if cover.image %} sk-hero--photo{% endif %}" id="hero">
   <div class="sk-hero__decor" aria-hidden="true">
-    <span class="sk-hero__sway sk-hero__sway--top" data-parallax="0.12">{{ branch('sk-hero__branch') }}</span>
-    <span class="sk-hero__sway sk-hero__sway--low" data-parallax="0.06">{{ branch('sk-hero__branch', 'sk-branch-low', '0 0 320 220') }}</span>
+    {# Parallax runs on full-hero layers: their centre sits at the viewport centre when the page opens,
+       so the branches rest exactly where the CSS puts them and only drift once the guest scrolls. #}
+    <span class="sk-hero__layer" data-parallax="0.12"><span class="sk-hero__sway sk-hero__sway--top">{{ branch('sk-hero__branch') }}</span></span>
+    <span class="sk-hero__layer" data-parallax="0.06"><span class="sk-hero__sway sk-hero__sway--low">{{ branch('sk-hero__branch', 'sk-branch-low', '0 0 320 220') }}</span></span>
     <span class="sk-hero__vertical sk-hero__vertical--left">Trăm năm hạnh phúc</span>
     {% if wedding.display %}<span class="sk-hero__vertical sk-hero__vertical--right">{{ wedding.display }}</span>{% endif %}
   </div>

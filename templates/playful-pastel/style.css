@@ -27,6 +27,11 @@
 @supports (color: oklch(from red l c h)) {
   .tpl { --k4: oklch(from var(--c-primary) 0.88 0.085 calc(h - 62)); }
 }
+/* …folded into the sky-blue → lavender → orchid band (hue 230–326) so it never turns khaki/olive
+   (teal primary → lavender, coral → sky blue, pink → lavender, violet → sky blue). */
+@supports (color: oklch(from red l c mod(h, 90))) {
+  .tpl { --k4: oklch(from var(--c-primary) 0.88 0.085 calc(230 + mod(mod(h - 62, 360) - 230, 96))); }
+}
 
 /* ---------- background: polka dots + soft pastel blobs ---------- */
 .pp-bg {
@@ -69,8 +74,8 @@
     linear-gradient(90deg, var(--g) 50%, transparent 0) 0 0 / 20px 20px,
     linear-gradient(var(--g) 50%, transparent 0) 0 0 / 20px 20px,
     var(--c-surface);
-  -webkit-mask: linear-gradient(#000 0 0) 0 0 / 100% calc(100% - 19px) no-repeat, radial-gradient(circle at 50% 0, #000 19.5px, transparent 20px) 0 100% / 40px 20px repeat-x;
-  mask: linear-gradient(#000 0 0) 0 0 / 100% calc(100% - 19px) no-repeat, radial-gradient(circle at 50% 0, #000 19.5px, transparent 20px) 0 100% / 40px 20px repeat-x;
+  -webkit-mask: linear-gradient(#000 0 0) 0 0 / 100% calc(100% - 19px) no-repeat, radial-gradient(circle at 50% 0, #000 19.5px, transparent 20px) 0 100% / 40px 20px round no-repeat;
+  mask: linear-gradient(#000 0 0) 0 0 / 100% calc(100% - 19px) no-repeat, radial-gradient(circle at 50% 0, #000 19.5px, transparent 20px) 0 100% / 40px 20px round no-repeat;
 }
 
 .pp-hero__inner { position: relative; z-index: 3; width: min(600px, 100%); padding: 0 20px; gap: 14px; }
@@ -297,7 +302,9 @@
 .family--bride { background: color-mix(in srgb, var(--k2) 70%, var(--c-surface)); rotate: 1.5deg; }
 .family__title { display: inline-block; font-family: var(--f-heading); font-weight: 700; font-size: 13px; letter-spacing: .18em; color: var(--ink); background: var(--c-surface); border: 2px solid var(--ink); border-radius: 999px; padding: 2px 12px 2px calc(12px + .18em); }
 .family__parent { color: var(--ink); }
-.family__address { color: var(--ink); opacity: .82; }
+.family__address { color: var(--ink); opacity: .82; text-wrap: balance; }
+:where(.tpl p) { text-wrap: pretty; }
+.event__lunar, .invitation__lunar { text-wrap: balance; }
 .invitation__lead { font-style: normal; font-weight: 600; color: var(--c-muted); }
 .invitation__role { font-family: var(--f-heading); font-weight: 600; font-size: 11.5px; letter-spacing: .22em; color: var(--c-muted); }
 .invitation__name { color: var(--c-primary); font-size: clamp(32px, 8.4vw, 48px); line-height: 1.35; text-shadow: 2px 2px 0 var(--k1); }
@@ -311,7 +318,7 @@
   background: var(--c-surface); border: 2px solid var(--ink); border-radius: 28px; box-shadow: 6px 7px 0 var(--k4);
 }
 .invitation__date { gap: 14px; }
-.invitation__weekday, .invitation__monthyear { font-family: var(--f-heading); font-weight: 600; font-size: 13px; border-block: 2px dashed color-mix(in srgb, var(--c-text) 35%, transparent); }
+.invitation__weekday, .invitation__monthyear { font-family: var(--f-heading); font-weight: 600; font-size: 13px; white-space: nowrap; border-block: 2px dashed color-mix(in srgb, var(--c-text) 35%, transparent); }
 .invitation__day {
   display: grid; place-items: center; width: 86px; height: 86px; font-family: var(--f-heading); font-weight: 700; font-size: 44px; color: var(--ink);
   background: var(--k1); border: 2px solid var(--ink); border-radius: 50%; box-shadow: var(--pop); rotate: -6deg;
@@ -365,10 +372,14 @@
 .event__date { color: var(--ink); }
 .event__venue { font-family: var(--f-heading); font-weight: 600; font-size: 18px; color: var(--ink); }
 .event__lunar, .event__address, .event__note { color: var(--c-muted); }
-.event__actions { justify-self: stretch; padding-top: 18px; border-top: 2px dashed color-mix(in srgb, var(--c-text) 30%, transparent); }
+.event__actions { justify-self: stretch; flex-direction: column; align-items: center; gap: 12px; padding-top: 20px; border-top: 2px dashed color-mix(in srgb, var(--c-text) 30%, transparent); }
+.event__actions .btn, .event__map-load { width: min(100%, 230px); justify-content: center; }
+.event__actions:not(:has(.btn)) { display: none; }
+.event__map { margin-top: 12px; }
 .event__map { border: 2px solid var(--ink); border-radius: 18px; }
 .event__map:not(:has(iframe)) { border: 0; }
-.event__map-load { border: 2px dashed color-mix(in srgb, var(--c-text) 45%, transparent); color: var(--ink); font-weight: 600; }
+.event__map-load { min-height: 44px; border: 2px dashed color-mix(in srgb, var(--c-text) 45%, transparent); color: var(--ink); font-family: var(--f-heading); font-weight: 600; font-size: 14px; }
+.event__map-load:hover { background: color-mix(in srgb, var(--k2) 45%, transparent); border-color: var(--ink); }
 
 /* story: candy dots on a dashed line */
 .timeline { padding-left: 34px; }
@@ -401,6 +412,7 @@
 
 /* forms */
 .form { padding: 26px 20px; gap: 18px; }
+.form__status:empty { position: absolute; min-height: 0; }
 .form label, .form legend { font-family: var(--f-heading); font-weight: 600; color: var(--ink); }
 .form input[type="text"], .form input[type="tel"], .form select, .form textarea {
   border: 2px solid color-mix(in srgb, var(--c-text) 28%, transparent); border-radius: 14px;
@@ -484,6 +496,40 @@
   font-family: var(--f-heading); font-weight: 700; letter-spacing: .14em; animation: pp-wiggle 2.6s ease-in-out infinite;
 }
 .intro__open:hover { background: var(--k1-strong); }
+/* the guest box is a white sticker in every intro style (doors/curtain would otherwise paint it white-on-white) */
+.intro .intro__to { color: var(--c-muted); text-shadow: none; }
+.intro .intro__guest { color: var(--ink); text-shadow: none; }
+
+/* card intro (optional): candy-pink cover with stickers kept inside the clipped cover */
+.gcard__inside, .gcard__cover { border: 2.5px solid var(--ink); border-radius: 10px 28px 28px 10px; }
+.gcard__inside { box-shadow: 8px 9px 0 var(--k2); }
+.gcard__guest { color: var(--ink); font-weight: 700; }
+.gcard__names { text-shadow: 2px 2px 0 var(--k1); }
+.gcard__cover {
+  color: var(--ink);
+  background: radial-gradient(circle, color-mix(in srgb, var(--c-surface) 60%, transparent) 2px, transparent 2.6px) 0 0 / 22px 22px, var(--k1);
+  box-shadow: 8px 9px 0 var(--k2), inset 0 0 0 9px var(--k1), inset 0 0 0 11px color-mix(in srgb, var(--c-primary) 45%, transparent);
+}
+.gcard__monogram { color: var(--c-primary); text-shadow: 3px 3px 0 var(--c-surface); display: flex; align-items: center; justify-content: center; }
+.gcard__monogram i {
+  display: inline-grid; place-items: center; width: 34px; height: 34px; margin: 0 10px; font-weight: 700; font-style: normal; font-size: 16px; line-height: 1;
+  color: var(--ink); text-shadow: none; background: var(--c-accent); border: 2px solid var(--ink); border-radius: 50%; box-shadow: 2px 2px 0 var(--ink); rotate: -10deg;
+}
+.gcard__title { font-weight: 700; }
+.gcard__date { justify-self: center; padding: 2px 12px; font-weight: 700; opacity: 1; background: var(--c-surface); border: 2px solid var(--ink); border-radius: 999px; }
+.gcard .pp-id-head { display: none; }
+.gcard .pp-id--heart { top: 18px; left: 18px; width: 46px; height: 46px; }
+.gcard .pp-id--star { top: 20px; right: 20px; width: 38px; height: 38px; }
+.gcard .pp-id--lolly { bottom: 22px; right: 22px; width: 34px; height: 50px; }
+.gcard .pp-id--spark { bottom: auto; top: 46%; left: 18px; width: 24px; height: 24px; }
+.gcard .pp-id--label { bottom: 24px; }
+
+/* envelope intro (optional): pastel envelope with an ink-outlined candy seal */
+.envelope { --env: var(--k1-strong); --env-dark: color-mix(in srgb, var(--k1-strong) 78%, var(--c-text)); }
+.envelope__back { border-radius: 16px; }
+.envelope__front { border-radius: 16px; }
+.envelope__letter { border-radius: 12px; }
+.envelope__seal { color: var(--ink); background: var(--c-accent); border: 2.5px solid var(--ink); box-shadow: 3px 3px 0 var(--ink); rotate: -8deg; }
 @keyframes pp-pop { from { transform: scale(.6) rotate(-8deg); opacity: 0; } }
 @keyframes pp-wiggle { 0%, 70%, 100% { rotate: 0deg; } 76% { rotate: -4deg; } 84% { rotate: 4deg; } 92% { rotate: -2deg; } }
 
@@ -491,6 +537,9 @@
    Responsive
    ========================================================================== */
 @media (max-width: 360px) {
+  .invitation__date { gap: 10px; }
+  .invitation__weekday, .invitation__monthyear { font-size: 12px; letter-spacing: .08em; }
+  .invitation__day { width: 72px; height: 72px; font-size: 36px; }
   .pp-hero__guest { font-size: 13px; padding-inline: 12px; }
   .pp-tile { min-width: 66px; padding-inline: 8px; }
   .pp-tile b { font-size: 26px; }

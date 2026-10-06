@@ -147,16 +147,27 @@
   position: absolute; inset: 0; z-index: -2; pointer-events: none;
   background:
     radial-gradient(closest-side, color-mix(in srgb, var(--c-primary) 13%, transparent), transparent) 50% 40% / min(130vw, 760px) min(130vw, 760px) no-repeat,
-    radial-gradient(70% 34% at 50% 100%, color-mix(in srgb, var(--c-primary) 24%, transparent), transparent 72%),
-    radial-gradient(120% 50% at 50% 100%, color-mix(in srgb, var(--c-secondary) 70%, transparent), transparent 80%);
+    /* moonlight on the horizon: peaks just above the hills and is fully gone before the section edge,
+       so the hero melts into the sky of the next section without a seam */
+    radial-gradient(64% 15% at 50% 86%, color-mix(in srgb, var(--c-primary) 24%, transparent), transparent 72%),
+    radial-gradient(110% 28% at 50% 72%, color-mix(in srgb, var(--c-secondary) 62%, transparent), transparent 76%);
 }
 .ms-hero__horizon {
   position: absolute; left: 0; right: 0; bottom: -1px; height: clamp(84px, 20vw, 190px); z-index: -1; pointer-events: none;
-  background: var(--c-bg);
-  -webkit-mask: url(hills.svg) bottom / 100% 100% no-repeat, linear-gradient(#000 62%, transparent);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--c-bg) 78%, var(--c-secondary)), var(--c-bg) 75%);
+  -webkit-mask: url(hills.svg) bottom / 100% 100% no-repeat, linear-gradient(#000 78%, transparent);
   -webkit-mask-composite: source-in;
-  mask: url(hills.svg) bottom / 100% 100% no-repeat, linear-gradient(#000 62%, transparent);
+  mask: url(hills.svg) bottom / 100% 100% no-repeat, linear-gradient(#000 78%, transparent);
   mask-composite: intersect;
+}
+/* moonlight catching the skyline: the ridge outline minus itself shifted down = a hairline rim */
+.ms-hero__horizon::after {
+  content: ""; position: absolute; inset: 0;
+  background: radial-gradient(48% 130% at 50% 25%, color-mix(in srgb, var(--c-accent) 80%, transparent), color-mix(in srgb, var(--c-primary) 22%, transparent) 70%, transparent);
+  -webkit-mask: url(ridge.svg) left 0 bottom 0 / 100% 100% no-repeat, url(ridge.svg) left 0 bottom -1.5px / 100% 100% no-repeat;
+  -webkit-mask-composite: source-out;
+  mask: url(ridge.svg) left 0 bottom 0 / 100% 100% no-repeat, url(ridge.svg) left 0 bottom -1.5px / 100% 100% no-repeat;
+  mask-composite: subtract;
 }
 .ms-hero__inner { position: relative; width: min(100%, 560px); padding: 0 18px; display: grid; justify-items: center; gap: 12px; }
 .ms-hero__guest { font-size: 14px; color: var(--c-muted); letter-spacing: .02em; max-width: 34ch; text-wrap: balance; }
@@ -210,7 +221,7 @@
 .ms-hero__venue { max-width: 32ch; margin-top: 4px; font-size: 11.5px; font-weight: 500; line-height: 1.7; letter-spacing: .24em; text-transform: uppercase; color: color-mix(in srgb, var(--c-text) 62%, var(--c-bg)); text-wrap: balance; }
 .ms-hero__venue::before { content: ""; display: block; width: 9px; height: 9px; margin: 0 auto 8px; background: var(--c-primary); -webkit-mask: url(star4.svg) center / contain no-repeat; mask: url(star4.svg) center / contain no-repeat; }
 .ms-side { display: none; }
-.ms-hero .hero__scroll { color: var(--c-primary); opacity: .75; z-index: 2; }
+.ms-hero .hero__scroll { color: var(--c-primary); opacity: .8; z-index: 2; background: color-mix(in srgb, var(--c-bg) 72%, transparent); }
 
 /* cover photo: the photo becomes a round window on the sky, names below */
 .ms-chart__photo { width: 76%; aspect-ratio: 1; margin: 0; border-radius: 50%; overflow: hidden; background: var(--c-surface); box-shadow: 0 0 0 1px var(--hair), 0 0 0 8px color-mix(in srgb, var(--c-bg) 55%, transparent), 0 0 0 9px var(--hair-soft), var(--glow); }
@@ -218,7 +229,8 @@
 .ms-hero--photo .ms-chart__core { padding: 12%; }
 .ms-hero--photo .ms-names { font-size: clamp(50px, 14vw, 92px); margin-top: -4px; }
 /* longer short-names (class set in sections/hero.njk) shrink so they stay inside the rings */
-.ms-names .hero__name { text-wrap: balance; }
+.ms-names .hero__name { text-wrap: balance; word-spacing: .14em; }
+.invitation__name { word-spacing: .1em; }
 .tpl .ms-names--long { font-size: clamp(44px, 12vw, 80px); line-height: 1.02; }
 .tpl .ms-names--xl { font-size: clamp(36px, 9.8vw, 64px); line-height: 1.04; }
 /* long names cross the constellations: let the star lines step back so the names stay clean */
@@ -295,6 +307,11 @@
 .person__role { color: var(--c-primary); }
 .person__name { color: var(--c-text); }
 .couple__heart { color: var(--c-primary); filter: drop-shadow(0 0 8px color-mix(in srgb, var(--c-primary) 60%, transparent)); }
+@media (min-width: 421px) {
+  /* side by side: line both portraits up at the top (bios differ in length) and hang the heart between the moons */
+  .couple__grid { align-items: start; }
+  .couple__heart { align-self: start; margin-top: calc(min(200px, (100vw - 96px) / 2) / 2 - 14px); }
+}
 
 /* ---------- calendar: the wedding day is the full moon ---------- */
 .calendar__table {
@@ -342,7 +359,8 @@
   content: ""; position: absolute; top: -10px; left: 50%; width: 20px; height: 20px; translate: -50% 0;
   background: var(--gold-flat); -webkit-mask: url(moon.svg) center / contain no-repeat; mask: url(moon.svg) center / contain no-repeat;
 }
-.event__title { color: var(--c-primary); font-weight: 400; letter-spacing: .14em; font-size: 22px; }
+.event__title { color: var(--c-primary); font-weight: 400; letter-spacing: .14em; font-size: 22px; text-wrap: balance; }
+.event__venue { text-wrap: balance; }
 .event__time { color: var(--c-text); }
 .event__time .icon { color: var(--c-primary); }
 .event__date { color: var(--c-text); letter-spacing: .04em; }
@@ -365,7 +383,7 @@
 .gallery__item:hover img { filter: brightness(1.06); }
 
 /* ---------- forms (RSVP & wishes) on dark glass ---------- */
-.form { padding: 28px 22px; }
+.form { padding: 28px 22px 14px; }
 .form label, .form legend { color: var(--c-text); font-weight: 500; letter-spacing: .02em; }
 .form label > span[aria-hidden], .form legend > span[aria-hidden] { color: var(--c-primary); }
 .form input[type="text"], .form input[type="tel"], .form select, .form textarea {
@@ -521,6 +539,18 @@
 /* other intro styles in the night palette */
 .envelope { --env: color-mix(in srgb, var(--c-secondary) 80%, var(--c-surface)); --env-dark: color-mix(in srgb, var(--c-bg) 80%, var(--c-secondary)); }
 .envelope__front, .envelope__flap { box-shadow: inset 0 0 0 1px var(--hair); }
+/* a dusting of gold stars on the night-blue paper */
+.envelope__front {
+  background:
+    radial-gradient(1.3px 1.3px at 12px 16px, color-mix(in srgb, var(--c-primary) 75%, transparent) 50%, transparent 55%) 0 0 / 41px 37px,
+    radial-gradient(1px 1px at 31px 6px, color-mix(in srgb, var(--c-accent) 50%, transparent) 50%, transparent 55%) 0 0 / 41px 37px,
+    linear-gradient(160deg, var(--env), color-mix(in srgb, var(--env) 85%, #000));
+}
+.envelope__flap {
+  background:
+    radial-gradient(1.2px 1.2px at 22px 12px, color-mix(in srgb, var(--c-primary) 70%, transparent) 50%, transparent 55%) 0 0 / 43px 31px,
+    linear-gradient(180deg, color-mix(in srgb, var(--env) 90%, #fff), var(--env));
+}
 .envelope__seal { background: radial-gradient(circle at 35% 30%, var(--gold-hi), var(--c-primary) 60%, color-mix(in srgb, var(--c-primary) 70%, var(--c-bg))); color: var(--c-bg); }
 .envelope__names, .gcard__names, .scrollpaper__names { color: var(--c-primary); }
 .gcard__cover { color: var(--c-text); background: radial-gradient(90% 60% at 50% 0%, color-mix(in srgb, var(--c-secondary) 80%, transparent), transparent 70%), var(--c-surface); box-shadow: var(--shadow), inset 0 0 0 1px var(--hair), inset 0 0 0 9px var(--c-surface), inset 0 0 0 10px var(--hair-soft); }
@@ -541,7 +571,12 @@
   .tpl .ms-hero--photo .ms-names .hero__amp { margin: 0 .2em; font-size: .42em; }
   .ms-hero--photo .ms-names .hero__amp::before, .ms-hero--photo .ms-names .hero__amp::after { display: none; }
   .tpl .ms-hero--photo .ms-names--xl { font-size: clamp(44px, 4.8vw, 64px); }
-  .events__list { gap: 34px; }
+  /* two event cards side by side need more room than the 680px column: buttons stay on one row */
+  .events .container { max-width: 900px; }
+  .events__list { gap: 34px 28px; }
+  /* side-by-side cards: content starts at the same height, buttons sit on a common baseline */
+  .event { display: flex; flex-direction: column; align-items: center; }
+  .event__actions { margin-top: auto; padding-top: 14px; }
 }
 @media (min-width: 1000px) {
   .ms-side { display: block; position: absolute; z-index: -1; width: min(24vw, 320px); height: auto; overflow: visible; opacity: .8; filter: drop-shadow(0 0 3px color-mix(in srgb, var(--c-accent) 60%, transparent)); }
@@ -558,6 +593,13 @@
   .ms-side__dots circle:nth-child(6) { transition-delay: 1.5s; }
   .ms-side__dots circle:nth-child(7) { transition-delay: 1.8s; }
   .ms-side__dots circle:nth-child(8) { transition-delay: 2.1s; }
+}
+@media (max-width: 380px) {
+  /* keep "THỨ TƯ" and "THÁNG 02" on one line beside the big day number */
+  .invitation__when { padding-inline: 10px; }
+  .invitation__date { gap: 10px; }
+  .invitation__day { font-size: 52px; }
+  .invitation__weekday, .invitation__monthyear { font-size: 12px; letter-spacing: .08em; }
 }
 @media (max-width: 360px) {
   .ms-hero__eyebrow { letter-spacing: .28em; gap: 10px; }
