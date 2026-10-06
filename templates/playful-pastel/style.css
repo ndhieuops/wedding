@@ -66,16 +66,17 @@
    Hero
    ========================================================================== */
 .pp-hero { padding: 104px 0 120px; }
-.pp-awning { position: absolute; inset: 0 0 auto; height: 62px; z-index: 2; pointer-events: none; filter: drop-shadow(0 2.5px 0 var(--ink)) drop-shadow(0 5px 0 var(--k2)); }
+/* --sc: scallop radius · --gs: gingham square (both grow on desktop so it still reads as an awning) */
+.pp-awning { --sc: 20px; --gs: 20px; position: absolute; inset: 0 0 auto; height: 62px; z-index: 2; pointer-events: none; filter: drop-shadow(0 2.5px 0 var(--ink)) drop-shadow(0 5px 0 var(--k2)); }
 .pp-awning span {
   position: absolute; inset: 0; display: block;
   --g: color-mix(in srgb, var(--c-primary) 40%, transparent);
   background:
-    linear-gradient(90deg, var(--g) 50%, transparent 0) 0 0 / 20px 20px,
-    linear-gradient(var(--g) 50%, transparent 0) 0 0 / 20px 20px,
+    linear-gradient(90deg, var(--g) 50%, transparent 0) 0 0 / var(--gs) var(--gs),
+    linear-gradient(var(--g) 50%, transparent 0) 0 0 / var(--gs) var(--gs),
     var(--c-surface);
-  -webkit-mask: linear-gradient(#000 0 0) 0 0 / 100% calc(100% - 19px) no-repeat, radial-gradient(circle at 50% 0, #000 19.5px, transparent 20px) 0 100% / 40px 20px round no-repeat;
-  mask: linear-gradient(#000 0 0) 0 0 / 100% calc(100% - 19px) no-repeat, radial-gradient(circle at 50% 0, #000 19.5px, transparent 20px) 0 100% / 40px 20px round no-repeat;
+  -webkit-mask: linear-gradient(#000 0 0) 0 0 / 100% calc(100% - var(--sc) + 1px) no-repeat, radial-gradient(circle at 50% 0, #000 calc(var(--sc) - .5px), transparent var(--sc)) 0 100% / calc(2 * var(--sc)) var(--sc) round no-repeat;
+  mask: linear-gradient(#000 0 0) 0 0 / 100% calc(100% - var(--sc) + 1px) no-repeat, radial-gradient(circle at 50% 0, #000 calc(var(--sc) - .5px), transparent var(--sc)) 0 100% / calc(2 * var(--sc)) var(--sc) round no-repeat;
 }
 
 .pp-hero__inner { position: relative; z-index: 3; width: min(600px, 100%); padding: 0 20px; gap: 14px; }
@@ -205,6 +206,9 @@
     linear-gradient(#000 0 0) 0 calc(var(--wave) - 1px) / 100% calc(100% - 2 * var(--wave) + 2px) no-repeat,
     url(wave-bottom.svg) 0 100% / 56px var(--wave) repeat-x;
 }
+/* two bands in a row (e.g. gift → thanks): tuck the second one's wave over the first one's edge,
+   so they meet in a single scallop instead of a double wave with a strip of page between them */
+.tpl :is(.quote, .countdown, .rsvp, .gift, .thanks) + :is(.quote, .countdown, .rsvp, .gift, .thanks) { margin-top: calc(-1 * var(--wave)); }
 
 /* quote: strawberry-milk band */
 .tpl .quote {
@@ -245,6 +249,7 @@
 .tpl .rsvp {
   --g: color-mix(in srgb, var(--c-secondary) 62%, transparent);
   background:
+    radial-gradient(closest-side, color-mix(in srgb, var(--c-surface) 82%, transparent) 55%, transparent) 50% calc(var(--section-pad) - 40px) / min(680px, 118%) 360px no-repeat,
     linear-gradient(90deg, var(--g) 50%, transparent 0) 0 0 / 28px 28px,
     linear-gradient(var(--g) 50%, transparent 0) 0 0 / 28px 28px,
     color-mix(in srgb, var(--c-secondary) 18%, var(--c-surface));
@@ -525,11 +530,47 @@
 .gcard .pp-id--label { bottom: 24px; }
 
 /* envelope intro (optional): pastel envelope with an ink-outlined candy seal */
-.envelope { --env: var(--k1-strong); --env-dark: color-mix(in srgb, var(--k1-strong) 78%, var(--c-text)); }
-.envelope__back { border-radius: 16px; }
-.envelope__front { border-radius: 16px; }
-.envelope__letter { border-radius: 12px; }
+.envelope { --env: var(--k1-strong); --env-dark: color-mix(in srgb, var(--k1-strong) 70%, var(--c-surface)); --e: 2.5px; }
+.envelope__back { border-radius: 16px; background: var(--env-dark); border: var(--e) solid var(--ink); box-shadow: 8px 9px 0 var(--k2); }
+.envelope__letter { border-radius: 12px; border: 2px solid var(--ink); box-shadow: none; }
+.envelope__letter::after { content: ""; position: absolute; inset: 7px; border: 2px dashed color-mix(in srgb, var(--c-primary) 40%, transparent); border-radius: 7px; pointer-events: none; }
+.envelope__eyebrow { color: var(--prim-ink); font-family: var(--f-heading); font-weight: 600; }
+.envelope__names { text-shadow: 2px 2px 0 var(--k1); }
+.envelope__date { color: var(--ink); font-weight: 700; }
+/* flat candy paper with ink outlines: the V and the flap edges are drawn as gradient lines
+   (clip-path would cut off a border or a drop-shadow) */
+.envelope__front {
+  border-radius: 16px; border: var(--e) solid var(--ink);
+  background:
+    linear-gradient(to top right, transparent calc(50% - var(--e)), var(--ink) calc(50% - var(--e)) 50%, transparent 50%) 0 0 / 50% 54% no-repeat,
+    linear-gradient(to top left, transparent calc(50% - var(--e)), var(--ink) calc(50% - var(--e)) 50%, transparent 50%) 100% 0 / 50% 54% no-repeat,
+    radial-gradient(circle, color-mix(in srgb, var(--c-surface) 55%, transparent) 1.6px, transparent 2.2px) 0 0 / 18px 18px,
+    var(--env);
+  background-origin: border-box;
+}
+.envelope__flap {
+  filter: none;
+  background:
+    linear-gradient(to top right, transparent 50%, var(--ink) 50% calc(50% + var(--e)), transparent calc(50% + var(--e))) 0 0 / 50% 100% no-repeat,
+    linear-gradient(to top left, transparent 50%, var(--ink) 50% calc(50% + var(--e)), transparent calc(50% + var(--e))) 100% 0 / 50% 100% no-repeat,
+    linear-gradient(var(--ink) 0 0) 0 0 / 100% var(--e) no-repeat,
+    color-mix(in srgb, var(--k1-strong) 80%, var(--c-surface));
+}
 .envelope__seal { color: var(--ink); background: var(--c-accent); border: 2.5px solid var(--ink); box-shadow: 3px 3px 0 var(--ink); rotate: -8deg; }
+
+/* doors intro (optional): two candy cabinet doors with gingham panels */
+.door {
+  background: var(--k1-strong); box-shadow: none; padding: 7vh 5vw;
+  border: 2.5px solid var(--ink);
+}
+.door--left { border-right-width: 1.5px; }
+.door--right { border-left-width: 1.5px; }
+.door__panel {
+  --g: color-mix(in srgb, var(--c-primary) 30%, transparent);
+  border: 2.5px solid var(--ink); border-radius: 22px; box-shadow: 4px 4px 0 var(--ink);
+  background: linear-gradient(90deg, var(--g) 50%, transparent 0) 0 0 / 22px 22px, linear-gradient(var(--g) 50%, transparent 0) 0 0 / 22px 22px, var(--c-surface);
+}
+.door__knob { width: 18px; height: 18px; margin-top: -9px; background: var(--c-accent); border: 2.5px solid var(--ink); box-shadow: 2px 2px 0 var(--ink); }
 @keyframes pp-pop { from { transform: scale(.6) rotate(-8deg); opacity: 0; } }
 @keyframes pp-wiggle { 0%, 70%, 100% { rotate: 0deg; } 76% { rotate: -4deg; } 84% { rotate: 4deg; } 92% { rotate: -2deg; } }
 
@@ -562,9 +603,26 @@
   .pp-fl--heart2 { width: 44px; height: 44px; left: 6%; bottom: 36%; rotate: 16deg; animation-delay: -3.5s; }
   .pp-tile { min-width: 88px; }
   .pp-tile b { font-size: 34px; }
+  .pp-hero { padding-top: 122px; }
+  .pp-awning { --sc: 28px; --gs: 28px; height: 84px; filter: drop-shadow(0 3px 0 var(--ink)) drop-shadow(0 7px 0 var(--k2)); }
   .thanks .container { padding: 48px 40px 44px; }
   .intro__card { width: 330px; padding: 62px 24px 64px; }
   .intro__monogram { font-size: 80px; }
+}
+/* cover photo on desktop: polaroid on the left, names blob + date on the right, all on the first screen */
+@media (min-width: 900px) {
+  .tpl .events .container { max-width: 880px; }
+  .pp-hero--photo .pp-hero__inner { width: min(1000px, 100%); grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); column-gap: 40px; align-items: center; }
+  .pp-hero--photo :is(.pp-hero__guest, .pp-hero__eyebrow) { grid-column: 1 / -1; }
+  .pp-hero--photo .pp-hero__photo { grid-column: 1; grid-row: span 2; width: min(350px, 100%); margin: 18px 0 0; }
+  .pp-hero--photo .pp-stage { grid-column: 2; align-self: end; margin: 34px auto 4px; }
+  .pp-hero--photo .pp-date { grid-column: 2; align-self: start; }
+  .pp-hero--photo .pp-fl--daisy { bottom: 6%; left: 8%; }
+  .pp-hero--photo .pp-fl--lolly { top: 16%; left: 5%; }
+  .pp-hero--photo :is(.pp-fl--heart2, .pp-fl--candy) { display: none; }
+}
+@media (min-width: 1200px) {
+  .pp-hero--photo .pp-fl--candy { display: block; top: auto; bottom: 8%; right: 3%; width: 112px; height: 60px; }
 }
 @media (min-width: 1100px) {
   .pp-fl--lolly { left: 13%; }
